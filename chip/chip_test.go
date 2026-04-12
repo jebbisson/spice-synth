@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+
 package chip
 
 import (
@@ -31,9 +33,9 @@ func TestGenerateSamples(t *testing.T) {
 }
 
 func TestReset(t *testing.T) {
-    o := New(44100)
-    o.WriteRegister(0, 0x20, 0xFF)
-    o.Reset()
-    // We can't easily verify internal C state without more complex mocks,
-    // but we ensure it doesn't crash.
+	o := New(44100)
+	o.WriteRegister(0, 0x20, 0xFF)
+	o.Reset()
+	// We can't easily verify internal C state without more complex mocks,
+	// but we ensure it doesn't crash.
 }

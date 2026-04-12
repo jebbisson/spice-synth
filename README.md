@@ -87,5 +87,16 @@ SpiceSynth follows a four-layer stack to separate hardware emulation from musica
 
 ## Licensing
 
-- **Go Wrapper**: MIT License.
-- **Nuked-OPL3 C Source**: LGPL-2.1 (vendored).
+- **Go Wrapper & Library Code**: MIT License. See [LICENSE](LICENSE).
+- **Nuked-OPL3 C Source**: LGPL-2.1-or-later (vendored). See [chip/opl3/COPYING](chip/opl3/COPYING).
+
+For full third-party attribution details, see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
+
+### Static Linking Notice
+
+The Nuked-OPL3 C source is compiled directly into this library via CGo (static
+linking). Because SpiceSynth is distributed as source code, users who build from
+source can freely modify and recompile the vendored C files in `chip/opl3/`. If
+you distribute pre-compiled binaries that incorporate this library, you must
+comply with LGPL-2.1 Section 6 by providing the LGPL source code and a mechanism
+for relinking (e.g., object files or build instructions).

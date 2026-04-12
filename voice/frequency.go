@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+
 package voice
 
 import (

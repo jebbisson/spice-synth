@@ -1,0 +1,21 @@
+SpiceSynth includes the following third-party software:
+
+================================================================================
+Nuked-OPL3
+================================================================================
+
+Description:  Cycle-accurate OPL3 (YMF262) emulator
+Version:      1.8
+Author:       Nuke.YKT
+Copyright:    Copyright (C) 2013-2020 Nuke.YKT
+License:      GNU Lesser General Public License v2.1 or later (LGPL-2.1-or-later)
+Source:       https://github.com/nukeykt/Nuked-OPL3
+Location:     chip/opl3/opl3.c, chip/opl3/opl3.h
+License file: chip/opl3/COPYING
+
+The Nuked-OPL3 C source is vendored unmodified and statically compiled into
+this library via CGo. Because the complete source is included in the repository,
+users who build from source can freely modify and recompile the LGPL component.
+If you distribute pre-compiled binaries that incorporate this library, you must
+comply with LGPL-2.1 Section 6 by providing the LGPL source code and a
+mechanism for relinking (e.g., object files or build instructions).
