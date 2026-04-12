@@ -1,102 +1,175 @@
 # SpiceSynth
 
-SpiceSynth is a Go library for programmatic OPL2/OPL3 FM synthesis, producing authentic AdLib-era game music in real-time. It provides a high-level API to define musical patterns and streams signed 16-bit stereo little-endian PCM audio via an `io.Reader`.
+[![Go Reference](https://pkg.go.dev/badge/github.com/jebbisson/spice-synth.svg)](https://pkg.go.dev/github.com/jebbisson/spice-synth)
+[![CI](https://github.com/jebbisson/spice-synth/actions/workflows/ci.yml/badge.svg)](https://github.com/jebbisson/spice-synth/actions/workflows/ci.yml)
+
+SpiceSynth is a Go library for programmatic OPL2/OPL3 FM synthesis. It produces authentic AdLib-era game music in real-time and streams signed 16-bit stereo PCM audio via a standard `io.Reader` interface.
 
 ## Features
 
-- **Authentic Sound**: Based on the Nuked-OPL3 emulator, targeting the gritty FM crunch of early 90s DOS games.
-- **Fluent Sequencer**: Define patterns and melodies using a builder-style API.
-- **CGo Integration**: High performance via vendored C source, requiring only a C compiler to build.
-- **Easy Integration**: Implements `io.Reader`, making it compatible with audio backends like Ebiten or Oto.
+- **Authentic FM Sound** -- Cycle-accurate emulation via the [Nuked-OPL3](https://github.com/nukeykt/Nuked-OPL3) engine.
+- **Fluent Sequencer** -- Define patterns and melodies with a builder-style API.
+- **`io.Reader` Output** -- Drop-in compatible with audio backends like [Ebiten](https://ebitengine.org/) and [Oto](https://github.com/ebitengine/oto).
+- **Zero Go Dependencies** -- The core library has no external Go dependencies; only a C compiler is required.
 
-## Installation & Prerequisites
+## Prerequisites
 
-Since SpiceSynth uses CGo to interface with the Nuked-OPL3 emulator, you must have a C compiler installed and `CGO_ENABLED=1` set in your environment.
+SpiceSynth uses CGo to compile the vendored Nuked-OPL3 C source. You need:
 
-### Environment Setup
-- **Linux**: Install `gcc` (e.g., via `sudo apt install build-essential`).
-- **macOS**: Install Xcode Command Line Tools (`xcode-select --install`).
-- **Windows**: Install [MinGW-w64](https://www.mingw-w64.org/) or TDM-GCC. Ensure the `bin` folder is in your system PATH.
+- **Go 1.21+**
+- **A C compiler** (`gcc` or `clang`)
+- **`CGO_ENABLED=1`** (the default on most systems)
 
----
+| Platform | Install command |
+|----------|-----------------|
+| Linux (Debian/Ubuntu) | `sudo apt install build-essential` |
+| macOS | `xcode-select --install` |
+| Windows | Install [MinGW-w64](https://www.mingw-w64.org/) or TDM-GCC and add its `bin/` to PATH |
 
-## 🚀 Integration Guide (Embedding in Your App)
+## Installation
 
-To use SpiceSynth as a library in your own Go project:
-
-### 1. Install the package
 ```bash
 go get github.com/jebbisson/spice-synth
 ```
 
-### 2. Basic Implementation
-Initialize the synth stream, load an instrument bank, and define patterns using the fluent API.
+## Quick Start
 
 ```go
+package main
+
 import (
-    "github.com/jebbisson/spice-synth/stream"
     "github.com/jebbisson/spice-synth/patches"
+    "github.com/jebbisson/spice-synth/sequencer"
+    "github.com/jebbisson/spice-synth/stream"
 )
 
 func main() {
-    // 1. Initialize stream at 44.1kHz
+    // Initialize a 44.1 kHz audio stream.
     s := stream.New(44100)
-    
-    // 2. Load Spice style instruments
+    defer s.Close()
+
+    // Load the built-in instrument bank.
     s.Voices().LoadBank("spice", patches.Spice())
-    
-    // 3. Define a simple pattern using the fluent API
-    bass := s.Sequencer().NewPattern(16).
+
+    // Build a bass pattern using the fluent API.
+    bass := sequencer.NewPattern(16).
         Instrument("desert_bass").
         Note(0, "C2").
-        Note(4, "Eb2")
-        
+        Note(4, "Eb2").
+        Note(8, "F2").
+        Note(12, "G2")
+
     s.Sequencer().SetPattern(0, bass)
     s.Sequencer().SetBPM(120)
 
-    // 4. Use 's' as an io.Reader with your audio backend (e.g., Ebiten, Oto)
+    // 's' implements io.Reader -- pass it to your audio backend.
+    // Each Read() call returns signed 16-bit stereo little-endian PCM data.
 }
 ```
 
----
-
-## 🎧 Testing Guide (Running Standalone Examples)
-
-If you want to test the synthesis engine without writing code, use the provided examples.
-
-### Option A: Live Playback (Ebiten Player)
-This requires a windowing system and audio drivers.
-1. Navigate to the player directory: `cd examples/ebiten_player`
-2. Run the application: `go run main.go`
-
-### Option B: File Rendering (CLI Raw Demo)
-Ideal for environments without audio hardware or for CI verification.
-1. Run the demo: `go run examples/demo/main.go`
-2. Play the resulting file: `ffplay -f s16le -ar 44100 -ac 2 output.raw`
-
----
-
 ## Architecture
 
-SpiceSynth follows a four-layer stack to separate hardware emulation from musical composition:
+SpiceSynth is organized as a four-layer stack. Each layer has a single responsibility:
 
-1. **Chip**: CGo wrapper around Nuked-OPL3 that handles raw register writes and sample generation.
-2. **Voice**: Translates high-level notes and instrument definitions into the specific register values required by OPL2/3.
-3. **Sequencer**: A tick-based timing engine that triggers musical events (NoteOn, NoteOff) based on BPM.
-4. **Stream**: The top-level `io.Reader` implementation. It drives the sequencer and chip in sync with the number of audio samples requested by the consumer.
+```
+┌─────────────────────────────────────────┐
+│  stream    io.Reader PCM output         │
+├─────────────────────────────────────────┤
+│  sequencer Tick-based pattern engine    │
+├─────────────────────────────────────────┤
+│  voice     Notes & instruments → OPL    │
+├─────────────────────────────────────────┤
+│  chip      CGo wrapper for Nuked-OPL3   │
+└─────────────────────────────────────────┘
+```
+
+| Package | Description |
+|---------|-------------|
+| [`chip`](chip/) | CGo wrapper around Nuked-OPL3. Handles register writes and sample generation. |
+| [`voice`](voice/) | Translates notes and instrument definitions into OPL2 register values. Manages 9 melodic channels. |
+| [`sequencer`](sequencer/) | Tick-based timing engine. Triggers NoteOn/NoteOff events from looping patterns. |
+| [`stream`](stream/) | Top-level `io.Reader`. Drives the sequencer and chip in sync with audio buffer requests. |
+| [`patches`](patches/) | Predefined FM instrument banks (Spice style, GM placeholder). |
+
+## Examples
+
+Working examples are in the [`examples/`](examples/) directory:
+
+### Live Playback (Ebiten)
+
+Requires a windowing system and audio drivers.
+
+```bash
+cd examples/ebiten_player
+go run main.go
+```
+
+### File Rendering (CLI)
+
+Renders 5 seconds of audio to a raw PCM file -- useful for headless environments or CI.
+
+```bash
+go run examples/demo/main.go
+ffplay -f s16le -ar 44100 -ac 2 output.raw
+```
+
+## API Overview
+
+### Creating a Stream
+
+```go
+s := stream.New(44100) // sample rate in Hz
+defer s.Close()        // frees underlying C memory
+```
+
+### Loading Instruments
+
+```go
+s.Voices().LoadBank("spice", patches.Spice())
+
+// Or define your own:
+inst := &voice.Instrument{
+    Name: "my_bass",
+    Op1:  voice.Operator{Attack: 0, Decay: 8, Sustain: 10, Release: 4, Level: 20, Multiply: 1},
+    Op2:  voice.Operator{Attack: 0, Decay: 6, Sustain: 12, Release: 8, Level: 5, Multiply: 2},
+    Feedback:   4,
+    Connection: 0, // 0 = FM, 1 = Additive
+}
+```
+
+### Building Patterns
+
+```go
+pattern := sequencer.NewPattern(16).    // 16 steps
+    Instrument("desert_bass").          // default instrument for this pattern
+    Note(0, "C2").                      // step 0: C in octave 2
+    Note(4, "Eb2").                     // step 4: E-flat in octave 2
+    Hit(8)                              // step 8: percussive hit (C2)
+
+s.Sequencer().SetPattern(0, pattern)    // assign to channel 0
+s.Sequencer().SetBPM(120)
+```
+
+### Reading Audio
+
+```go
+buf := make([]byte, 4096)
+n, err := s.Read(buf) // fills buf with S16LE stereo PCM
+```
+
+## Contributing
+
+Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Licensing
 
-- **Go Wrapper & Library Code**: MIT License. See [LICENSE](LICENSE).
-- **Nuked-OPL3 C Source**: LGPL-2.1-or-later (vendored). See [chip/opl3/COPYING](chip/opl3/COPYING).
+This project uses a dual-license structure:
 
-For full third-party attribution details, see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
+- **Go library code**: [MIT License](LICENSE)
+- **Nuked-OPL3 C source** (vendored in `chip/opl3/`): [LGPL-2.1-or-later](chip/opl3/COPYING)
+
+For full third-party attribution, see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
 
 ### Static Linking Notice
 
-The Nuked-OPL3 C source is compiled directly into this library via CGo (static
-linking). Because SpiceSynth is distributed as source code, users who build from
-source can freely modify and recompile the vendored C files in `chip/opl3/`. If
-you distribute pre-compiled binaries that incorporate this library, you must
-comply with LGPL-2.1 Section 6 by providing the LGPL source code and a mechanism
-for relinking (e.g., object files or build instructions).
+The Nuked-OPL3 C source is compiled directly into this library via CGo (static linking). Since SpiceSynth is distributed as source code, users who build from source can freely modify and recompile the vendored C files in `chip/opl3/`. If you distribute pre-compiled binaries that incorporate this library, you must comply with LGPL-2.1 Section 6 by providing the LGPL source code and a mechanism for relinking.

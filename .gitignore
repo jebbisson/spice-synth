@@ -36,3 +36,8 @@ output.raw
 examples/ebiten_player/ebiten_player
 SPICESYNTH_PLAN.md
 AGENTS.md
+examples/midi/*
+basic
+demo
+examples/midi_player/midi_player
+examples/adl/*

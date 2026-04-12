@@ -16,7 +16,6 @@ static size_t get_opl3_chip_size() {
 import "C"
 import (
 	"errors"
-	"fmt"
 	"unsafe"
 )
 
@@ -36,9 +35,13 @@ func New(sampleRate uint32) *OPL3 {
 	}
 }
 
-// WriteRegister writes a value to an OPL register.
+// WriteRegister writes a value to an OPL register. The port parameter selects
+// the register bank: 0 for the primary bank (OPL2 registers), 1 for the
+// secondary bank (OPL3 extended registers). The port is encoded into bit 8 of
+// the 16-bit register address expected by the Nuked-OPL3 emulator.
 func (o *OPL3) WriteRegister(port uint16, reg uint8, val uint8) {
-	C.OPL3_WriteReg(o.chip, C.uint16_t(reg), C.uint8_t(val))
+	fullReg := uint16(reg) | ((port & 0x01) << 8)
+	C.OPL3_WriteReg(o.chip, C.uint16_t(fullReg), C.uint8_t(val))
 }
 
 // GenerateSamples generates n stereo sample frames.
@@ -52,15 +55,16 @@ func (o *OPL3) GenerateSamples(n int) ([]int16, error) {
 
 	C.OPL3_GenerateStream(o.chip, (*C.int16_t)(unsafe.Pointer(&samples[0])), C.uint32_t(n))
 
-	for i := 0; i < len(samples); i++ {
-		if samples[i] != 0 {
-			fmt.Printf("[DEBUG-CHIP] Non-zero sample found: %d at index %d\n", samples[i], i)
-			return samples, nil
-		}
-	}
-	fmt.Printf("[DEBUG-CHIP] All %d samples are silent\n", numSamples)
-
 	return samples, nil
+}
+
+// Close frees the C-allocated OPL3 chip memory. The OPL3 instance must not be
+// used after calling Close.
+func (o *OPL3) Close() {
+	if o.chip != nil {
+		C.free(unsafe.Pointer(o.chip))
+		o.chip = nil
+	}
 }
 
 // Reset resets the chip to its initial state.

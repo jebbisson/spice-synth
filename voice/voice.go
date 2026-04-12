@@ -5,9 +5,23 @@ package voice
 import (
 	"errors"
 	"fmt"
+	"math"
 
 	"github.com/jebbisson/spice-synth/chip"
 )
+
+// OPL2 operator offset table. Channels 0-8 map to non-contiguous register offsets.
+var oplOperatorOffsets = [9][2]uint8{
+	{0x00, 0x03}, // Channel 0: modulator=0x00, carrier=0x03
+	{0x01, 0x04}, // Channel 1: modulator=0x01, carrier=0x04
+	{0x02, 0x05}, // Channel 2: modulator=0x02, carrier=0x05
+	{0x08, 0x0B}, // Channel 3: modulator=0x08, carrier=0x0B
+	{0x09, 0x0C}, // Channel 4: modulator=0x09, carrier=0x0C
+	{0x0A, 0x0D}, // Channel 5: modulator=0x0A, carrier=0x0D
+	{0x10, 0x13}, // Channel 6: modulator=0x10, carrier=0x13
+	{0x11, 0x14}, // Channel 7: modulator=0x11, carrier=0x14
+	{0x12, 0x15}, // Channel 8: modulator=0x12, carrier=0x15
+}
 
 // Note represents a musical note.
 type Note float64
@@ -41,9 +55,10 @@ type Operator struct {
 	Waveform      uint8 // 0-3: sine, half-sine, abs-sine, quarter-sine
 }
 
-// Manager handles OPL2's 9 melodic channels.
+// Manager handles OPL2's 9 melodic channels and their real-time modulators.
 type Manager struct {
 	chip        *chip.OPL3
+	sampleRate  int
 	channels    [9]*channel
 	instruments map[string]*Instrument
 }
@@ -53,21 +68,30 @@ type channel struct {
 	currentNote Note
 	currentInst *Instrument
 	active      bool
+	mods        []Modulator // active per-channel modulators
 }
 
 // NewManager creates a new voice manager attached to the chip.
-func NewManager(c *chip.OPL3) *Manager {
+func NewManager(c *chip.OPL3, sampleRate int) *Manager {
 	m := &Manager{
 		chip:        c,
+		sampleRate:  sampleRate,
 		instruments: make(map[string]*Instrument),
 	}
 	for i := 0; i < 9; i++ {
 		m.channels[i] = &channel{id: i}
 	}
+
+	// Enable waveform select (register 0x01 bit 5). Without this, all
+	// operators are limited to pure sine regardless of the Waveform field.
+	if c != nil {
+		c.WriteRegister(0, 0x01, 0x20)
+	}
+
 	return m
 }
 
-// NoteOn triggers a note on the specified channel with the enough instrument.
+// NoteOn triggers a note on the specified channel with the given instrument.
 func (m *Manager) NoteOn(channelID int, note Note, inst *Instrument) error {
 	if channelID < 0 || channelID >= 9 {
 		return fmt.Errorf("invalid channel: %d", channelID)
@@ -81,19 +105,23 @@ func (m *Manager) NoteOn(channelID int, note Note, inst *Instrument) error {
 	ch.currentInst = inst
 	ch.active = true
 
-	// This is where the magic of translating Instrument struct to OPL registers happens.
-	fmt.Printf("[DEBUG] Channel %d NoteOn: %.2f with inst %s\n", channelID, note, inst.Name)
 	m.applyInstrument(ch, inst)
 	return nil
 }
 
-// NoteOff releases the note on the channel.
+// NoteOff releases the note on the channel by clearing the key-on bit.
 func (m *Manager) NoteOff(channelID int) error {
 	if channelID < 0 || channelID >= 9 {
 		return fmt.Errorf("invalid channel: %d", channelID)
 	}
 	ch := m.channels[channelID]
 	ch.active = false
+
+	// Clear the key-on bit (bit 5) in register 0xB0+channel to release the note.
+	cid := uint8(ch.id)
+	fnum, block := FNumberAndBlock(float64(ch.currentNote))
+	m.chip.WriteRegister(0, 0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03))
+
 	return nil
 }
 
@@ -102,43 +130,65 @@ func (m *Manager) applyInstrument(ch *channel, inst *Instrument) {
 		return
 	}
 
-	// 1. Set Operator parameters FIRST
-	// OPL2 registers are NOT contiguous per channel.
-	// They are grouped by parameter across channels.
 	cid := uint8(ch.id)
+	modOff := oplOperatorOffsets[cid][0]
+	carOff := oplOperatorOffsets[cid][1]
 
-	// Modulator (Op1)
-	m.chip.WriteRegister(0, 0x40+cid, (inst.Op1.Multiply<<4)|(inst.Op1.Waveform&0x0F))
-	m.chip.WriteRegister(0, 0x46+cid, inst.Op1.Attack)
-	m.chip.WriteRegister(0, 0x4C+cid, inst.Op1.Decay)
-	m.chip.WriteRegister(0, 0x52+cid, inst.Op1.Sustain)
-	m.chip.WriteRegister(0, 0x58+cid, inst.Op1.Release)
-	m.chip.WriteRegister(0, 0x5E+cid, inst.Op1.Level)
+	// 1. Set Operator parameters
+	// Register 0x20+offset: AM/VIB/EG/KSR/Multiply
+	m.writeOperatorAMVIB(0x20+modOff, &inst.Op1)
+	m.writeOperatorAMVIB(0x20+carOff, &inst.Op2)
 
-	// Carrier (Op2)
-	m.chip.WriteRegister(0, 0x60+cid, (inst.Op2.Multiply<<4)|(inst.Op2.Waveform&0x0F))
-	m.chip.WriteRegister(0, 0x66+cid, inst.Op2.Attack)
-	m.chip.WriteRegister(0, 0x6C+cid, inst.Op2.Decay)
-	m.chip.WriteRegister(0, 0x72+cid, inst.Op2.Sustain)
-	m.chip.WriteRegister(0, 0x78+cid, inst.Op2.Release)
-	m.chip.WriteRegister(0, 0x7E+cid, inst.Op2.Level)
+	// Register 0x40+offset: KSL/Total Level (attenuation)
+	m.chip.WriteRegister(0, 0x40+modOff, (inst.Op1.KeyScaleLevel<<6)|inst.Op1.Level)
+	m.chip.WriteRegister(0, 0x40+carOff, (inst.Op2.KeyScaleLevel<<6)|inst.Op2.Level)
+
+	// Register 0x60+offset: Attack/Decay
+	m.chip.WriteRegister(0, 0x60+modOff, (inst.Op1.Attack<<4)|inst.Op1.Decay)
+	m.chip.WriteRegister(0, 0x60+carOff, (inst.Op2.Attack<<4)|inst.Op2.Decay)
+
+	// Register 0x80+offset: Sustain/Release
+	m.chip.WriteRegister(0, 0x80+modOff, (inst.Op1.Sustain<<4)|inst.Op1.Release)
+	m.chip.WriteRegister(0, 0x80+carOff, (inst.Op2.Sustain<<4)|inst.Op2.Release)
+
+	// Register 0xE0+offset: Waveform Select
+	m.chip.WriteRegister(0, 0xE0+modOff, inst.Op1.Waveform&0x03)
+	m.chip.WriteRegister(0, 0xE0+carOff, inst.Op2.Waveform&0x03)
 
 	// 2. Set Channel-level parameters (Feedback and Connection)
 	connBit := uint8(0)
 	if inst.Connection != 0 {
 		connBit = 1
 	}
-	m.chip.WriteRegister(0, 0xC0+cid, (inst.Feedback<<4)|connBit)
+	m.chip.WriteRegister(0, 0xC0+cid, (inst.Feedback<<1)|connBit)
 
-	// 3. Set Frequency and Block LAST to trigger the sound
+	// 3. Set Frequency and Key-On
 	fnum, block := FNumberAndBlock(float64(ch.currentNote))
 	m.chip.WriteRegister(0, 0xA0+cid, uint8(fnum&0xFF))
 
 	if ch.active {
-		m.chip.WriteRegister(0, 0xB0+cid, uint8(block)|uint8(fnum>>8)|0x20)
+		m.chip.WriteRegister(0, 0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03)|0x20)
 	} else {
-		m.chip.WriteRegister(0, 0xB0+cid, uint8(block)|uint8(fnum>>8))
+		m.chip.WriteRegister(0, 0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03))
 	}
+}
+
+// writeOperatorAMVIB writes the AM/VIB/EG/KSR/Multiply register for an operator.
+func (m *Manager) writeOperatorAMVIB(reg uint8, op *Operator) {
+	val := op.Multiply & 0x0F
+	if op.KeyScaleRate {
+		val |= 0x10
+	}
+	if op.Sustaining {
+		val |= 0x20
+	}
+	if op.Vibrato {
+		val |= 0x40
+	}
+	if op.Tremolo {
+		val |= 0x80
+	}
+	m.chip.WriteRegister(0, reg, val)
 }
 
 // GetInstrument retrieves an instrument by name from the manager's bank.
@@ -150,10 +200,258 @@ func (m *Manager) GetInstrument(name string) (*Instrument, error) {
 	return inst, nil
 }
 
-// LoadBank loads a set of instruments into the manager.
-func (m *Manager) LoadBank(name string, insts []*Instrument) {
+// LoadBank loads a set of instruments into the manager, indexed by each
+// instrument's Name field. The bankName parameter is reserved for future use.
+func (m *Manager) LoadBank(bankName string, insts []*Instrument) {
 	for _, inst := range insts {
 		m.instruments[inst.Name] = inst
 	}
-	_ = name // Suppress unused variable error
+	_ = bankName
+}
+
+// ---------------------------------------------------------------------------
+// Real-time parameter control (no retrigger)
+// ---------------------------------------------------------------------------
+
+// SetLevel writes the total level (attenuation) register for a single operator
+// on a sounding channel without retriggering the note.
+//
+//   - op 0 = modulator (Op1), op 1 = carrier (Op2)
+//   - level 0 = loudest, 63 = silent
+//
+// The key-scale level bits are preserved from the current instrument.
+func (m *Manager) SetLevel(channelID int, op int, level uint8) error {
+	if channelID < 0 || channelID >= 9 {
+		return fmt.Errorf("invalid channel: %d", channelID)
+	}
+	if op < 0 || op > 1 {
+		return fmt.Errorf("invalid operator: %d (must be 0 or 1)", op)
+	}
+	if level > 63 {
+		level = 63
+	}
+
+	ch := m.channels[channelID]
+	cid := uint8(ch.id)
+	off := oplOperatorOffsets[cid][op]
+
+	// Preserve KSL bits from the current instrument if available.
+	var ksl uint8
+	if ch.currentInst != nil {
+		if op == 0 {
+			ksl = ch.currentInst.Op1.KeyScaleLevel
+		} else {
+			ksl = ch.currentInst.Op2.KeyScaleLevel
+		}
+	}
+
+	m.chip.WriteRegister(0, 0x40+off, (ksl<<6)|level)
+	return nil
+}
+
+// SetFrequency changes the pitch of a sounding channel without retriggering.
+// The key-on state is preserved.
+func (m *Manager) SetFrequency(channelID int, note Note) error {
+	if channelID < 0 || channelID >= 9 {
+		return fmt.Errorf("invalid channel: %d", channelID)
+	}
+
+	ch := m.channels[channelID]
+	cid := uint8(ch.id)
+	fnum, block := FNumberAndBlock(float64(note))
+
+	m.chip.WriteRegister(0, 0xA0+cid, uint8(fnum&0xFF))
+	b0 := uint8(block<<2) | uint8((fnum>>8)&0x03)
+	if ch.active {
+		b0 |= 0x20 // preserve key-on
+	}
+	m.chip.WriteRegister(0, 0xB0+cid, b0)
+	return nil
+}
+
+// SetFeedback changes the feedback amount on a sounding channel without
+// retriggering. The connection mode is preserved from the current instrument.
+func (m *Manager) SetFeedback(channelID int, fb uint8) error {
+	if channelID < 0 || channelID >= 9 {
+		return fmt.Errorf("invalid channel: %d", channelID)
+	}
+	if fb > 7 {
+		fb = 7
+	}
+
+	ch := m.channels[channelID]
+	cid := uint8(ch.id)
+
+	connBit := uint8(0)
+	if ch.currentInst != nil && ch.currentInst.Connection != 0 {
+		connBit = 1
+	}
+	m.chip.WriteRegister(0, 0xC0+cid, (fb<<1)|connBit)
+	return nil
+}
+
+// SetTremoloDepth sets the global hardware tremolo depth.
+// shallow=false: ~1 dB, shallow=true: ~4.8 dB.
+func (m *Manager) SetTremoloDepth(deep bool) {
+	m.writeGlobalBD(deep, false)
+}
+
+// SetVibratoDepth sets the global hardware vibrato depth.
+// deep=false: ~7 cents, deep=true: ~14 cents.
+func (m *Manager) SetVibratoDepth(deep bool) {
+	m.writeGlobalBD(false, deep)
+}
+
+// writeGlobalBD writes register 0xBD (tremolo/vibrato depth flags).
+func (m *Manager) writeGlobalBD(deepTremolo, deepVibrato bool) {
+	var val uint8
+	if deepTremolo {
+		val |= 0x80
+	}
+	if deepVibrato {
+		val |= 0x40
+	}
+	m.chip.WriteRegister(0, 0xBD, val)
+}
+
+// ---------------------------------------------------------------------------
+// Modulator management
+// ---------------------------------------------------------------------------
+
+// AttachMod adds a modulator to the specified channel. Multiple modulators
+// can target different parameters simultaneously (e.g. an LFO on carrier
+// level and a ramp on feedback).
+func (m *Manager) AttachMod(channelID int, mod Modulator) error {
+	if channelID < 0 || channelID >= 9 {
+		return fmt.Errorf("invalid channel: %d", channelID)
+	}
+	m.channels[channelID].mods = append(m.channels[channelID].mods, mod)
+	return nil
+}
+
+// ClearMods removes all modulators from the specified channel.
+func (m *Manager) ClearMods(channelID int) error {
+	if channelID < 0 || channelID >= 9 {
+		return fmt.Errorf("invalid channel: %d", channelID)
+	}
+	m.channels[channelID].mods = nil
+	return nil
+}
+
+// Tick advances all active modulators by the given number of samples and
+// applies their outputs to the corresponding OPL2 registers. This should be
+// called by the stream layer between sub-blocks of sample generation.
+//
+// When multiple modulators target the same parameter, their normalised
+// outputs are multiplied together before being applied. This allows, for
+// example, an envelope controlling the overall volume contour while an LFO
+// adds wobble on top.
+func (m *Manager) Tick(samples int) {
+	for _, ch := range m.channels {
+		if len(ch.mods) == 0 {
+			continue
+		}
+
+		// Collect per-target combined values. Start at 1.0 (multiplicative
+		// identity) and multiply each modulator's output into it.
+		combined := make(map[ModTarget]float64)
+		active := make(map[ModTarget]bool)
+
+		alive := ch.mods[:0]
+		for _, mod := range ch.mods {
+			val := mod.Tick(samples, m.sampleRate)
+			t := mod.Target()
+			if !active[t] {
+				combined[t] = val
+				active[t] = true
+			} else {
+				combined[t] *= val
+			}
+			if !mod.Done() {
+				alive = append(alive, mod)
+			}
+		}
+		ch.mods = alive
+
+		// Apply the combined value for each target once.
+		for t, val := range combined {
+			m.applyModValue(ch, t, val)
+		}
+	}
+}
+
+// applyModValue maps a normalised modulator output (0.0–1.0) to the correct
+// OPL2 register write for the given target.
+func (m *Manager) applyModValue(ch *channel, target ModTarget, val float64) {
+	cid := uint8(ch.id)
+
+	switch target {
+	case ModCarrierLevel:
+		// 0.0 → level 63 (silent), 1.0 → level 0 (loudest).
+		// This inversion matches the OPL2 convention where 0 = loudest.
+		level := uint8((1.0 - val) * 63.0)
+		// Add the instrument's base attenuation if available.
+		if ch.currentInst != nil {
+			total := int(level) + int(ch.currentInst.Op2.Level)
+			if total > 63 {
+				total = 63
+			}
+			level = uint8(total)
+		}
+		off := oplOperatorOffsets[cid][1]
+		var ksl uint8
+		if ch.currentInst != nil {
+			ksl = ch.currentInst.Op2.KeyScaleLevel
+		}
+		m.chip.WriteRegister(0, 0x40+off, (ksl<<6)|level)
+
+	case ModModulatorLevel:
+		level := uint8((1.0 - val) * 63.0)
+		if ch.currentInst != nil {
+			total := int(level) + int(ch.currentInst.Op1.Level)
+			if total > 63 {
+				total = 63
+			}
+			level = uint8(total)
+		}
+		off := oplOperatorOffsets[cid][0]
+		var ksl uint8
+		if ch.currentInst != nil {
+			ksl = ch.currentInst.Op1.KeyScaleLevel
+		}
+		m.chip.WriteRegister(0, 0x40+off, (ksl<<6)|level)
+
+	case ModFeedback:
+		// 0.0 → feedback 0, 1.0 → feedback 7.
+		fb := uint8(val * 7.0)
+		if fb > 7 {
+			fb = 7
+		}
+		connBit := uint8(0)
+		if ch.currentInst != nil && ch.currentInst.Connection != 0 {
+			connBit = 1
+		}
+		m.chip.WriteRegister(0, 0xC0+cid, (fb<<1)|connBit)
+
+	case ModFrequency:
+		// val 0.5 = base pitch (no change), 0.0 = -1 octave, 1.0 = +1 octave.
+		// Implemented as semitone offset: (val - 0.5) * 24 semitones.
+		if ch.currentNote == 0 {
+			return
+		}
+		semitoneOffset := (val - 0.5) * 24.0
+		baseFreq := float64(ch.currentNote)
+		ratio := 1.0
+		if semitoneOffset != 0 {
+			ratio = math.Pow(2.0, semitoneOffset/12.0)
+		}
+		newFreq := baseFreq * ratio
+		fnum, block := FNumberAndBlock(newFreq)
+		m.chip.WriteRegister(0, 0xA0+cid, uint8(fnum&0xFF))
+		b0 := uint8(block<<2) | uint8((fnum>>8)&0x03)
+		if ch.active {
+			b0 |= 0x20
+		}
+		m.chip.WriteRegister(0, 0xB0+cid, b0)
+	}
 }

@@ -1,56 +1,59 @@
 // Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
 
+// demo renders a multi-channel arrangement to a raw PCM file using the DSL.
+// Three voices play simultaneously: a bassline, a lead melody, and percussion.
+//
+// Usage: go run ./examples/demo
+// Play:  ffplay -f s16le -ar 44100 -ac 2 output.raw
 package main
 
 import (
 	"fmt"
 	"os"
 
+	"github.com/jebbisson/spice-synth/dsl"
 	"github.com/jebbisson/spice-synth/patches"
-	"github.com/jebbisson/spice-synth/sequencer"
 	"github.com/jebbisson/spice-synth/stream"
 )
 
 func main() {
-	fmt.Println("SpiceSynth: Style Demo")
+	fmt.Println("SpiceSynth: DSL Demo")
 	fmt.Println("Generating 5 seconds of audio to 'output.raw' (S16LE Stereo)...")
 
-	// 1. Initialize the stream
+	// 1. Initialize the stream.
 	s := stream.New(44100)
-
-	// 2. Load Spice instrument bank
 	s.Voices().LoadBank("spice", patches.Spice())
+	s.Sequencer().SetBPM(110)
 
-	// 3. Set up a simple multi-channel pattern
-	seq := s.Sequencer()
-	seq.SetBPM(110)
+	// 2. Define voices using the DSL.
+	//
+	// Bassline: grungy desert bass with heavy feedback.
+	bass := dsl.Note("C2").S("desert_bass").
+		FM(6).Feedback(6).
+		Attack(0.0).Sustaining(true)
 
-	// Bassline: C2 -> Eb2 -> F2 -> G2
-	bass := sequencer.NewPattern(16).
-		Instrument("desert_bass").
-		Note(0, "C2").
-		Note(4, "Eb2").
-		Note(8, "F2").
-		Note(12, "G2")
+	// Lead: nasal cutting melody.
+	lead := dsl.Note("C4").S("mystic_lead").
+		Attack(0.0).Sustaining(true)
 
-	// Lead: Simple melody
-	lead := sequencer.NewPattern(16).
-		Instrument("mystic_lead").
-		Note(0, "C4").
-		Note(2, "Eb4").
-		Note(4, "F4").
-		Note(7, "G4")
+	// Percussion: short metallic hit.
+	perc := dsl.Note("C2").S("fm_perc")
 
-	// Percussion: Four-on-the-floor
-	perc := sequencer.NewPattern(16).
-		Instrument("fm_perc").
-		Hit(0).Hit(4).Hit(8).Hit(12)
+	// 3. Play each on a separate channel.
+	if err := bass.Play(s, 0); err != nil {
+		fmt.Printf("bass error: %v\n", err)
+		return
+	}
+	if err := lead.Play(s, 1); err != nil {
+		fmt.Printf("lead error: %v\n", err)
+		return
+	}
+	if err := perc.Play(s, 2); err != nil {
+		fmt.Printf("perc error: %v\n", err)
+		return
+	}
 
-	seq.SetPattern(0, bass)
-	seq.SetPattern(1, lead)
-	seq.SetPattern(2, perc)
-
-	// 4. Render to file (5 seconds)
+	// 4. Render to file (5 seconds).
 	f, err := os.Create("output.raw")
 	if err != nil {
 		fmt.Printf("Error creating file: %v\n", err)
@@ -58,9 +61,7 @@ func main() {
 	}
 	defer f.Close()
 
-	// Write 5 seconds of audio
-	// 44100 samples/sec * 4 bytes/sample = 176,400 bytes/sec
-	buf := make([]byte, 44100*4)
+	buf := make([]byte, 44100*4) // 1 second per read
 	for i := 0; i < 5; i++ {
 		n, err := s.Read(buf)
 		if err != nil {
@@ -70,6 +71,6 @@ func main() {
 		f.Write(buf[:n])
 	}
 
-	fmt.Println("Done! You can play 'output.raw' using:")
-	fmt.Println("ffplay -f s16le -ar 44100 -ac 2 output.raw")
+	fmt.Println("Done! Play with:")
+	fmt.Println("  ffplay -f s16le -ar 44100 -ac 2 output.raw")
 }

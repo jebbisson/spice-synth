@@ -1,5 +1,14 @@
 // Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
 
+// ebiten_player recreates the Hope Fades (Dune II) intro arrangement using
+// the Strudel-inspired DSL API with real-time audio playback via Ebiten.
+//
+// Three layers:
+//   - BASS:   Deep A0 with 5s fade-in ramp + slow sine wobble
+//   - WIND:   Sustained desert_wind texture, 8s fade-in, very quiet
+//   - CHIMES: Bright spice_chime hits (single held note for now)
+//
+// Usage: go run ./examples/ebiten_player
 package main
 
 import (
@@ -13,14 +22,14 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/jebbisson/spice-synth/dsl"
 	"github.com/jebbisson/spice-synth/patches"
-	"github.com/jebbisson/spice-synth/sequencer"
 	"github.com/jebbisson/spice-synth/stream"
 )
 
 const (
 	sampleRate = 44100
-	bpm        = 125
+	bpm        = 55 // Slow, brooding tempo for Hope Fades intro
 )
 
 // DebugStream wraps a stream.Stream to monitor audio data flow and volume.
@@ -51,7 +60,6 @@ func (d *DebugStream) Read(b []byte) (int, error) {
 
 type Game struct {
 	ds      *DebugStream
-	seq     *sequencer.Sequencer
 	status  string
 	tickCnt int
 }
@@ -75,18 +83,14 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	// Background status
 	ebitenutil.DebugPrint(screen, g.status)
 
-	// Simple Visualizer Bar
 	barWidth := int(g.ds.CurrentVolume * 200)
 	if barWidth > 200 {
 		barWidth = 200
 	}
-
-	// Draw a simple line as a volume meter
 	for i := 0; i < barWidth; i++ {
-		screen.Set(i, 50, color.RGBA{0, 255, 0, 255}) // Green bar
+		screen.Set(i, 50, color.RGBA{0, 255, 0, 255})
 	}
 }
 
@@ -94,43 +98,48 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return 320, 240
 }
 
-var startTime time.Time
-
 func main() {
-	startTime = time.Now()
-
-	// 1. Initialize the synth stream and wrap it for debugging
+	// 1. Initialize the synth stream.
 	s := stream.New(sampleRate)
 	ds := &DebugStream{Stream: s}
-	seq := s.Sequencer()
-	seq.SetBPM(bpm)
-
 	s.Voices().LoadBank("spice", patches.Spice())
+	s.Sequencer().SetBPM(bpm)
 
-	// Arrangement
-	bass := sequencer.NewPattern(16).
-		Instrument("desert_bass").
-		Note(0, "C2").Note(3, "C2").Note(6, "G1").Note(10, "C2").Note(14, "Eb2")
+	// --- Hope Fades (Dune II) intro arrangement (DSL) ---
+	//
+	// Layer 1: Bass — deep A0 that fades in from silence over 5 seconds,
+	// then holds with a slow sine wobble. The ramp and gain signal are
+	// multiplied together by the modulator system.
+	bass := dsl.Note("A0").S("desert_bass").
+		Ramp(0.0, 1.0, 5.0).
+		GainSignal(dsl.Sine().Range(0.3, 1.0).Slow(4))
 
-	lead := sequencer.NewPattern(16).
-		Instrument("mystic_lead").
-		Note(0, "G3").Note(4, "Ab3").Note(8, "G3").Note(12, "F3")
+	// Layer 2: Wind — sustained noise texture, 8s fade-in, quiet drift.
+	wind := dsl.Note("C3").S("desert_wind").
+		Ramp(0.0, 1.0, 8.0).
+		GainSignal(dsl.Tri().Range(0.1, 0.55).Slow(6.67))
 
-	perc := sequencer.NewPattern(16).
-		Instrument("fm_perc").
-		Hit(0).Hit(4).Hit(8).Hit(12)
+	// Layer 3: Chimes — bright metallic hit.
+	// (Multi-note sequenced patterns coming in Phase 4 of the DSL.)
+	chimes := dsl.Note("E5").S("spice_chime")
 
-	seq.SetPattern(0, bass)
-	seq.SetPattern(1, lead)
-	seq.SetPattern(2, perc)
+	// 2. Play each layer on a separate OPL2 channel.
+	if err := bass.Play(s, 0); err != nil {
+		log.Fatalf("bass: %v", err)
+	}
+	if err := wind.Play(s, 1); err != nil {
+		log.Fatalf("wind: %v", err)
+	}
+	if err := chimes.Play(s, 2); err != nil {
+		log.Fatalf("chimes: %v", err)
+	}
 
-	// 4. Setup Ebiten Audio
-	fmt.Println("--- SpiceSynth Debug Mode ---")
+	// 3. Setup Ebiten audio.
+	fmt.Println("--- SpiceSynth DSL Mode ---")
 	fmt.Printf("Host OS/Arch: %s/%s\n", runtime.GOOS, runtime.GOARCH)
 	fmt.Printf("CPU Cores: %d\n", runtime.NumCPU())
 	audioCtx := audio.NewContext(sampleRate)
 
-	// IMPORTANT: We pass the DebugStream wrapper here
 	player, err := audioCtx.NewPlayer(ds)
 	if err != nil {
 		log.Fatalf("CRITICAL: Failed to create audio player: %v", err)
@@ -140,34 +149,25 @@ func main() {
 	player.Play()
 
 	fmt.Printf("Audio Context initialized at %dHz\n", sampleRate)
-	fmt.Println("Playing arrangement... check window for visualizer.")
-	fmt.Println("If 'Audio Flow' stays SILENT, the stream is not being read by Ebiten.")
+	fmt.Println("Playing arrangement... close window to stop.")
 
 	g := &Game{
 		ds:     ds,
-		seq:    seq,
 		status: "Initializing...",
 	}
 
-	// Start a goroutine to print stats to console every second
 	go func() {
 		ticker := time.NewTicker(time.Second)
 		for range ticker.C {
-			fmt.Printf("[%s] Vol: %.2f%% | Bytes Read: %d KB | Status: %s\n",
+			fmt.Printf("[%s] Vol: %.2f%% | Read: %d KB\n",
 				time.Now().Format("15:04:05"),
 				ds.CurrentVolume*100,
 				ds.TotalBytesRead/1024,
-				func() string {
-					if ds.CurrentVolume > 0 {
-						return "🔊 SOUNDING"
-					}
-					return "🔇 SILENT"
-				}(),
 			)
 		}
 	}()
 
-	ebiten.SetWindowTitle("SpiceSynth Debugger")
+	ebiten.SetWindowTitle("SpiceSynth DSL — Hope Fades")
 	ebiten.SetWindowSize(320, 240)
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)

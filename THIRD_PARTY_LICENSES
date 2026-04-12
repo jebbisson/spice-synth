@@ -19,3 +19,35 @@ users who build from source can freely modify and recompile the LGPL component.
 If you distribute pre-compiled binaries that incorporate this library, you must
 comply with LGPL-2.1 Section 6 by providing the LGPL source code and a
 mechanism for relinking (e.g., object files or build instructions).
+
+================================================================================
+DMXOPL
+================================================================================
+
+Description:  YMF262-enhanced FM patch set for Doom and source ports
+Author:       sneakernets
+Copyright:    Copyright (c) 2017 sneakernets
+License:      MIT License
+Source:       https://github.com/sneakernets/DMXOPL
+Location:     op2/GENMIDI.op2
+
+The DMXOPL GENMIDI bank file is embedded in the op2 package and provides
+General MIDI instrument definitions (128 melodic + 47 percussion) for OPL2/OPL3
+FM synthesis. The file is included unmodified under the MIT license.
+
+================================================================================
+AdPlug
+================================================================================
+
+Description:  AdLib sound player library
+Authors:      Simon Peter, Torbjorn Andersson, Johannes Schickel (ScummVM)
+Copyright:    Copyright (C) 1999-2024 Simon Peter et al.
+License:      GNU Lesser General Public License v2.1 or later (LGPL-2.1-or-later)
+Source:       https://github.com/adplug/adplug
+Location:     adl/ (Go port of src/adl.cpp and src/adl.h)
+
+The adl package is a Go port of AdPlug's ADL player (adl.cpp/adl.h), which
+implements the Westwood Studios ADL music format used in Dune II. The original
+C++ code was ported to Go with equivalent logic. No original C/C++ source is
+included — this is a clean reimplementation in Go. The port preserves the
+original LGPL-2.1 license for the derived work.

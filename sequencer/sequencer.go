@@ -15,6 +15,7 @@ type Sequencer struct {
 	sampleRate  int
 	tracks      map[int]*Pattern
 	currentTick float64
+	modsApplied map[int]bool // tracks which channels have had mods attached
 }
 
 // New creates a sequencer attached to a voice manager.
@@ -25,6 +26,7 @@ func New(v *voice.Manager, bpm float64, sampleRate int) *Sequencer {
 		sampleRate:  sampleRate,
 		tracks:      make(map[int]*Pattern),
 		currentTick: 0,
+		modsApplied: make(map[int]bool),
 	}
 }
 
@@ -33,9 +35,21 @@ func (s *Sequencer) SetBPM(bpm float64) {
 	s.bpm = bpm
 }
 
-// SetPattern sets the active pattern for a channel.
+// SetPattern sets the active pattern for a channel. Any modulators defined
+// on the pattern (via LFO, ModRamp, etc.) are immediately attached to the
+// channel on the voice manager.
 func (s *Sequencer) SetPattern(channel int, pattern *Pattern) {
 	s.tracks[channel] = pattern
+
+	// Attach pattern-level modulators to the voice manager channel.
+	if pattern != nil && len(pattern.ModDefs) > 0 {
+		s.voices.ClearMods(channel)
+		for _, def := range pattern.ModDefs {
+			mod := def.Build(s.sampleRate)
+			s.voices.AttachMod(channel, mod)
+		}
+		s.modsApplied[channel] = true
+	}
 }
 
 // Advance advances the sequencer by the given number of samples.
@@ -110,13 +124,15 @@ type Pattern struct {
 	Steps             int
 	Events            []Event
 	DefaultInstrument string
+	ModDefs           []ModDef // modulator definitions attached to this pattern
 }
 
 // NewPattern creates a new pattern with a set number of steps.
 func NewPattern(steps int) *Pattern {
 	return &Pattern{
-		Steps:  steps,
-		Events: []Event{},
+		Steps:   steps,
+		Events:  []Event{},
+		ModDefs: []ModDef{},
 	}
 }
 
@@ -142,9 +158,128 @@ func (p *Pattern) Note(step int, noteStr string) *Pattern {
 	return p
 }
 
+// Off adds a note-off event at the specified step, releasing the channel.
+func (p *Pattern) Off(step int) *Pattern {
+	p.Events = append(p.Events, Event{
+		Step: step,
+		Type: NoteOff,
+	})
+	return p
+}
+
 // Hit adds a simple note event (useful for drums).
 func (p *Pattern) Hit(step int) *Pattern {
 	return p.Note(step, "C2")
+}
+
+// ---------------------------------------------------------------------------
+// Modulator definitions — these are templates that produce live Modulator
+// instances when the pattern is assigned to a channel.
+// ---------------------------------------------------------------------------
+
+// ModDef is a blueprint for a Modulator. It is stored on the Pattern and
+// instantiated (via Build) when the sequencer assigns the pattern to a
+// channel. This indirection lets the same pattern be reused on multiple
+// channels, each getting its own modulator state.
+type ModDef interface {
+	Build(sampleRate int) voice.Modulator
+}
+
+// lfoDef stores the parameters for an LFO modulator definition.
+type lfoDef struct {
+	target voice.ModTarget
+	rateHz float64
+	depth  float64
+	center float64
+	shape  voice.WaveShape
+}
+
+func (d *lfoDef) Build(_ int) voice.Modulator {
+	lfo := voice.NewLFO(d.target, d.rateHz, d.depth, d.shape)
+	lfo.Center = d.center
+	return lfo
+}
+
+// LFO attaches an LFO modulator definition to the pattern.
+//
+//   - target: which parameter to modulate (e.g. voice.ModCarrierLevel)
+//   - rateHz: oscillation speed in Hz (independent of BPM)
+//   - depth: peak-to-peak swing (0.0–1.0)
+//   - shape: waveform shape (voice.ShapeSine, etc.)
+func (p *Pattern) LFO(target voice.ModTarget, rateHz, depth float64, shape voice.WaveShape) *Pattern {
+	p.ModDefs = append(p.ModDefs, &lfoDef{
+		target: target,
+		rateHz: rateHz,
+		depth:  depth,
+		center: 0.5,
+		shape:  shape,
+	})
+	return p
+}
+
+// LFOCentered is like LFO but allows specifying the center value.
+func (p *Pattern) LFOCentered(target voice.ModTarget, rateHz, depth, center float64, shape voice.WaveShape) *Pattern {
+	p.ModDefs = append(p.ModDefs, &lfoDef{
+		target: target,
+		rateHz: rateHz,
+		depth:  depth,
+		center: center,
+		shape:  shape,
+	})
+	return p
+}
+
+// rampDef stores the parameters for a Ramp modulator definition.
+type rampDef struct {
+	target      voice.ModTarget
+	from, to    float64
+	durationSec float64
+}
+
+func (d *rampDef) Build(sampleRate int) voice.Modulator {
+	return voice.NewRamp(d.target, d.from, d.to, d.durationSec, sampleRate)
+}
+
+// ModRamp attaches a one-shot linear ramp to the pattern.
+//
+//   - target: which parameter to modulate
+//   - from, to: start and end values (0.0–1.0)
+//   - durationSec: ramp time in seconds
+func (p *Pattern) ModRamp(target voice.ModTarget, from, to, durationSec float64) *Pattern {
+	p.ModDefs = append(p.ModDefs, &rampDef{
+		target:      target,
+		from:        from,
+		to:          to,
+		durationSec: durationSec,
+	})
+	return p
+}
+
+// envDef stores the parameters for a software Envelope modulator definition.
+type envDef struct {
+	target                          voice.ModTarget
+	attack, decay, sustain, release float64
+}
+
+func (d *envDef) Build(_ int) voice.Modulator {
+	return voice.NewEnvelope(d.target, d.attack, d.decay, d.sustain, d.release)
+}
+
+// ModEnvelope attaches a software ADSR envelope to the pattern.
+//
+//   - target: which parameter to modulate
+//   - attack, decay: times in seconds
+//   - sustain: hold level (0.0–1.0)
+//   - release: time in seconds
+func (p *Pattern) ModEnvelope(target voice.ModTarget, attack, decay, sustain, release float64) *Pattern {
+	p.ModDefs = append(p.ModDefs, &envDef{
+		target:  target,
+		attack:  attack,
+		decay:   decay,
+		sustain: sustain,
+		release: release,
+	})
+	return p
 }
 
 // Event represents something that happens at a step.
@@ -156,10 +291,14 @@ type Event struct {
 	Volume     float64
 }
 
+// EventType identifies the kind of sequencer event.
 type EventType int
 
 const (
+	// NoteOn triggers a note on a channel.
 	NoteOn EventType = iota
+	// NoteOff releases a note on a channel.
 	NoteOff
+	// InstrumentChange switches the active instrument on a channel.
 	InstrumentChange
 )

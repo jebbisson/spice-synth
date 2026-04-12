@@ -8,8 +8,9 @@ import (
 )
 
 const (
-	// OPL clock frequency is typically based on the NTSC colorburst 3.579545 MHz.
-	oplsClockRate = 3579545.0
+	// oplClockRate is the OPL clock frequency based on the NTSC colorburst crystal (3.579545 MHz).
+	// The constant 49716 used in F-number calculations equals oplClockRate / 72.
+	oplClockRate = 3579545.0
 )
 
 // FNumberAndBlock calculates the OPL register values for a given frequency.
