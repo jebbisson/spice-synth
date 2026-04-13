@@ -5,7 +5,7 @@
 //
 // Usage:
 //
-//	go run ./examples/adl_player                          # plays DUNE1.ADL subsong 2
+//	go run ./examples/adl_player                          # plays DUNE1.ADL, auto-selects first music track
 //	go run ./examples/adl_player path/to/DUNE9.ADL        # plays specified file
 //	go run ./examples/adl_player path/to/DUNE9.ADL 3      # plays specified file, subsong 3
 //
@@ -88,10 +88,13 @@ type Game struct {
 	tickCnt int
 
 	// File management.
-	adlFiles   []string // sorted list of ADL file paths
-	fileIdx    int      // current index into adlFiles
-	fileName   string   // display name of current file
-	curSubsong int
+	adlFiles []string // sorted list of ADL file paths
+	fileIdx  int      // current index into adlFiles
+	fileName string   // display name of current file
+
+	// Subsong navigation (filtered to non-empty slots only).
+	subsongs   []adl.SubsongInfo // non-empty subsongs for current file
+	subsongIdx int               // current index into subsongs slice
 }
 
 func (g *Game) Update() error {
@@ -111,27 +114,27 @@ func (g *Game) Update() error {
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
 		g.player.Stop()
-		g.player.SetSubsong(g.curSubsong)
+		g.player.SetSubsong(g.currentSubsongIndex())
 		g.player.Play()
 	}
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyRight) {
-		g.curSubsong++
-		if g.curSubsong >= g.player.NumSubsongs() {
-			g.curSubsong = 0
+		g.subsongIdx++
+		if g.subsongIdx >= len(g.subsongs) {
+			g.subsongIdx = 0
 		}
-		g.player.SetSubsong(g.curSubsong)
+		g.player.SetSubsong(g.currentSubsongIndex())
 		if g.player.GetState() != adl.StatePlaying {
 			g.player.Play()
 		}
 	}
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyLeft) {
-		g.curSubsong--
-		if g.curSubsong < 0 {
-			g.curSubsong = g.player.NumSubsongs() - 1
+		g.subsongIdx--
+		if g.subsongIdx < 0 {
+			g.subsongIdx = len(g.subsongs) - 1
 		}
-		g.player.SetSubsong(g.curSubsong)
+		g.player.SetSubsong(g.currentSubsongIndex())
 		if g.player.GetState() != adl.StatePlaying {
 			g.player.Play()
 		}
@@ -169,10 +172,13 @@ func (g *Game) Update() error {
 			stateStr = "DONE"
 		}
 
+		info := g.currentSubsongInfo()
+		typeLabel := info.Type.String()
+
 		g.status = fmt.Sprintf(
 			"SpiceSynth ADL Player\n\n"+
 				"File: %s\n"+
-				"[%s] Subsong: %d / %d\n"+
+				"[%s] Subsong: %d (%s) [%d/%d]\n"+
 				"Volume: %.0f%% | Read: %d KB\n\n"+
 				"Controls:\n"+
 				"  Left/Right: prev/next subsong\n"+
@@ -180,7 +186,7 @@ func (g *Game) Update() error {
 				"  Space:      pause/resume\n"+
 				"  R:          restart | Q: quit",
 			g.fileName, stateStr,
-			g.curSubsong, g.player.NumSubsongs(),
+			info.Index, typeLabel, g.subsongIdx+1, len(g.subsongs),
 			g.ds.getVolume()*100,
 			g.ds.getBytesRead()/1024,
 		)
@@ -228,16 +234,44 @@ func (g *Game) loadFile(path string) {
 	g.ds.player = g.player
 	g.fileName = filepath.Base(path)
 
-	// Default to subsong 2 (first music track in Dune II files).
-	g.curSubsong = 2
-	if g.curSubsong >= af.NumSubsongs {
-		g.curSubsong = 0
+	// Build filtered subsong list.
+	g.subsongs = af.NonEmptySubsongs()
+	if len(g.subsongs) == 0 {
+		// Fallback: include all subsongs if none are non-empty.
+		g.subsongs = af.ClassifySubsongs()
 	}
-	g.player.SetSubsong(g.curSubsong)
+
+	// Default to first music subsong, or first non-empty.
+	g.subsongIdx = 0
+	for i, info := range g.subsongs {
+		if info.Type == adl.SubsongMusic {
+			g.subsongIdx = i
+			break
+		}
+	}
+
+	g.player.SetSubsong(g.currentSubsongIndex())
 	g.player.Play()
 
-	fmt.Printf("Loaded %s: v%d, %d subsongs, playing subsong %d\n",
-		g.fileName, af.Version, af.NumSubsongs, g.curSubsong)
+	fmt.Printf("Loaded %s: v%d, %d subsongs (%d non-empty), playing subsong %d (%s)\n",
+		g.fileName, af.Version, af.NumSubsongs, len(g.subsongs),
+		g.currentSubsongIndex(), g.currentSubsongInfo().Type)
+}
+
+// currentSubsongIndex returns the real subsong index for the current filtered position.
+func (g *Game) currentSubsongIndex() int {
+	if g.subsongIdx < 0 || g.subsongIdx >= len(g.subsongs) {
+		return 0
+	}
+	return g.subsongs[g.subsongIdx].Index
+}
+
+// currentSubsongInfo returns the SubsongInfo for the current filtered position.
+func (g *Game) currentSubsongInfo() adl.SubsongInfo {
+	if g.subsongIdx < 0 || g.subsongIdx >= len(g.subsongs) {
+		return adl.SubsongInfo{}
+	}
+	return g.subsongs[g.subsongIdx]
 }
 
 // findADLFiles scans a directory for .ADL files and returns them sorted.
@@ -259,7 +293,7 @@ func findADLFiles(dir string) []string {
 func main() {
 	// Parse args.
 	adlPath := "../adl/DUNE1.ADL"
-	startSubsong := 2
+	startSubsong := -1 // -1 = auto-select first music track
 	if len(os.Args) > 1 {
 		adlPath = os.Args[1]
 	}
@@ -284,16 +318,38 @@ func main() {
 		log.Fatalf("failed to parse ADL file: %v", err)
 	}
 
-	fmt.Printf("Loaded %s: v%d, %d programs, %d subsongs\n",
-		filepath.Base(adlPath), af.Version, af.NumPrograms, af.NumSubsongs)
+	// Build filtered subsong list.
+	subsongs := af.NonEmptySubsongs()
+	if len(subsongs) == 0 {
+		subsongs = af.ClassifySubsongs()
+	}
 
-	if startSubsong >= af.NumSubsongs {
-		startSubsong = 0
+	fmt.Printf("Loaded %s: v%d, %d programs, %d subsongs (%d non-empty)\n",
+		filepath.Base(adlPath), af.Version, af.NumPrograms, af.NumSubsongs, len(subsongs))
+
+	// Determine starting subsong index into the filtered list.
+	subsongIdx := 0
+	if startSubsong >= 0 {
+		// User specified a raw subsong number — find it in the filtered list.
+		for i, info := range subsongs {
+			if info.Index == startSubsong {
+				subsongIdx = i
+				break
+			}
+		}
+	} else {
+		// Auto-select first music track.
+		for i, info := range subsongs {
+			if info.Type == adl.SubsongMusic {
+				subsongIdx = i
+				break
+			}
+		}
 	}
 
 	// Create player.
 	p := adl.NewPlayer(sampleRate, af)
-	p.SetSubsong(startSubsong)
+	p.SetSubsong(subsongs[subsongIdx].Index)
 
 	ds := &DebugStream{player: p}
 
@@ -308,7 +364,8 @@ func main() {
 
 	// Start playback.
 	p.Play()
-	fmt.Printf("Playing subsong %d at %d Hz... close window to stop.\n", startSubsong, sampleRate)
+	fmt.Printf("Playing subsong %d (%s) at %d Hz... close window to stop.\n",
+		subsongs[subsongIdx].Index, subsongs[subsongIdx].Type, sampleRate)
 
 	// Find all ADL files in the same directory for file switching.
 	adlDir := filepath.Dir(adlPath)
@@ -330,7 +387,8 @@ func main() {
 		adlFiles:   adlFiles,
 		fileIdx:    fileIdx,
 		fileName:   filepath.Base(adlPath),
-		curSubsong: startSubsong,
+		subsongs:   subsongs,
+		subsongIdx: subsongIdx,
 	}
 
 	// Console logging.
@@ -347,10 +405,12 @@ func main() {
 			case adl.StateDone:
 				stateStr = "DONE"
 			}
-			fmt.Printf("[%s] %s | sub:%d | vol:%.0f%%\n",
+			info := g.currentSubsongInfo()
+			fmt.Printf("[%s] %s | sub:%d (%s) | vol:%.0f%%\n",
 				time.Now().Format("15:04:05"),
 				stateStr,
-				g.curSubsong,
+				info.Index,
+				info.Type,
 				ds.getVolume()*100,
 			)
 		}

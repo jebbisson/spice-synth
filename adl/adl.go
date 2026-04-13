@@ -270,6 +270,128 @@ func (ri RawInstrument) ToVoiceInstrument(name string) *voice.Instrument {
 	}
 }
 
+// SubsongType classifies the kind of content in a subsong slot.
+type SubsongType int
+
+const (
+	// SubsongEmpty means the slot has no valid program (trackEntry = 0xFF or
+	// program offset is zero).
+	SubsongEmpty SubsongType = iota
+	// SubsongReset means the program targets channel 9 (control) but does not
+	// spawn any sub-programs — typically a silence/reset track.
+	SubsongReset
+	// SubsongMusic means the program targets channel 9 and uses the
+	// setupProgram opcode to orchestrate melodic channels.
+	SubsongMusic
+	// SubsongSFX means the program targets a melodic channel (0-8) directly,
+	// which is the pattern used for sound effects.
+	SubsongSFX
+)
+
+// String returns a short human-readable label for the subsong type.
+func (t SubsongType) String() string {
+	switch t {
+	case SubsongEmpty:
+		return "EMPTY"
+	case SubsongReset:
+		return "RESET"
+	case SubsongMusic:
+		return "MUSIC"
+	case SubsongSFX:
+		return "SFX"
+	default:
+		return "?"
+	}
+}
+
+// SubsongInfo describes a single subsong slot.
+type SubsongInfo struct {
+	Index int         // Original subsong index in the track table.
+	Type  SubsongType // Classification of the subsong content.
+}
+
+// ClassifySubsongs scans all subsong slots and returns their classifications.
+// The returned slice has exactly NumSubsongs entries.
+func (f *File) ClassifySubsongs() []SubsongInfo {
+	infos := make([]SubsongInfo, f.NumSubsongs)
+	for i := 0; i < f.NumSubsongs; i++ {
+		infos[i] = SubsongInfo{Index: i, Type: f.classifySubsong(i)}
+	}
+	return infos
+}
+
+// NonEmptySubsongs returns only the subsong slots that are not empty,
+// in their original order. This is useful for player UIs that want to
+// skip over the many unused slots in Dune II ADL files.
+func (f *File) NonEmptySubsongs() []SubsongInfo {
+	all := f.ClassifySubsongs()
+	var result []SubsongInfo
+	for _, info := range all {
+		if info.Type != SubsongEmpty {
+			result = append(result, info)
+		}
+	}
+	return result
+}
+
+// classifySubsong determines the type of a single subsong slot.
+func (f *File) classifySubsong(subsong int) SubsongType {
+	trackID := f.TrackForSubsong(subsong)
+	if trackID < 0 {
+		return SubsongEmpty
+	}
+
+	prog := f.GetProgram(trackID)
+	if prog == nil || len(prog) < 2 {
+		return SubsongEmpty
+	}
+
+	targetChan := prog[0]
+	if targetChan > 9 {
+		return SubsongEmpty
+	}
+
+	// Programs targeting melodic channels 0-8 directly are sound effects.
+	if targetChan < 9 {
+		return SubsongSFX
+	}
+
+	// Channel 9 = control channel. Scan bytecode for setupProgram (0x82).
+	// Start after the 2-byte header (channel + priority).
+	ptr := 2
+	for ptr < len(prog) {
+		b := prog[ptr]
+		ptr++
+
+		if b&0x80 != 0 {
+			// Opcode.
+			idx := int(b & 0x7F)
+			if idx >= len(opcodeParamCount) {
+				idx = len(opcodeParamCount) - 1
+			}
+
+			// Opcode 2 = setupProgram → this is a music track.
+			if idx == 2 {
+				return SubsongMusic
+			}
+
+			// Stop opcodes terminate the program scan.
+			if idx == 8 || idx == 20 || idx == 22 || idx == 23 ||
+				idx == 24 || idx == 25 || idx == 27 {
+				break
+			}
+
+			nParams := opcodeParamCount[idx]
+			ptr += nParams
+		} else {
+			// Note byte: followed by 1 duration byte.
+			ptr++
+		}
+	}
+
+	return SubsongReset
+}
+
 // ExtractInstruments reads all valid instruments from the file and converts
 // them to voice.Instrument values. Each instrument is named with the given
 // prefix and its index (e.g., "dune2_000").

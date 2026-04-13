@@ -172,6 +172,15 @@ func (p *Player) Read(b []byte) (int, error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
+	// When paused or stopped, output silence and freeze the OPL chip so
+	// notes don't continue sustaining/releasing during the pause.
+	if p.state == StatePaused || p.state == StateStopped {
+		for i := range b[:totalFrames*4] {
+			b[i] = 0
+		}
+		return totalFrames * 4, nil
+	}
+
 	byteOffset := 0
 	framesLeft := totalFrames
 

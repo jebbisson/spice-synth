@@ -41,3 +41,4 @@ basic
 demo
 examples/midi_player/midi_player
 examples/adl/*
+examples/adl_player/adl_player
