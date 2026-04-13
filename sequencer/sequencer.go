@@ -116,6 +116,22 @@ func (s *Sequencer) triggerEvent(channel int, e Event) {
 		}
 	case NoteOff:
 		s.voices.NoteOff(channel)
+	case InstrumentChange:
+		// Instrument change only updates the default instrument for
+		// subsequent NoteOn events on this channel.
+		if pat, ok := s.tracks[channel]; ok && pat != nil {
+			pat.DefaultInstrument = e.Instrument
+		}
+	case VolumeChange:
+		// Set the carrier level (operator 2) directly.
+		level := uint8((1.0 - e.Volume) * 63.0)
+		s.voices.SetLevel(channel, 1, level)
+	case FrequencyChange:
+		s.voices.SetFrequency(channel, voice.Note(e.Frequency))
+	case LevelChange:
+		s.voices.SetLevel(channel, e.Operator, e.Level)
+	case FeedbackChange:
+		s.voices.SetFeedback(channel, e.Feedback)
 	}
 }
 
@@ -289,6 +305,16 @@ type Event struct {
 	Note       voice.Note
 	Instrument string
 	Volume     float64
+
+	// FrequencyChange fields
+	Frequency float64 // raw Hz for SetFrequency events
+
+	// LevelChange fields
+	Operator int   // 0=modulator, 1=carrier
+	Level    uint8 // 0-63 attenuation
+
+	// FeedbackChange fields
+	Feedback uint8 // 0-7
 }
 
 // EventType identifies the kind of sequencer event.
@@ -301,4 +327,12 @@ const (
 	NoteOff
 	// InstrumentChange switches the active instrument on a channel.
 	InstrumentChange
+	// VolumeChange sets the output level on a channel.
+	VolumeChange
+	// FrequencyChange changes the pitch without retriggering.
+	FrequencyChange
+	// LevelChange sets a specific operator's level.
+	LevelChange
+	// FeedbackChange sets the channel feedback amount.
+	FeedbackChange
 )

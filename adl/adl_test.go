@@ -3,6 +3,7 @@
 package adl
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -425,4 +426,232 @@ func TestAllDuneFilesPlayWithoutPanic(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestTraceDUNE1Subsong6(t *testing.T) {
+	af := loadTestFile(t, "DUNE1.ADL")
+
+	p := NewPlayer(44100, af)
+	defer p.Close()
+
+	// Collect trace output.
+	var traceLines []string
+	p.SetTraceFunc(func(format string, args ...interface{}) {
+		line := fmt.Sprintf(format, args...)
+		traceLines = append(traceLines, line)
+	})
+
+	p.SetSubsong(6)
+	p.Play()
+
+	// Render 10 seconds of audio to exercise the full song.
+	buf := make([]byte, 44100*4*10)
+	_, err := p.Read(buf)
+	if err != nil {
+		t.Fatalf("Read() error: %v", err)
+	}
+
+	// Summarize what happened.
+	programStarts := 0
+	instrumentLoads := 0
+	noteOns := 0
+	channelStops := 0
+	rejections := 0
+	invalidInsts := 0
+	rhythmSetups := 0
+	volumeAdjusts := 0
+	extraLevelChanges := 0
+	channelsSeen := map[string]bool{}
+
+	// Track per-channel max attenuation (0x3F = silent, 0x00 = loudest).
+	chVols := map[int]*channelVolInfo{}
+	for i := 0; i < 9; i++ {
+		chVols[i] = &channelVolInfo{minReg43: 0x3F, maxReg43: 0x00}
+	}
+
+	for _, line := range traceLines {
+		switch {
+		case len(line) > 13 && line[:13] == "setupProgram:":
+			programStarts++
+			for i := 0; i < 10; i++ {
+				chStr := fmt.Sprintf("ch%d", i)
+				if contains(line, chStr) {
+					channelsSeen[chStr] = true
+				}
+			}
+			if contains(line, "REJECTED") {
+				rejections++
+			}
+		case len(line) > 16 && line[:16] == "setupInstrument:":
+			instrumentLoads++
+			if contains(line, "INVALID") {
+				invalidInsts++
+			}
+			// Parse reg43 value from setupInstrument trace.
+			parseVolFromLine(line, chVols)
+		case len(line) > 7 && line[:7] == "noteOn:":
+			noteOns++
+			// Parse channel from noteOn.
+			for i := 0; i < 9; i++ {
+				chStr := fmt.Sprintf("ch%d ", i)
+				if contains(line, chStr) {
+					chVols[i].noteOns++
+					break
+				}
+			}
+		case len(line) > 12 && line[:12] == "stopChannel:":
+			channelStops++
+		case len(line) > 14 && line[:14] == "setupPrograms:":
+			if contains(line, "REJECTED") {
+				rejections++
+			}
+		case len(line) > 20 && line[:20] == "setupRhythmSection:":
+			rhythmSetups++
+		case len(line) > 13 && line[:13] == "adjustVolume:":
+			volumeAdjusts++
+			parseAdjustVolFromLine(line, chVols)
+		case contains(line, "ExtraLevel"):
+			extraLevelChanges++
+		}
+	}
+
+	t.Logf("=== DUNE1.ADL Subsong 6 Trace Summary (10s) ===")
+	t.Logf("Program starts:     %d", programStarts)
+	t.Logf("Program rejections: %d", rejections)
+	t.Logf("Instrument loads:   %d (invalid: %d)", instrumentLoads, invalidInsts)
+	t.Logf("Note-ons:           %d", noteOns)
+	t.Logf("Channel stops:      %d", channelStops)
+	t.Logf("Rhythm setups:      %d", rhythmSetups)
+	t.Logf("Volume adjusts:     %d", volumeAdjusts)
+	t.Logf("ExtraLevel changes: %d", extraLevelChanges)
+	t.Logf("Channels used:      %v", channelsSeen)
+	t.Logf("Total trace events: %d", len(traceLines))
+
+	t.Logf("")
+	t.Logf("=== Per-Channel Volume Summary ===")
+	for i := 0; i < 9; i++ {
+		cv := chVols[i]
+		if cv.noteOns == 0 && cv.volAdjs == 0 {
+			continue
+		}
+		status := "OK"
+		if cv.minReg43 >= 0x3F {
+			status = "SILENT (carrier always 0x3F)"
+		} else if cv.minReg43 >= 0x30 {
+			status = "VERY QUIET"
+		}
+		t.Logf("  ch%d: noteOns=%d volAdjs=%d minAtten=0x%02X maxAtten=0x%02X %s",
+			i, cv.noteOns, cv.volAdjs, cv.minReg43, cv.maxReg43, status)
+	}
+
+	// Dump first 300 trace lines for analysis.
+	limit := 300
+	if len(traceLines) < limit {
+		limit = len(traceLines)
+	}
+	t.Logf("--- First %d trace events ---", limit)
+	for i := 0; i < limit; i++ {
+		t.Logf("  [%d] %s", i, traceLines[i])
+	}
+}
+
+// parseVolFromLine extracts reg43 value from setupInstrument trace lines.
+func parseVolFromLine(line string, chVols map[int]*channelVolInfo) {
+	// Format: "setupInstrument: ch%d ... → reg40=0x%02X reg43=0x%02X"
+	for ch := 0; ch < 9; ch++ {
+		prefix := fmt.Sprintf("setupInstrument: ch%d ", ch)
+		if !contains(line, prefix) {
+			continue
+		}
+		// Find "reg43=0x" and parse the hex byte.
+		idx := indexOf(line, "reg43=0x")
+		if idx < 0 || idx+10 > len(line) {
+			break
+		}
+		val := parseHexByte(line[idx+8 : idx+10])
+		atten := val & 0x3F
+		cv := chVols[ch]
+		if atten < cv.minReg43 {
+			cv.minReg43 = atten
+		}
+		if atten > cv.maxReg43 {
+			cv.maxReg43 = atten
+		}
+		cv.volAdjs++
+		break
+	}
+}
+
+// parseAdjustVolFromLine extracts reg43 value from adjustVolume trace lines.
+func parseAdjustVolFromLine(line string, chVols map[int]*channelVolInfo) {
+	for ch := 0; ch < 9; ch++ {
+		prefix := fmt.Sprintf("adjustVolume: ch%d ", ch)
+		if !contains(line, prefix) {
+			continue
+		}
+		idx := indexOf(line, "reg43=0x")
+		if idx < 0 || idx+10 > len(line) {
+			break
+		}
+		val := parseHexByte(line[idx+8 : idx+10])
+		atten := val & 0x3F
+		cv := chVols[ch]
+		if atten < cv.minReg43 {
+			cv.minReg43 = atten
+		}
+		if atten > cv.maxReg43 {
+			cv.maxReg43 = atten
+		}
+		cv.volAdjs++
+		break
+	}
+}
+
+// indexOf finds the first occurrence of substr in s, returns -1 if not found.
+func indexOf(s, substr string) int {
+	for i := 0; i <= len(s)-len(substr); i++ {
+		if s[i:i+len(substr)] == substr {
+			return i
+		}
+	}
+	return -1
+}
+
+// parseHexByte parses a 2-char hex string to a byte.
+func parseHexByte(s string) uint8 {
+	if len(s) < 2 {
+		return 0
+	}
+	return hexDigit(s[0])<<4 | hexDigit(s[1])
+}
+
+func hexDigit(c byte) uint8 {
+	switch {
+	case c >= '0' && c <= '9':
+		return c - '0'
+	case c >= 'a' && c <= 'f':
+		return c - 'a' + 10
+	case c >= 'A' && c <= 'F':
+		return c - 'A' + 10
+	default:
+		return 0
+	}
+}
+
+// channelVolInfo tracks per-channel volume statistics during tracing.
+type channelVolInfo struct {
+	minReg43 uint8 // Lowest (loudest) carrier attenuation seen
+	maxReg43 uint8 // Highest (quietest) carrier attenuation seen
+	noteOns  int
+	volAdjs  int
+}
+
+// contains checks if s contains substr (simple helper to avoid strings import in test).
+func contains(s, substr string) bool {
+	for i := 0; i <= len(s)-len(substr); i++ {
+		if s[i:i+len(substr)] == substr {
+			return true
+		}
+	}
+	return false
 }

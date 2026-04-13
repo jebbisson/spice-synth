@@ -115,6 +115,9 @@ type Driver struct {
 	vibratoAndAMDepthBits uint8
 	rhythmSectionBits     uint8
 
+	// Trace callback for debugging. If non-nil, called for key events.
+	TraceFunc func(format string, args ...interface{})
+
 	// Rhythm section volume levels.
 	opLevelBD, opLevelHH, opLevelSD, opLevelTT, opLevelCY uint8
 	opExtraLevel1HH, opExtraLevel2HH                      uint8
@@ -161,6 +164,12 @@ func NewDriver(opl *chip.OPL3) *Driver {
 		d.channels[i].dataptr = -1
 	}
 	return d
+}
+
+func (d *Driver) trace(format string, args ...interface{}) {
+	if d.TraceFunc != nil {
+		d.TraceFunc(format, args...)
+	}
 }
 
 // SetVersion sets the ADL format version (1, 3, or 4) and the corresponding
@@ -440,8 +449,16 @@ func (d *Driver) setupInstrument(regOff uint8, dataOff int, ch *channel) {
 	ch.opLevel1 = data[5]
 	ch.opLevel2 = data[6]
 
-	d.writeOPL(0x40+regOff, d.calculateOpLevel1(ch))
-	d.writeOPL(0x43+regOff, d.calculateOpLevel2(ch))
+	ol1 := d.calculateOpLevel1(ch)
+	ol2 := d.calculateOpLevel2(ch)
+	d.writeOPL(0x40+regOff, ol1)
+	d.writeOPL(0x43+regOff, ol2)
+
+	d.trace("setupInstrument: ch%d opLevel1=0x%02X opLevel2=0x%02X twoChan=%d "+
+		"extraLevel1=0x%02X extraLevel2=0x%02X extraLevel3=0x%02X volMod=0x%02X → reg40=0x%02X reg43=0x%02X",
+		d.curChannel, ch.opLevel1, ch.opLevel2, ch.twoChan,
+		ch.opExtraLevel1, ch.opExtraLevel2, ch.opExtraLevel3, ch.volumeModifier,
+		ol1, ol2)
 
 	d.writeOPL(0x60+regOff, data[7])
 	d.writeOPL(0x63+regOff, data[8])
@@ -454,6 +471,7 @@ func (d *Driver) noteOn(ch *channel) {
 	if d.curChannel >= 9 {
 		return
 	}
+	d.trace("noteOn: ch%d rawNote=0x%02X regAx=0x%02X regBx=0x%02X", d.curChannel, ch.rawNote, ch.regAx, ch.regBx)
 	ch.regBx |= 0x20
 	d.writeOPL(0xB0+uint8(d.curChannel), ch.regBx)
 
@@ -468,9 +486,16 @@ func (d *Driver) adjustVolume(ch *channel) {
 	if d.curChannel >= 9 {
 		return
 	}
-	d.writeOPL(0x43+regOffset[d.curChannel], d.calculateOpLevel2(ch))
+	ol2 := d.calculateOpLevel2(ch)
+	d.writeOPL(0x43+regOffset[d.curChannel], ol2)
 	if ch.twoChan != 0 {
-		d.writeOPL(0x40+regOffset[d.curChannel], d.calculateOpLevel1(ch))
+		ol1 := d.calculateOpLevel1(ch)
+		d.writeOPL(0x40+regOffset[d.curChannel], ol1)
+		d.trace("adjustVolume: ch%d twoChan=1 extraLevel1=0x%02X extraLevel2=0x%02X extraLevel3=0x%02X volMod=0x%02X → reg40=0x%02X reg43=0x%02X",
+			d.curChannel, ch.opExtraLevel1, ch.opExtraLevel2, ch.opExtraLevel3, ch.volumeModifier, ol1, ol2)
+	} else {
+		d.trace("adjustVolume: ch%d twoChan=0 extraLevel1=0x%02X extraLevel2=0x%02X extraLevel3=0x%02X volMod=0x%02X → reg43=0x%02X",
+			d.curChannel, ch.opExtraLevel1, ch.opExtraLevel2, ch.opExtraLevel3, ch.volumeModifier, ol2)
 	}
 }
 
@@ -657,6 +682,8 @@ func (d *Driver) setupPrograms() {
 	ptr++
 
 	if priority >= ch.priority {
+		d.trace("setupPrograms: starting program id=%d on ch%d (priority=%d, volMod=%d, dataptr=%d)",
+			savedEntry.id, chanNum, priority, d.musicVolume, ptr)
 		d.initChannel(ch)
 		ch.priority = priority
 		ch.dataptr = ptr
@@ -673,6 +700,9 @@ func (d *Driver) setupPrograms() {
 		d.initAdlibChannel(chanNum)
 		d.programStartTimeout = 2
 		retrySound.dataOffset = -1
+	} else {
+		d.trace("setupPrograms: REJECTED program id=%d on ch%d (priority=%d < existing=%d)",
+			savedEntry.id, chanNum, priority, ch.priority)
 	}
 
 	if retrySound.dataOffset >= 0 {

@@ -5,10 +5,14 @@
 
 SpiceSynth is a Go library for programmatic OPL2/OPL3 FM synthesis. It produces authentic AdLib-era game music in real-time and streams signed 16-bit stereo PCM audio via a standard `io.Reader` interface.
 
+Inspired by the grungy, aggressive FM sound of Dune II on PC -- the crunchy bass lines, metallic leads, and raw OPL2 character of Westwood Studios' AdLib driver. SpiceSynth can play back the original Dune II ADL music files directly, render General MIDI through OPL2, or compose new FM music from scratch using a fluent DSL.
+
 ## Features
 
 - **Authentic FM Sound** -- Cycle-accurate emulation via the [Nuked-OPL3](https://github.com/nukeykt/Nuked-OPL3) engine.
-- **Fluent Sequencer** -- Define patterns and melodies with a builder-style API.
+- **Dune II ADL Playback** -- Full bytecode VM player for Westwood Studios' ADL music format, with subsong classification and instrument extraction.
+- **General MIDI via OPL2** -- MIDI file parser and multi-chip player with an embedded DMXOPL General MIDI bank (OP2 format).
+- **Fluent DSL** -- Compose FM patterns with a [Strudel](https://strudel.cc)-inspired method-chaining API, including LFO, envelope, and ramp modulators.
 - **`io.Reader` Output** -- Drop-in compatible with audio backends like [Ebiten](https://ebitengine.org/) and [Oto](https://github.com/ebitengine/oto).
 - **Zero Go Dependencies** -- The core library has no external Go dependencies; only a C compiler is required.
 
@@ -34,6 +38,39 @@ go get github.com/jebbisson/spice-synth
 
 ## Quick Start
 
+### Play a Dune II ADL file
+
+```go
+package main
+
+import (
+    "os"
+
+    "github.com/jebbisson/spice-synth/adl"
+)
+
+func main() {
+    f, _ := os.Open("DUNE1.ADL")
+    defer f.Close()
+
+    af, _ := adl.Parse(f)
+    p := adl.NewPlayer(44100, af)
+
+    // Auto-select the first music track.
+    for _, info := range af.NonEmptySubsongs() {
+        if info.Type == adl.SubsongMusic {
+            p.SetSubsong(info.Index)
+            break
+        }
+    }
+    p.Play()
+
+    // 'p' implements io.Reader -- pass it to your audio backend.
+}
+```
+
+### Compose with the DSL
+
 ```go
 package main
 
@@ -44,14 +81,11 @@ import (
 )
 
 func main() {
-    // Initialize a 44.1 kHz audio stream.
     s := stream.New(44100)
     defer s.Close()
 
-    // Load the built-in instrument bank.
     s.Voices().LoadBank("spice", patches.Spice())
 
-    // Build a bass pattern using the fluent API.
     bass := sequencer.NewPattern(16).
         Instrument("desert_bass").
         Note(0, "C2").
@@ -69,44 +103,73 @@ func main() {
 
 ## Architecture
 
-SpiceSynth is organized as a four-layer stack. Each layer has a single responsibility:
-
 ```
-┌─────────────────────────────────────────┐
-│  stream    io.Reader PCM output         │
-├─────────────────────────────────────────┤
-│  sequencer Tick-based pattern engine    │
-├─────────────────────────────────────────┤
-│  voice     Notes & instruments → OPL    │
-├─────────────────────────────────────────┤
-│  chip      CGo wrapper for Nuked-OPL3   │
-└─────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│  stream       io.Reader PCM output                  │
+├─────────────────────────────────────────────────────┤
+│  dsl          Fluent method-chaining composition    │
+│  sequencer    Tick-based pattern engine             │
+│  player       MIDI → OPL2 multi-chip renderer       │
+│  adl          Dune II ADL bytecode VM player        │
+├─────────────────────────────────────────────────────┤
+│  voice        Notes & instruments → OPL registers   │
+├─────────────────────────────────────────────────────┤
+│  chip         CGo wrapper for Nuked-OPL3            │
+└─────────────────────────────────────────────────────┘
 ```
 
 | Package | Description |
 |---------|-------------|
 | [`chip`](chip/) | CGo wrapper around Nuked-OPL3. Handles register writes and sample generation. |
-| [`voice`](voice/) | Translates notes and instrument definitions into OPL2 register values. Manages 9 melodic channels. |
+| [`voice`](voice/) | Translates notes and instrument definitions into OPL2 register values. Manages melodic channels. |
 | [`sequencer`](sequencer/) | Tick-based timing engine. Triggers NoteOn/NoteOff events from looping patterns. |
 | [`stream`](stream/) | Top-level `io.Reader`. Drives the sequencer and chip in sync with audio buffer requests. |
-| [`patches`](patches/) | Predefined FM instrument banks (Spice style, GM placeholder). |
+| [`dsl`](dsl/) | Fluent, Strudel-inspired API for composing FM patterns with modulation (LFO, envelope, ramp). |
+| [`player`](player/) | MIDI file player. Manages multiple OPL3 chip instances for unlimited polyphony. |
+| [`midi`](midi/) | Standard MIDI File (SMF) parser. Supports Format 0 and Format 1 files. |
+| [`op2`](op2/) | OP2 bank parser (DMX GENMIDI format). Embeds a high-quality DMXOPL General MIDI bank. |
+| [`adl`](adl/) | Westwood Studios ADL format parser and 72Hz bytecode VM player. Targets Dune II v2/v3. |
+| [`patches`](patches/) | Predefined FM instrument banks (SpiceSynth originals, GM via OP2). |
 
 ## Examples
 
-Working examples are in the [`examples/`](examples/) directory:
+Working examples are in the [`examples/`](examples/) directory. See the [examples README](examples/README.md) for details.
 
-### Live Playback (Ebiten)
+| Example | Description | Audio Backend |
+|---------|-------------|---------------|
+| [`adl_player`](examples/adl_player/) | Play Dune II ADL files with subsong browsing | Ebiten |
+| [`midi_player`](examples/midi_player/) | Play MIDI files through OPL2 FM synthesis | Ebiten |
+| [`ebiten_player`](examples/ebiten_player/) | DSL-composed arrangement with real-time playback | Ebiten |
+| [`demo`](examples/demo/) | Render a multi-channel arrangement to a raw PCM file | Headless |
+| [`basic`](examples/basic/) | Render a single note to a raw PCM file | Headless |
 
-Requires a windowing system and audio drivers.
+### ADL Player (Dune II)
+
+```bash
+cd examples/adl_player
+go run .                    # plays DUNE1.ADL, auto-selects first music track
+go run . ../adl/DUNE9.ADL   # plays a specific file
+```
+
+Controls: Left/Right = prev/next subsong, Up/Down = prev/next file, Space = pause, Q = quit.
+
+### MIDI Player
+
+```bash
+cd examples/midi_player
+go run . ../midi/Title.mid
+```
+
+### DSL Live Playback
 
 ```bash
 cd examples/ebiten_player
-go run main.go
+go run .
 ```
 
 ### File Rendering (CLI)
 
-Renders 5 seconds of audio to a raw PCM file -- useful for headless environments or CI.
+Renders audio to a raw PCM file -- useful for headless environments or CI.
 
 ```bash
 go run examples/demo/main.go
@@ -150,6 +213,30 @@ s.Sequencer().SetPattern(0, pattern)    // assign to channel 0
 s.Sequencer().SetBPM(120)
 ```
 
+### Playing ADL Files
+
+```go
+af, _ := adl.ParseBytes(data)
+p := adl.NewPlayer(44100, af)
+p.SetSubsong(2)
+p.Play()
+
+buf := make([]byte, 4096)
+p.Read(buf) // signed 16-bit stereo LE PCM
+```
+
+### Playing MIDI Files
+
+```go
+mf, _ := midi.ParseBytes(data)
+bank := op2.DefaultBank()
+p := player.New(44100, mf, bank)
+p.Play()
+
+buf := make([]byte, 4096)
+p.Read(buf)
+```
+
 ### Reading Audio
 
 ```go
@@ -167,6 +254,7 @@ This project uses a dual-license structure:
 
 - **Go library code**: [MIT License](LICENSE)
 - **Nuked-OPL3 C source** (vendored in `chip/opl3/`): [LGPL-2.1-or-later](chip/opl3/COPYING)
+- **ADL driver**: Ported from [AdPlug](https://github.com/adplug/adplug) (LGPL-2.1)
 
 For full third-party attribution, see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
 

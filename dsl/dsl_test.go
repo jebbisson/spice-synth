@@ -6,6 +6,7 @@ import (
 	"math"
 	"testing"
 
+	"github.com/jebbisson/spice-synth/stream"
 	"github.com/jebbisson/spice-synth/voice"
 )
 
@@ -381,5 +382,472 @@ func TestAllSignalShapes(t *testing.T) {
 		if s.lo != 0.0 || s.hi != 1.0 {
 			t.Errorf("%s(): range = [%f, %f], want [0.0, 1.0]", tt.name, s.lo, s.hi)
 		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Velocity tests
+// ---------------------------------------------------------------------------
+
+func TestApplyVelocity(t *testing.T) {
+	tests := []struct {
+		name      string
+		vel       float64
+		baseLevel uint8
+		wantLevel uint8
+	}{
+		{"full velocity", 1.0, 0, 0},
+		{"half velocity", 0.5, 0, 31},   // (1-0.5)*63 ≈ 31 additional attenuation
+		{"zero velocity", 0.0, 0, 63},   // silent
+		{"full with base", 1.0, 10, 10}, // no change to base
+		{"half with base", 0.5, 10, 41}, // 10 + 31 = 41
+		{"clamped at 63", 0.5, 50, 63},  // 50 + 31 > 63, clamped
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := Note("C4").Velocity(tt.vel)
+			inst := p.defaultInstrument()
+			inst.Op2.Level = tt.baseLevel
+			p.applyVelocity(inst)
+
+			if inst.Op2.Level != tt.wantLevel {
+				t.Errorf("level = %d, want %d", inst.Op2.Level, tt.wantLevel)
+			}
+		})
+	}
+}
+
+func TestVelocityNotSetDoesNothing(t *testing.T) {
+	p := Note("C4")
+	inst := p.defaultInstrument()
+	origLevel := inst.Op2.Level
+	p.applyVelocity(inst)
+	if inst.Op2.Level != origLevel {
+		t.Errorf("level changed from %d to %d without velocity set", origLevel, inst.Op2.Level)
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Instrument registration tests
+// ---------------------------------------------------------------------------
+
+func TestHasOverrides(t *testing.T) {
+	// No overrides
+	p := Note("C4").S("sine")
+	if p.hasOverrides() {
+		t.Error("plain pattern should not have overrides")
+	}
+
+	// With attack override
+	p2 := Note("C4").Attack(0.1)
+	if !p2.hasOverrides() {
+		t.Error("pattern with attack should have overrides")
+	}
+
+	// With velocity override
+	p3 := Note("C4").Velocity(0.5)
+	if !p3.hasOverrides() {
+		t.Error("pattern with velocity should have overrides")
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Integration tests: full Play() path through stream.Stream
+// ---------------------------------------------------------------------------
+
+func TestPlayDefaultInstrument(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Play a default sine note — this should register the instrument and
+	// create a sequencer pattern without error.
+	err := Note("C4").Play(s, 0)
+	if err != nil {
+		t.Fatalf("Play() failed: %v", err)
+	}
+
+	// Verify the instrument was registered in the voice manager.
+	_, err = s.Voices().GetInstrument("dsl_default")
+	if err != nil {
+		t.Errorf("default instrument not registered: %v", err)
+	}
+}
+
+func TestPlayRawWaveform(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	err := Note("C4").S("halfsine").Play(s, 0)
+	if err != nil {
+		t.Fatalf("Play() failed: %v", err)
+	}
+
+	// Raw waveforms with no overrides use their name directly.
+	_, err = s.Voices().GetInstrument("halfsine")
+	if err != nil {
+		t.Errorf("halfsine instrument not registered: %v", err)
+	}
+}
+
+func TestPlayWithOverridesCreatesUniqueInstrument(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	err := Note("C4").S("sine").FM(6).Play(s, 0)
+	if err != nil {
+		t.Fatalf("Play() failed: %v", err)
+	}
+
+	// With overrides, instrument should be registered under a unique name.
+	_, err = s.Voices().GetInstrument("_dsl_sine_ch0")
+	if err != nil {
+		t.Errorf("overridden instrument not registered: %v", err)
+	}
+}
+
+func TestPlayNamedInstrumentFromBank(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Pre-load a named instrument into the voice manager bank.
+	testInst := &voice.Instrument{
+		Name: "test_bass",
+		Op1: voice.Operator{
+			Attack: 15, Decay: 4, Sustain: 0, Release: 8,
+			Level: 20, Multiply: 1, Waveform: 0, Sustaining: true,
+		},
+		Op2: voice.Operator{
+			Attack: 15, Decay: 4, Sustain: 2, Release: 8,
+			Level: 0, Multiply: 1, Waveform: 0, Sustaining: true,
+		},
+		Feedback: 3, Connection: 0,
+	}
+	s.Voices().LoadBank("test", []*voice.Instrument{testInst})
+
+	// Play using the named instrument with overrides.
+	err := Note("C2").S("test_bass").Attack(0.0).Play(s, 0)
+	if err != nil {
+		t.Fatalf("Play() failed: %v", err)
+	}
+
+	// Should have registered an overridden copy.
+	inst, err := s.Voices().GetInstrument("_dsl_test_bass_ch0")
+	if err != nil {
+		t.Fatalf("overridden instrument not registered: %v", err)
+	}
+	// The override should have set attack to instant (15).
+	if inst.Op2.Attack != 15 {
+		t.Errorf("attack = %d, want 15", inst.Op2.Attack)
+	}
+	// But the original should remain untouched.
+	origInst, err := s.Voices().GetInstrument("test_bass")
+	if err != nil {
+		t.Fatalf("original instrument lost: %v", err)
+	}
+	if origInst.Op2.Attack != 15 {
+		t.Errorf("original attack mutated: %d", origInst.Op2.Attack)
+	}
+}
+
+func TestPlayProducesAudibleOutput(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Play a note using PlayDirect (bypasses sequencer timing complexity).
+	err := Note("C4").FM(6).Feedback(4).Attack(0.0).Sustaining(true).PlayDirect(s, 0)
+	if err != nil {
+		t.Fatalf("PlayDirect() failed: %v", err)
+	}
+
+	// Generate some audio and check that it's not all zeros.
+	buf := make([]byte, 44100*4) // 1 second of stereo 16-bit PCM
+	n, err := s.Read(buf)
+	if err != nil {
+		t.Fatalf("Read() failed: %v", err)
+	}
+	if n == 0 {
+		t.Fatal("Read() returned 0 bytes")
+	}
+
+	// Check for non-zero samples (skip the first few frames for fade-in).
+	hasNonZero := false
+	for i := 1000; i < n-1; i += 2 {
+		sample := int16(buf[i])<<8 | int16(buf[i-1])
+		if sample != 0 {
+			hasNonZero = true
+			break
+		}
+	}
+	if !hasNonZero {
+		t.Error("PlayDirect produced all-zero audio — no audible output")
+	}
+}
+
+func TestPlaySequencedProducesAudio(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Play via sequencer path.
+	err := Note("C4").FM(6).Feedback(4).Attack(0.0).Sustaining(true).Play(s, 0)
+	if err != nil {
+		t.Fatalf("Play() failed: %v", err)
+	}
+
+	// Generate audio — the sequencer should trigger the note.
+	buf := make([]byte, 44100*4) // 1 second
+	n, err := s.Read(buf)
+	if err != nil {
+		t.Fatalf("Read() failed: %v", err)
+	}
+	if n == 0 {
+		t.Fatal("Read() returned 0 bytes")
+	}
+
+	// Check for non-zero samples.
+	hasNonZero := false
+	for i := 1000; i < n-1; i += 2 {
+		sample := int16(buf[i])<<8 | int16(buf[i-1])
+		if sample != 0 {
+			hasNonZero = true
+			break
+		}
+	}
+	if !hasNonZero {
+		t.Error("sequenced Play() produced all-zero audio — instrument likely not registered")
+	}
+}
+
+func TestPlayMultipleChannels(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Play different notes on different channels.
+	if err := Note("C2").FM(6).Play(s, 0); err != nil {
+		t.Fatalf("Play ch0 failed: %v", err)
+	}
+	if err := Note("E4").FM(3).Play(s, 1); err != nil {
+		t.Fatalf("Play ch1 failed: %v", err)
+	}
+	if err := Note("G4").Play(s, 2); err != nil {
+		t.Fatalf("Play ch2 failed: %v", err)
+	}
+
+	// Just verify it doesn't panic and produces some output.
+	buf := make([]byte, 4410*4) // 0.1 second
+	n, err := s.Read(buf)
+	if err != nil {
+		t.Fatalf("Read() failed: %v", err)
+	}
+	if n == 0 {
+		t.Fatal("Read() returned 0 bytes")
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Song and Track tests
+// ---------------------------------------------------------------------------
+
+func TestSongBasic(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Create a simple song with one instrument and one track.
+	inst := &voice.Instrument{
+		Name: "test_inst",
+		Op1:  voice.Operator{Attack: 15, Decay: 0, Sustain: 0, Release: 8, Level: 63, Multiply: 1, Sustaining: true},
+		Op2:  voice.Operator{Attack: 15, Decay: 4, Sustain: 2, Release: 8, Level: 0, Multiply: 1, Sustaining: true},
+	}
+
+	track := NewTrack(0).SetInstrument("test_inst")
+	track.NoteOnOff(0, "C4", 8)
+
+	song := NewSong(120).
+		AddInstrument(inst).
+		AddTrack(track)
+
+	err := song.Play(s)
+	if err != nil {
+		t.Fatalf("Song.Play() failed: %v", err)
+	}
+
+	// Generate audio.
+	buf := make([]byte, 44100*4)
+	n, err := s.Read(buf)
+	if err != nil {
+		t.Fatalf("Read() failed: %v", err)
+	}
+	if n == 0 {
+		t.Fatal("Read() returned 0 bytes")
+	}
+}
+
+func TestSongMultiTrack(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	inst := &voice.Instrument{
+		Name: "multi_inst",
+		Op1:  voice.Operator{Attack: 15, Decay: 0, Sustain: 0, Release: 8, Level: 40, Multiply: 1, Sustaining: true},
+		Op2:  voice.Operator{Attack: 15, Decay: 4, Sustain: 2, Release: 8, Level: 0, Multiply: 1, Sustaining: true},
+	}
+
+	t1 := NewTrack(0).SetInstrument("multi_inst")
+	t1.NoteOnOff(0, "C2", 16)
+
+	t2 := NewTrack(1).SetInstrument("multi_inst")
+	t2.NoteOnOff(0, "E4", 8)
+	t2.NoteOnOff(8, "G4", 8)
+
+	song := NewSong(120).
+		AddInstrument(inst).
+		AddTrack(t1).
+		AddTrack(t2)
+
+	err := song.Play(s)
+	if err != nil {
+		t.Fatalf("Song.Play() failed: %v", err)
+	}
+
+	// Generate some audio — just verify no panic.
+	buf := make([]byte, 4410*4)
+	_, err = s.Read(buf)
+	if err != nil {
+		t.Fatalf("Read() failed: %v", err)
+	}
+}
+
+func TestTrackCompileAutoLength(t *testing.T) {
+	track := NewTrack(0).SetInstrument("test")
+	track.NoteOnOff(0, "C4", 8)
+	track.NoteOnOff(10, "E4", 4)
+
+	pat, err := track.compile()
+	if err != nil {
+		t.Fatalf("compile() failed: %v", err)
+	}
+
+	// Auto-length should be max(tick+1) = max(0+1, 10+1, 8+1, 14+1) = 15
+	// (NoteOff at tick 14 is the last event)
+	if pat.Steps < 15 {
+		t.Errorf("Steps = %d, want >= 15", pat.Steps)
+	}
+
+	// Should have 4 events: 2 NoteOn + 2 NoteOff
+	if len(pat.Events) != 4 {
+		t.Errorf("events count = %d, want 4", len(pat.Events))
+	}
+}
+
+func TestTrackVolumeChange(t *testing.T) {
+	track := NewTrack(0).SetInstrument("test")
+	track.NoteOn(0, "C4")
+	track.SetVolumeAt(4, 0.5)
+
+	pat, err := track.compile()
+	if err != nil {
+		t.Fatalf("compile() failed: %v", err)
+	}
+
+	// Should have a NoteOn and a VolumeChange event
+	if len(pat.Events) != 2 {
+		t.Fatalf("events count = %d, want 2", len(pat.Events))
+	}
+}
+
+func TestTrackInstrumentChange(t *testing.T) {
+	track := NewTrack(0).SetInstrument("inst_a")
+	track.NoteOnOff(0, "C4", 8)
+	track.SetInstrumentAt(8, "inst_b")
+	track.NoteOnOff(8, "E4", 8)
+
+	pat, err := track.compile()
+	if err != nil {
+		t.Fatalf("compile() failed: %v", err)
+	}
+
+	// 2 NoteOn + 2 NoteOff + 1 InstrumentChange = 5
+	if len(pat.Events) != 5 {
+		t.Errorf("events count = %d, want 5", len(pat.Events))
+	}
+}
+
+func TestStackCreatesMultiTrackSong(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	// Pre-register instruments that Stack's patterns will reference.
+	// Stack with default instruments will use "dsl_default".
+	song := Stack(
+		Note("C2"),
+		Note("E4"),
+		Note("G4"),
+	)
+
+	if len(song.Tracks()) != 3 {
+		t.Fatalf("Stack produced %d tracks, want 3", len(song.Tracks()))
+	}
+
+	// Verify channel assignments.
+	for i, tr := range song.Tracks() {
+		if tr.Channel() != i {
+			t.Errorf("track %d channel = %d, want %d", i, tr.Channel(), i)
+		}
+	}
+}
+
+func TestSeqCreatesSequentialSong(t *testing.T) {
+	song := Seq(
+		Note("C4"),
+		Note("E4"),
+		Note("G4"),
+	)
+
+	if len(song.Tracks()) != 1 {
+		t.Fatalf("Seq produced %d tracks, want 1", len(song.Tracks()))
+	}
+
+	track := song.Tracks()[0]
+	// Should have events for 3 notes: each gets NoteOn + NoteOff + InstrumentChange
+	// Actually: 3 InstrumentChange + 3 NoteOn + 3 NoteOff = 9
+	events := track.Events()
+	noteOns := 0
+	noteOffs := 0
+	for _, e := range events {
+		switch e.Type {
+		case TrackNoteOn:
+			noteOns++
+		case TrackNoteOff:
+			noteOffs++
+		}
+	}
+	if noteOns != 3 {
+		t.Errorf("noteOns = %d, want 3", noteOns)
+	}
+	if noteOffs != 3 {
+		t.Errorf("noteOffs = %d, want 3", noteOffs)
+	}
+}
+
+func TestSongInvalidChannel(t *testing.T) {
+	s := stream.New(44100)
+	defer s.Close()
+
+	song := NewSong(120)
+	song.AddTrack(NewTrack(10)) // invalid channel
+
+	err := song.Play(s)
+	if err == nil {
+		t.Error("expected error for invalid channel 10")
+	}
+}
+
+func TestSilencePattern(t *testing.T) {
+	p := Silence()
+	if p.noteSet {
+		t.Error("Silence() should not have noteSet")
+	}
+	if p.sound != "" {
+		t.Errorf("Silence() sound = %q, want empty", p.sound)
 	}
 }

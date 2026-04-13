@@ -2,39 +2,57 @@
 
 This directory contains examples of how to use SpiceSynth in different contexts.
 
-## Ebiten Live Player
+## ADL Player (Dune II)
 
-The `ebiten_player` is a standalone application that demonstrates real-time audio synthesis using the Ebiten game engine. It plays a pre-arranged musical piece in the "Spice" style and displays current status on screen.
+The `adl_player` plays Westwood Studios ADL music files from Dune II through OPL2 FM synthesis. It supports keyboard navigation between subsongs (with type labels: MUSIC/SFX/RESET) and switching between ADL files.
 
-### How to Run
+```bash
+cd examples/adl_player
+go run .                    # plays DUNE1.ADL, auto-selects first music track
+go run . ../adl/DUNE9.ADL   # plays a specific file
+go run . ../adl/DUNE1.ADL 5 # plays a specific subsong
+```
 
-Since this example uses Ebiten, it requires a windowing system (X11/Wayland on Linux, Cocoa on macOS, or Win32 on Windows) and a C compiler for audio drivers.
+**Controls:** Left/Right = prev/next subsong, Up/Down = prev/next file, Space = pause, R = restart, Q = quit.
 
-1. **Navigate to the player directory**:
-   ```bash
-   cd examples/ebiten_player
-   ```
+The `adl/` subdirectory contains 21 Dune II ADL files (DUNE0.ADL through DUNE20.ADL) used by this example.
 
-2. **Run the application**:
-   ```bash
-   go run main.go
-   ```
+## MIDI Player
 
-### What it demonstrates:
-- **Real-time streaming**: Direct integration of `stream.Stream` into Ebiten's audio context.
-- **Complex Arrangement**: A multi-channel pattern (Bass, Lead, and Percussion) playing in sync.
-- **Low Latency**: Configured buffer size for responsive playback.
+The `midi_player` plays Standard MIDI files through OPL2 FM synthesis using the embedded DMXOPL General MIDI bank. It displays real-time volume and playback status.
+
+```bash
+cd examples/midi_player
+go run . ../midi/Title.mid
+```
+
+**Controls:** Space = pause, Q = quit.
+
+The `midi/` subdirectory contains a sample MIDI file used by this example.
+
+## Ebiten Live Player (DSL)
+
+The `ebiten_player` demonstrates the Strudel-inspired DSL API with a multi-channel arrangement (bass, wind, and chime layers) playing in real-time via Ebiten.
+
+```bash
+cd examples/ebiten_player
+go run .
+```
 
 ## CLI Raw Demo
 
-A simpler demo that renders audio to a file instead of playing it live. This is useful for CI/CD or environments without audio hardware.
+Renders a multi-channel arrangement (bass, lead, and percussion) to a raw PCM file. Useful for CI/CD or environments without audio hardware.
 
-1. **Run the demo**:
-   ```bash
-   go run examples/demo/main.go
-   ```
+```bash
+go run examples/demo/main.go
+ffplay -f s16le -ar 44100 -ac 2 output.raw
+```
 
-2. **Play the output**:
-   ```bash
-   ffplay -f s16le -ar 44100 -ac 2 output.raw
-   ```
+## Basic
+
+Renders a single DSL-defined note to a raw PCM file -- the simplest possible SpiceSynth usage.
+
+```bash
+go run examples/basic/main.go
+ffplay -f s16le -ar 44100 -ac 2 output.raw
+```

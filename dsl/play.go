@@ -3,6 +3,7 @@
 package dsl
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/jebbisson/spice-synth/sequencer"
@@ -43,13 +44,22 @@ func (p *Pattern) Play(s *stream.Stream, channel int) error {
 	// 4. Apply hardware flags.
 	p.applyHWFlags(inst, vm)
 
-	// 5. Build a sequencer pattern with the note and modulators.
-	seqPat, err := p.buildSeqPattern(inst, seq)
+	// 5. Apply velocity as a carrier level adjustment.
+	p.applyVelocity(inst)
+
+	// 6. Register the (possibly modified) instrument in the voice manager so
+	//    the sequencer can resolve it by name during event triggering.
+	//    Use a unique name for overridden instruments to avoid clashing with
+	//    the original bank entry.
+	instName := p.registerInstrument(vm, inst, channel)
+
+	// 7. Build a sequencer pattern with the note and modulators.
+	seqPat, err := p.buildSeqPattern(inst, instName, seq)
 	if err != nil {
 		return err
 	}
 
-	// 6. Assign pattern to channel.
+	// 8. Assign pattern to channel.
 	seq.SetPattern(channel, seqPat)
 
 	return nil
@@ -101,6 +111,65 @@ func (p *Pattern) defaultInstrument() *voice.Instrument {
 		Feedback:   0,
 		Connection: 0, // FM mode (though modulator is silent)
 	}
+}
+
+// registerInstrument registers the instrument in the voice manager and returns
+// the name under which it was registered. For instruments with DSL overrides
+// the name is made unique per-channel to avoid clobbering other patterns.
+func (p *Pattern) registerInstrument(vm *voice.Manager, inst *voice.Instrument, channel int) string {
+	name := inst.Name
+	// If the instrument was modified by DSL overrides (anything other than
+	// a plain bank lookup), give it a unique name so we don't mutate the
+	// shared bank entry.
+	if p.hasOverrides() {
+		name = fmt.Sprintf("_dsl_%s_ch%d", inst.Name, channel)
+		inst.Name = name
+	}
+	vm.LoadBank("dsl", []*voice.Instrument{inst})
+	return name
+}
+
+// hasOverrides returns true if the pattern has any DSL parameter overrides
+// that would have modified the resolved instrument.
+func (p *Pattern) hasOverrides() bool {
+	return p.attack.isPresent || p.decay.isPresent || p.sustain.isPresent ||
+		p.release.isPresent || p.sustained != nil ||
+		p.fm.isPresent || p.fmh.isPresent || p.fmAttack.isPresent ||
+		p.fmDecay.isPresent || p.fmSustain.isPresent ||
+		p.feedback.isPresent || p.conn != nil ||
+		p.carrierWF != nil || p.modWF != nil ||
+		p.hwTremolo != nil || p.hwVibrato != nil ||
+		p.gain.isPresent || p.velocity.isPresent
+}
+
+// ---------------------------------------------------------------------------
+// Velocity
+// ---------------------------------------------------------------------------
+
+// applyVelocity scales the carrier total level by the velocity value.
+// Velocity 1.0 = no change, 0.0 = silent. The velocity acts as a multiplier
+// on the carrier's output level (attenuation).
+func (p *Pattern) applyVelocity(inst *voice.Instrument) {
+	if !p.velocity.isPresent || p.velocity.isSignal {
+		return
+	}
+	vel := p.velocity.static
+	if vel <= 0 {
+		inst.Op2.Level = 63 // silent
+		return
+	}
+	if vel >= 1 {
+		return // no change
+	}
+	// Velocity scales the attenuation: more attenuation = quieter.
+	// Current level is the base attenuation. We add attenuation for lower velocity.
+	// Additional attenuation = (1 - vel) * 63
+	additional := uint8((1.0 - vel) * 63.0)
+	total := int(inst.Op2.Level) + int(additional)
+	if total > 63 {
+		total = 63
+	}
+	inst.Op2.Level = uint8(total)
 }
 
 // ---------------------------------------------------------------------------
@@ -321,11 +390,11 @@ func (p *Pattern) applyHWFlags(inst *voice.Instrument, _ *voice.Manager) {
 // Build sequencer pattern
 // ---------------------------------------------------------------------------
 
-func (p *Pattern) buildSeqPattern(inst *voice.Instrument, _ *sequencer.Sequencer) (*sequencer.Pattern, error) {
+func (p *Pattern) buildSeqPattern(inst *voice.Instrument, instName string, _ *sequencer.Sequencer) (*sequencer.Pattern, error) {
 	// Create a single-step pattern that plays the note immediately and holds.
 	// For Phase 1, patterns are single-note; multi-note patterns come in Phase 4.
 	seqPat := sequencer.NewPattern(64) // 64 steps, long enough for held notes
-	seqPat.Instrument(inst.Name)
+	seqPat.Instrument(instName)
 
 	// Parse and add the note.
 	noteStr := p.noteStr
@@ -338,17 +407,11 @@ func (p *Pattern) buildSeqPattern(inst *voice.Instrument, _ *sequencer.Sequencer
 		return nil, err
 	}
 
-	// We need to register the instrument in the voice manager, but we don't
-	// have direct access to LoadBank here. Instead, we add the note event
-	// using the raw frequency and rely on the caller having loaded the bank.
-	// However, since we may have modified the instrument, we need to register
-	// it. We'll handle this through a workaround — the note event stores
-	// both the note and instrument name.
 	seqPat.Events = append(seqPat.Events, sequencer.Event{
 		Step:       0,
 		Type:       sequencer.NoteOn,
 		Note:       voice.Note(freq),
-		Instrument: inst.Name,
+		Instrument: instName,
 	})
 
 	// Attach modulators from signal-valued parameters.
@@ -419,6 +482,7 @@ func (p *Pattern) PlayDirect(s *stream.Stream, channel int) error {
 	p.applyCarrierADSR(inst)
 	p.applyFMParams(inst)
 	p.applyHWFlags(inst, vm)
+	p.applyVelocity(inst)
 
 	// 3. Apply static gain as carrier level.
 	if p.gain.isPresent && !p.gain.isSignal {

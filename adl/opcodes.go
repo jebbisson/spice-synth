@@ -152,6 +152,7 @@ func (d *Driver) opcodeSetupProgram(ch *channel, p int) int {
 
 	progOffset := d.getProgram(int(progID))
 	if progOffset < 0 || progOffset+2 > d.soundDataSize {
+		d.trace("setupProgram: prog=%d INVALID (offset=%d)", progID, progOffset)
 		return 0
 	}
 
@@ -159,12 +160,15 @@ func (d *Driver) opcodeSetupProgram(ch *channel, p int) int {
 	priority := d.soundData[progOffset+1]
 
 	if chanNum > 9 {
+		d.trace("setupProgram: prog=%d INVALID chanNum=%d", progID, chanNum)
 		return 0
 	}
 
 	ch2 := &d.channels[chanNum]
 
 	if priority >= ch2.priority {
+		d.trace("setupProgram: prog=%d → ch%d (priority=%d, offset=%d)",
+			progID, chanNum, priority, progOffset+2)
 		// Backup the calling channel's dataptr.
 		backupDataptr := ch.dataptr
 
@@ -186,6 +190,9 @@ func (d *Driver) opcodeSetupProgram(ch *channel, p int) int {
 
 		// Restore the calling channel's dataptr.
 		ch.dataptr = backupDataptr
+	} else {
+		d.trace("setupProgram: prog=%d → ch%d REJECTED (priority=%d < existing=%d)",
+			progID, chanNum, priority, ch2.priority)
 	}
 
 	return 0
@@ -220,6 +227,7 @@ func (d *Driver) opcodeJump(ch *channel, p int) int {
 		ch.lock = true
 	}
 	if add < 0 {
+		d.trace("jump: ch%d backward (repeating) offset=%d", d.curChannel, add)
 		ch.repeating = true
 	}
 	return 0
@@ -266,6 +274,7 @@ func (d *Driver) opcodeSetBaseOctave(ch *channel, p int) int {
 }
 
 func (d *Driver) opcodeStopChannel(ch *channel) int {
+	d.trace("stopChannel: ch%d", d.curChannel)
 	ch.priority = 0
 	if d.curChannel != 9 {
 		d.noteOff(ch)
@@ -363,8 +372,10 @@ func (d *Driver) opcodeSetupInstrument(ch *channel, p int) int {
 	instID := int(d.soundData[p])
 	instOffset := d.getInstrument(instID)
 	if instOffset < 0 {
+		d.trace("setupInstrument: ch%d inst=%d INVALID (no data)", d.curChannel, instID)
 		return 0
 	}
+	d.trace("setupInstrument: ch%d inst=%d (offset=%d)", d.curChannel, instID, instOffset)
 	d.setupInstrument(d.curRegOffset, instOffset, ch)
 	return 0
 }
@@ -424,7 +435,9 @@ func (d *Driver) opcodeWaitForNextBeat(ch *channel, p int) int {
 }
 
 func (d *Driver) opcodeSetExtraLevel1(ch *channel, p int) int {
-	ch.opExtraLevel1 = d.soundData[p]
+	val := d.soundData[p]
+	d.trace("setExtraLevel1: ch%d value=0x%02X (was 0x%02X)", d.curChannel, val, ch.opExtraLevel1)
+	ch.opExtraLevel1 = val
 	d.adjustVolume(ch)
 	return 0
 }
@@ -469,7 +482,9 @@ func (d *Driver) opcodeSetChannelTempo(ch *channel, p int) int {
 }
 
 func (d *Driver) opcodeSetExtraLevel3(ch *channel, p int) int {
-	ch.opExtraLevel3 = d.soundData[p]
+	val := d.soundData[p]
+	d.trace("setExtraLevel3: ch%d value=0x%02X (was 0x%02X)", d.curChannel, val, ch.opExtraLevel3)
+	ch.opExtraLevel3 = val
 	return 0
 }
 
@@ -479,7 +494,9 @@ func (d *Driver) opcodeSetExtraLevel2(ch *channel, p int) int {
 		return 0
 	}
 	other := &d.channels[chanNum]
-	other.opExtraLevel2 = d.soundData[p+1]
+	val := d.soundData[p+1]
+	d.trace("setExtraLevel2: target=ch%d value=0x%02X (was 0x%02X, from ch%d)", chanNum, val, other.opExtraLevel2, d.curChannel)
+	other.opExtraLevel2 = val
 	// Temporarily switch context to adjust the other channel's volume.
 	saveCh := d.curChannel
 	saveReg := d.curRegOffset
@@ -499,7 +516,9 @@ func (d *Driver) opcodeChangeExtraLevel2(ch *channel, p int) int {
 		return 0
 	}
 	other := &d.channels[chanNum]
-	other.opExtraLevel2 += d.soundData[p+1]
+	delta := d.soundData[p+1]
+	d.trace("changeExtraLevel2: target=ch%d delta=0x%02X (was 0x%02X, from ch%d)", chanNum, delta, other.opExtraLevel2, d.curChannel)
+	other.opExtraLevel2 += delta
 	saveCh := d.curChannel
 	saveReg := d.curRegOffset
 	d.curChannel = chanNum
@@ -535,7 +554,9 @@ func (d *Driver) opcodeSetVibratoDepth(ch *channel, p int) int {
 }
 
 func (d *Driver) opcodeChangeExtraLevel1(ch *channel, p int) int {
-	ch.opExtraLevel1 += d.soundData[p]
+	delta := d.soundData[p]
+	d.trace("changeExtraLevel1: ch%d delta=0x%02X (was 0x%02X)", d.curChannel, delta, ch.opExtraLevel1)
+	ch.opExtraLevel1 += delta
 	d.adjustVolume(ch)
 	return 0
 }
@@ -640,6 +661,8 @@ func (d *Driver) opcodeSetupRhythmSection(ch *channel, p int) int {
 	instBD := int(d.soundData[p])
 	instHH := int(d.soundData[p+1])
 	instSD := int(d.soundData[p+2])
+
+	d.trace("setupRhythmSection: BD=inst%d, HH=inst%d, SD=inst%d", instBD, instHH, instSD)
 
 	// Set up bass drum on channel 6.
 	bdOff := d.getInstrument(instBD)

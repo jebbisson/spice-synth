@@ -240,6 +240,14 @@ func (p *Player) Read(b []byte) (int, error) {
 	return totalFrames * 4, nil
 }
 
+// SetTraceFunc sets a trace callback for debugging the bytecode driver.
+// The callback receives printf-style format strings. Set to nil to disable.
+func (p *Player) SetTraceFunc(fn func(format string, args ...interface{})) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.driver.TraceFunc = fn
+}
+
 // Ensure Player implements io.Reader.
 var _ io.Reader = (*Player)(nil)
 
