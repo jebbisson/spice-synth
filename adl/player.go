@@ -146,6 +146,21 @@ func (p *Player) SetGain(g float64) {
 	p.gain = g
 }
 
+// SetSoloChannel masks audio output to a single OPL channel. Pass -1 to hear
+// the full mix.
+func (p *Player) SetSoloChannel(ch int) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.opl.SetSoloChannel(ch)
+}
+
+// SoloChannel returns the currently audible solo channel, or -1 for full mix.
+func (p *Player) SoloChannel() int {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return p.opl.SoloChannel()
+}
+
 // Close releases all resources. The Player must not be used after calling Close.
 func (p *Player) Close() {
 	p.mu.Lock()
@@ -195,8 +210,8 @@ func (p *Player) Read(b []byte) (int, error) {
 			n = framesLeft
 		}
 
-		// Generate OPL audio.
-		samples, err := p.opl.GenerateSamples(n)
+		// Generate OPL audio and capture per-channel output levels for this block.
+		samples, _, err := p.opl.GenerateSamplesWithMeters(n)
 		if err != nil {
 			return byteOffset, err
 		}
@@ -246,6 +261,13 @@ func (p *Player) SetTraceFunc(fn func(format string, args ...interface{})) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	p.driver.TraceFunc = fn
+}
+
+// ChannelStates returns a coherent snapshot of the current driver channels.
+func (p *Player) ChannelStates() []ChannelState {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return p.driver.SnapshotChannels()
 }
 
 // Ensure Player implements io.Reader.

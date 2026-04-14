@@ -18,6 +18,9 @@ type channel struct {
 	lock      bool
 	repeating bool
 
+	currentInstrumentID int
+	currentNoteDuration uint8
+
 	opExtraLevel2 uint8
 
 	dataptr         int // Offset into Driver.soundData; -1 = inactive.
@@ -145,6 +148,30 @@ type Driver struct {
 	sfxVelocity uint8
 }
 
+// ChannelState is a read-only snapshot of one ADL driver channel.
+type ChannelState struct {
+	Channel            int
+	BytecodeActive     bool
+	KeyOn              bool
+	Repeating          bool
+	Releasing          bool
+	ControlChannel     bool
+	InstrumentID       int
+	RawNote            uint8
+	Note               string
+	FrequencyHz        float64
+	Duration           uint8
+	InitialDuration    uint8
+	Spacing1           uint8
+	Spacing2           uint8
+	VolumeModifier     uint8
+	OutputLevel        float64
+	CarrierLevel       uint8
+	ModulatorLevel     uint8
+	TwoOperatorCarrier bool
+	Dataptr            int
+}
+
 // NewDriver creates a new ADL bytecode driver attached to the given OPL3 chip.
 func NewDriver(opl *chip.OPL3) *Driver {
 	d := &Driver{
@@ -162,6 +189,7 @@ func NewDriver(opl *chip.OPL3) *Driver {
 	}
 	for i := range d.channels {
 		d.channels[i].dataptr = -1
+		d.channels[i].currentInstrumentID = -1
 	}
 	return d
 }
@@ -291,7 +319,9 @@ func (d *Driver) getInstrument(instID int) int {
 }
 
 func (d *Driver) writeOPL(reg, val uint8) {
-	d.opl.WriteRegister(0, reg, val)
+	// ADL playback depends on buffered OPL writes for correct timing on dense,
+	// repeated-note passages. See fixes/2026-04-13-adl-buffered-opl-writes.md.
+	d.opl.WriteRegisterBuffered(0, reg, val)
 }
 
 func (d *Driver) resetAdLibState() {
@@ -316,6 +346,7 @@ func (d *Driver) initChannel(ch *channel) {
 	backupEL2 := ch.opExtraLevel2
 	*ch = channel{}
 	ch.dataptr = -1
+	ch.currentInstrumentID = -1
 	ch.opExtraLevel2 = backupEL2
 	ch.tempo = 0xFF
 	ch.spacing1 = 1
@@ -360,14 +391,58 @@ func (d *Driver) getRandomNr() uint16 {
 }
 
 func (d *Driver) setupDuration(duration uint8, ch *channel) {
+	ch.currentNoteDuration = duration
 	if ch.durationRandomness != 0 {
 		ch.duration = duration + uint8(d.getRandomNr()&uint16(ch.durationRandomness))
+		ch.currentNoteDuration = ch.duration
 		return
 	}
 	if ch.fractionalSpacing != 0 {
 		ch.spacing2 = (duration >> 3) * ch.fractionalSpacing
 	}
 	ch.duration = duration
+}
+
+// SnapshotChannels returns a read-only view of all 10 driver channels.
+func (d *Driver) SnapshotChannels() []ChannelState {
+	states := make([]ChannelState, len(d.channels))
+	for i := range d.channels {
+		ch := &d.channels[i]
+		keyOn := ch.regBx&0x20 != 0
+		carrier := d.calculateOpLevel2(ch) & 0x3F
+		modulator := d.calculateOpLevel1(ch) & 0x3F
+
+		states[i] = ChannelState{
+			Channel:            i,
+			BytecodeActive:     ch.dataptr >= 0,
+			KeyOn:              keyOn,
+			Repeating:          ch.repeating,
+			Releasing:          ch.dataptr >= 0 && !keyOn && ch.duration > 0,
+			ControlChannel:     i == 9,
+			InstrumentID:       ch.currentInstrumentID,
+			RawNote:            ch.rawNote,
+			Note:               channelNoteName(ch),
+			FrequencyHz:        regToFreq(ch.regAx, ch.regBx),
+			Duration:           ch.duration,
+			InitialDuration:    ch.currentNoteDuration,
+			Spacing1:           ch.spacing1,
+			Spacing2:           ch.spacing2,
+			VolumeModifier:     ch.volumeModifier,
+			OutputLevel:        d.opl.ChannelMeter(i),
+			CarrierLevel:       carrier,
+			ModulatorLevel:     modulator,
+			TwoOperatorCarrier: ch.twoChan != 0,
+			Dataptr:            ch.dataptr,
+		}
+	}
+	return states
+}
+
+func channelNoteName(ch *channel) string {
+	if ch.regBx&0x20 == 0 {
+		return ""
+	}
+	return freqToNoteName(regToFreq(ch.regAx, ch.regBx))
 }
 
 func (d *Driver) setupNote(rawNote uint8, ch *channel, flag bool) {
@@ -472,6 +547,13 @@ func (d *Driver) noteOn(ch *channel) {
 		return
 	}
 	d.trace("noteOn: ch%d rawNote=0x%02X regAx=0x%02X regBx=0x%02X", d.curChannel, ch.rawNote, ch.regAx, ch.regBx)
+	d.writeOPL(0xA0+uint8(d.curChannel), ch.regAx)
+	if ch.regBx&0x20 != 0 {
+		// Rapid repeated notes on the same pitch must retrigger the envelope,
+		// which requires a key-off pulse before asserting key-on again.
+		withoutKeyOn := ch.regBx &^ 0x20
+		d.writeOPL(0xB0+uint8(d.curChannel), withoutKeyOn)
+	}
 	ch.regBx |= 0x20
 	d.writeOPL(0xB0+uint8(d.curChannel), ch.regBx)
 

@@ -85,7 +85,7 @@ func NewManager(c *chip.OPL3, sampleRate int) *Manager {
 	// Enable waveform select (register 0x01 bit 5). Without this, all
 	// operators are limited to pure sine regardless of the Waveform field.
 	if c != nil {
-		c.WriteRegister(0, 0x01, 0x20)
+		c.WriteRegisterBuffered(0, 0x01, 0x20)
 	}
 
 	return m
@@ -101,11 +101,12 @@ func (m *Manager) NoteOn(channelID int, note Note, inst *Instrument) error {
 	}
 
 	ch := m.channels[channelID]
+	retrigger := ch.active
 	ch.currentNote = note
 	ch.currentInst = inst
 	ch.active = true
 
-	m.applyInstrument(ch, inst)
+	m.applyInstrument(ch, inst, retrigger)
 	return nil
 }
 
@@ -120,12 +121,12 @@ func (m *Manager) NoteOff(channelID int) error {
 	// Clear the key-on bit (bit 5) in register 0xB0+channel to release the note.
 	cid := uint8(ch.id)
 	fnum, block := FNumberAndBlock(float64(ch.currentNote))
-	m.chip.WriteRegister(0, 0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03))
+	m.writeRegister(0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03))
 
 	return nil
 }
 
-func (m *Manager) applyInstrument(ch *channel, inst *Instrument) {
+func (m *Manager) applyInstrument(ch *channel, inst *Instrument, retrigger bool) {
 	if ch.currentNote == 0 && !ch.active {
 		return
 	}
@@ -140,36 +141,42 @@ func (m *Manager) applyInstrument(ch *channel, inst *Instrument) {
 	m.writeOperatorAMVIB(0x20+carOff, &inst.Op2)
 
 	// Register 0x40+offset: KSL/Total Level (attenuation)
-	m.chip.WriteRegister(0, 0x40+modOff, (inst.Op1.KeyScaleLevel<<6)|inst.Op1.Level)
-	m.chip.WriteRegister(0, 0x40+carOff, (inst.Op2.KeyScaleLevel<<6)|inst.Op2.Level)
+	m.writeRegister(0x40+modOff, (inst.Op1.KeyScaleLevel<<6)|inst.Op1.Level)
+	m.writeRegister(0x40+carOff, (inst.Op2.KeyScaleLevel<<6)|inst.Op2.Level)
 
 	// Register 0x60+offset: Attack/Decay
-	m.chip.WriteRegister(0, 0x60+modOff, (inst.Op1.Attack<<4)|inst.Op1.Decay)
-	m.chip.WriteRegister(0, 0x60+carOff, (inst.Op2.Attack<<4)|inst.Op2.Decay)
+	m.writeRegister(0x60+modOff, (inst.Op1.Attack<<4)|inst.Op1.Decay)
+	m.writeRegister(0x60+carOff, (inst.Op2.Attack<<4)|inst.Op2.Decay)
 
 	// Register 0x80+offset: Sustain/Release
-	m.chip.WriteRegister(0, 0x80+modOff, (inst.Op1.Sustain<<4)|inst.Op1.Release)
-	m.chip.WriteRegister(0, 0x80+carOff, (inst.Op2.Sustain<<4)|inst.Op2.Release)
+	m.writeRegister(0x80+modOff, (inst.Op1.Sustain<<4)|inst.Op1.Release)
+	m.writeRegister(0x80+carOff, (inst.Op2.Sustain<<4)|inst.Op2.Release)
 
 	// Register 0xE0+offset: Waveform Select
-	m.chip.WriteRegister(0, 0xE0+modOff, inst.Op1.Waveform&0x03)
-	m.chip.WriteRegister(0, 0xE0+carOff, inst.Op2.Waveform&0x03)
+	m.writeRegister(0xE0+modOff, inst.Op1.Waveform&0x03)
+	m.writeRegister(0xE0+carOff, inst.Op2.Waveform&0x03)
 
 	// 2. Set Channel-level parameters (Feedback and Connection)
 	connBit := uint8(0)
 	if inst.Connection != 0 {
 		connBit = 1
 	}
-	m.chip.WriteRegister(0, 0xC0+cid, (inst.Feedback<<1)|connBit)
+	m.writeRegister(0xC0+cid, (inst.Feedback<<1)|connBit)
 
 	// 3. Set Frequency and Key-On
 	fnum, block := FNumberAndBlock(float64(ch.currentNote))
-	m.chip.WriteRegister(0, 0xA0+cid, uint8(fnum&0xFF))
+	m.writeRegister(0xA0+cid, uint8(fnum&0xFF))
 
 	if ch.active {
-		m.chip.WriteRegister(0, 0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03)|0x20)
+		b0 := uint8(block<<2) | uint8((fnum>>8)&0x03)
+		if retrigger {
+			// Repeated note-ons on the same channel must pulse key-off before
+			// key-on again so extracted ADL beats keep their attack thump.
+			m.writeRegister(0xB0+cid, b0)
+		}
+		m.writeRegister(0xB0+cid, b0|0x20)
 	} else {
-		m.chip.WriteRegister(0, 0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03))
+		m.writeRegister(0xB0+cid, uint8(block<<2)|uint8((fnum>>8)&0x03))
 	}
 }
 
@@ -188,7 +195,12 @@ func (m *Manager) writeOperatorAMVIB(reg uint8, op *Operator) {
 	if op.Tremolo {
 		val |= 0x80
 	}
-	m.chip.WriteRegister(0, reg, val)
+	m.writeRegister(reg, val)
+}
+
+func (m *Manager) writeRegister(reg uint8, val uint8) {
+	// Keep DSL/stream playback on the same buffered OPL timing path as ADL.
+	m.chip.WriteRegisterBuffered(0, reg, val)
 }
 
 // GetInstrument retrieves an instrument by name from the manager's bank.
@@ -245,7 +257,7 @@ func (m *Manager) SetLevel(channelID int, op int, level uint8) error {
 		}
 	}
 
-	m.chip.WriteRegister(0, 0x40+off, (ksl<<6)|level)
+	m.writeRegister(0x40+off, (ksl<<6)|level)
 	return nil
 }
 
@@ -260,12 +272,12 @@ func (m *Manager) SetFrequency(channelID int, note Note) error {
 	cid := uint8(ch.id)
 	fnum, block := FNumberAndBlock(float64(note))
 
-	m.chip.WriteRegister(0, 0xA0+cid, uint8(fnum&0xFF))
+	m.writeRegister(0xA0+cid, uint8(fnum&0xFF))
 	b0 := uint8(block<<2) | uint8((fnum>>8)&0x03)
 	if ch.active {
 		b0 |= 0x20 // preserve key-on
 	}
-	m.chip.WriteRegister(0, 0xB0+cid, b0)
+	m.writeRegister(0xB0+cid, b0)
 	return nil
 }
 
@@ -286,7 +298,7 @@ func (m *Manager) SetFeedback(channelID int, fb uint8) error {
 	if ch.currentInst != nil && ch.currentInst.Connection != 0 {
 		connBit = 1
 	}
-	m.chip.WriteRegister(0, 0xC0+cid, (fb<<1)|connBit)
+	m.writeRegister(0xC0+cid, (fb<<1)|connBit)
 	return nil
 }
 
@@ -311,7 +323,7 @@ func (m *Manager) writeGlobalBD(deepTremolo, deepVibrato bool) {
 	if deepVibrato {
 		val |= 0x40
 	}
-	m.chip.WriteRegister(0, 0xBD, val)
+	m.writeRegister(0xBD, val)
 }
 
 // ---------------------------------------------------------------------------
@@ -403,7 +415,7 @@ func (m *Manager) applyModValue(ch *channel, target ModTarget, val float64) {
 		if ch.currentInst != nil {
 			ksl = ch.currentInst.Op2.KeyScaleLevel
 		}
-		m.chip.WriteRegister(0, 0x40+off, (ksl<<6)|level)
+		m.writeRegister(0x40+off, (ksl<<6)|level)
 
 	case ModModulatorLevel:
 		level := uint8((1.0 - val) * 63.0)
@@ -419,7 +431,7 @@ func (m *Manager) applyModValue(ch *channel, target ModTarget, val float64) {
 		if ch.currentInst != nil {
 			ksl = ch.currentInst.Op1.KeyScaleLevel
 		}
-		m.chip.WriteRegister(0, 0x40+off, (ksl<<6)|level)
+		m.writeRegister(0x40+off, (ksl<<6)|level)
 
 	case ModFeedback:
 		// 0.0 → feedback 0, 1.0 → feedback 7.
@@ -431,7 +443,7 @@ func (m *Manager) applyModValue(ch *channel, target ModTarget, val float64) {
 		if ch.currentInst != nil && ch.currentInst.Connection != 0 {
 			connBit = 1
 		}
-		m.chip.WriteRegister(0, 0xC0+cid, (fb<<1)|connBit)
+		m.writeRegister(0xC0+cid, (fb<<1)|connBit)
 
 	case ModFrequency:
 		// val 0.5 = base pitch (no change), 0.0 = -1 octave, 1.0 = +1 octave.
@@ -447,11 +459,11 @@ func (m *Manager) applyModValue(ch *channel, target ModTarget, val float64) {
 		}
 		newFreq := baseFreq * ratio
 		fnum, block := FNumberAndBlock(newFreq)
-		m.chip.WriteRegister(0, 0xA0+cid, uint8(fnum&0xFF))
+		m.writeRegister(0xA0+cid, uint8(fnum&0xFF))
 		b0 := uint8(block<<2) | uint8((fnum>>8)&0x03)
 		if ch.active {
 			b0 |= 0x20
 		}
-		m.chip.WriteRegister(0, 0xB0+cid, b0)
+		m.writeRegister(0xB0+cid, b0)
 	}
 }

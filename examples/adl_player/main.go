@@ -28,6 +28,7 @@ import (
 	"runtime"
 	"sort"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -38,7 +39,12 @@ import (
 	"github.com/jebbisson/spice-synth/adl"
 )
 
-const sampleRate = 44100
+const (
+	sampleRate   = 44100
+	windowWidth  = 920
+	windowHeight = 760
+	maxPartRows  = 14
+)
 
 // DebugStream wraps an adl.Player to monitor audio data flow.
 type DebugStream struct {
@@ -80,6 +86,24 @@ func (d *DebugStream) getBytesRead() int64 {
 	return d.TotalBytesRead
 }
 
+type partView struct {
+	InstrumentID    int
+	Note            string
+	RawVolume       float64
+	DisplayVolume   float64
+	Remaining       float64
+	RemainingMin    float64
+	RemainingMax    float64
+	Voices          int
+	Channels        []int
+	Releasing       int
+	KeyOnCount      int
+	StrongestVolume float64
+	Summary         string
+	VariantSummary  string
+	SortKey         string
+}
+
 // Game implements the ebiten.Game interface.
 type Game struct {
 	ds      *DebugStream
@@ -87,18 +111,18 @@ type Game struct {
 	status  string
 	tickCnt int
 
-	// File management.
-	adlFiles []string // sorted list of ADL file paths
-	fileIdx  int      // current index into adlFiles
-	fileName string   // display name of current file
+	adlFiles []string
+	fileIdx  int
+	fileName string
 
-	// Subsong navigation (filtered to non-empty slots only).
-	subsongs   []adl.SubsongInfo // non-empty subsongs for current file
-	subsongIdx int               // current index into subsongs slice
+	subsongs   []adl.SubsongInfo
+	subsongIdx int
+
+	parts       []partView
+	soloChannel int
 }
 
 func (g *Game) Update() error {
-	// Handle input.
 	if inpututil.IsKeyJustPressed(ebiten.KeyQ) || inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		return ebiten.Termination
 	}
@@ -140,7 +164,6 @@ func (g *Game) Update() error {
 		}
 	}
 
-	// File switching with Up/Down.
 	if len(g.adlFiles) > 1 {
 		if inpututil.IsKeyJustPressed(ebiten.KeyUp) {
 			g.fileIdx--
@@ -158,59 +181,50 @@ func (g *Game) Update() error {
 		}
 	}
 
-	// Update status display.
+	g.updateSoloChannel()
+
+	g.parts = buildPartViews(g.player.ChannelStates())
+
 	g.tickCnt++
-	if g.tickCnt%15 == 0 {
-		state := g.player.GetState()
-		stateStr := "STOPPED"
-		switch state {
-		case adl.StatePlaying:
-			stateStr = "PLAYING"
-		case adl.StatePaused:
-			stateStr = "PAUSED"
-		case adl.StateDone:
-			stateStr = "DONE"
-		}
-
-		info := g.currentSubsongInfo()
-		typeLabel := info.Type.String()
-
-		g.status = fmt.Sprintf(
-			"SpiceSynth ADL Player\n\n"+
-				"File: %s\n"+
-				"[%s] Subsong: %d (%s) [%d/%d]\n"+
-				"Volume: %.0f%% | Read: %d KB\n\n"+
-				"Controls:\n"+
-				"  Left/Right: prev/next subsong\n"+
-				"  Up/Down:    prev/next file\n"+
-				"  Space:      pause/resume\n"+
-				"  R:          restart | Q: quit",
-			g.fileName, stateStr,
-			info.Index, typeLabel, g.subsongIdx+1, len(g.subsongs),
-			g.ds.getVolume()*100,
-			g.ds.getBytesRead()/1024,
-		)
+	if g.tickCnt%10 == 0 {
+		g.status = g.buildStatus()
 	}
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, g.status)
+	screen.Fill(color.RGBA{12, 14, 18, 255})
+	ebitenutil.DebugPrintAt(screen, g.status, 16, 16)
 
-	// Volume bar.
-	barWidth := int(g.ds.getVolume() * 280)
-	if barWidth > 280 {
-		barWidth = 280
-	}
-	for y := 55; y < 60; y++ {
-		for x := 20; x < 20+barWidth; x++ {
-			screen.Set(x, y, color.RGBA{0, 255, 0, 255})
+	masterVolume := g.ds.getVolume()
+	drawMeter(screen, 16, 110, 360, 12, masterVolume, color.RGBA{72, 220, 120, 255}, color.RGBA{36, 52, 42, 255})
+	ebitenutil.DebugPrintAt(screen, "Master Output", 16, 92)
+
+	headY := 146
+	ebitenutil.DebugPrintAt(screen, "Active Parts grouped by instrument + note", 16, headY)
+	ebitenutil.DebugPrintAt(screen, "Each row merges matching note/instrument voices and lists contributing channels.", 16, headY+16)
+
+	rowTop := headY + 44
+	rowHeight := 38
+	for i, part := range g.parts {
+		if i >= maxPartRows {
+			break
 		}
+		y := rowTop + i*rowHeight
+		drawPartRow(screen, y, part, g.soloChannel)
+	}
+
+	if len(g.parts) == 0 {
+		ebitenutil.DebugPrintAt(screen, "No active melodic parts yet. Wait for playback to trigger voices.", 16, rowTop)
+	}
+
+	if len(g.parts) > maxPartRows {
+		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("... %d more parts not shown", len(g.parts)-maxPartRows), 16, rowTop+maxPartRows*rowHeight+6)
 	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return 320, 240
+	return windowWidth, windowHeight
 }
 
 func (g *Game) loadFile(path string) {
@@ -234,14 +248,11 @@ func (g *Game) loadFile(path string) {
 	g.ds.player = g.player
 	g.fileName = filepath.Base(path)
 
-	// Build filtered subsong list.
 	g.subsongs = af.NonEmptySubsongs()
 	if len(g.subsongs) == 0 {
-		// Fallback: include all subsongs if none are non-empty.
 		g.subsongs = af.ClassifySubsongs()
 	}
 
-	// Default to first music subsong, or first non-empty.
 	g.subsongIdx = 0
 	for i, info := range g.subsongs {
 		if info.Type == adl.SubsongMusic {
@@ -258,7 +269,6 @@ func (g *Game) loadFile(path string) {
 		g.currentSubsongIndex(), g.currentSubsongInfo().Type)
 }
 
-// currentSubsongIndex returns the real subsong index for the current filtered position.
 func (g *Game) currentSubsongIndex() int {
 	if g.subsongIdx < 0 || g.subsongIdx >= len(g.subsongs) {
 		return 0
@@ -266,7 +276,6 @@ func (g *Game) currentSubsongIndex() int {
 	return g.subsongs[g.subsongIdx].Index
 }
 
-// currentSubsongInfo returns the SubsongInfo for the current filtered position.
 func (g *Game) currentSubsongInfo() adl.SubsongInfo {
 	if g.subsongIdx < 0 || g.subsongIdx >= len(g.subsongs) {
 		return adl.SubsongInfo{}
@@ -274,7 +283,239 @@ func (g *Game) currentSubsongInfo() adl.SubsongInfo {
 	return g.subsongs[g.subsongIdx]
 }
 
-// findADLFiles scans a directory for .ADL files and returns them sorted.
+func (g *Game) buildStatus() string {
+	state := g.player.GetState()
+	stateStr := "STOPPED"
+	switch state {
+	case adl.StatePlaying:
+		stateStr = "PLAYING"
+	case adl.StatePaused:
+		stateStr = "PAUSED"
+	case adl.StateDone:
+		stateStr = "DONE"
+	}
+
+	info := g.currentSubsongInfo()
+	typeLabel := info.Type.String()
+	activeVoices := 0
+	for _, part := range g.parts {
+		activeVoices += part.Voices
+	}
+
+	soloStr := "all"
+	if g.soloChannel >= 0 {
+		soloStr = fmt.Sprintf("ch%d", g.soloChannel)
+	}
+
+	return fmt.Sprintf(
+		"SpiceSynth ADL Player\n\n"+
+			"File: %s\n"+
+			"[%s] Subsong: %d (%s) [%d/%d]\n"+
+			"Master: %.0f%% | Active parts: %d | Voices: %d | Solo: %s | Read: %d KB\n\n"+
+			"Controls: hold 0-9 solo channel | Left/Right subsong | Up/Down file | Space pause | R restart | Q quit",
+		g.fileName,
+		stateStr,
+		info.Index,
+		typeLabel,
+		g.subsongIdx+1,
+		len(g.subsongs),
+		g.ds.getVolume()*100,
+		len(g.parts),
+		activeVoices,
+		soloStr,
+		g.ds.getBytesRead()/1024,
+	)
+}
+
+func (g *Game) updateSoloChannel() {
+	solo := heldSoloChannel()
+	if solo == g.soloChannel {
+		return
+	}
+	g.soloChannel = solo
+	g.player.SetSoloChannel(solo)
+}
+
+func drawPartRow(screen *ebiten.Image, y int, part partView, soloChannel int) {
+	highlighted := soloChannel < 0 || containsChannel(part.Channels, soloChannel)
+	lineColor := color.RGBA{42, 48, 58, 255}
+	textColor := color.RGBA{255, 255, 255, 255}
+	volFill := color.RGBA{100, 210, 255, 255}
+	timeFill := color.RGBA{255, 186, 79, 255}
+	volBg := color.RGBA{30, 48, 60, 255}
+	timeBg := color.RGBA{60, 48, 20, 255}
+	if !highlighted {
+		lineColor = color.RGBA{28, 31, 38, 255}
+		textColor = color.RGBA{168, 172, 180, 255}
+		volFill = color.RGBA{52, 86, 104, 255}
+		timeFill = color.RGBA{110, 84, 40, 255}
+		volBg = color.RGBA{20, 28, 34, 255}
+		timeBg = color.RGBA{34, 29, 18, 255}
+	}
+	for x := 16; x < windowWidth-16; x++ {
+		screen.Set(x, y-4, lineColor)
+	}
+
+	label := fmt.Sprintf("inst %03d  %-4s  x%d  ch:%s", part.InstrumentID, part.Note, part.Voices, joinChannels(part.Channels))
+	if part.Releasing > 0 {
+		label += fmt.Sprintf("  rel:%d", part.Releasing)
+	}
+	drawText(screen, 16, y, label, textColor)
+	drawText(screen, 330, y, part.Summary, textColor)
+	drawText(screen, 650, y, part.VariantSummary, textColor)
+
+	drawMeter(screen, 24, y+18, 300, 8, part.DisplayVolume, volFill, volBg)
+	drawMeter(screen, 340, y+18, 300, 8, part.Remaining, timeFill, timeBg)
+	drawText(screen, 24, y+24, fmt.Sprintf("vol %3.0f%% raw %4.1f%%", part.DisplayVolume*100, part.RawVolume*100), textColor)
+	drawText(screen, 340, y+24, fmt.Sprintf("time %3.0f%%", part.Remaining*100), textColor)
+}
+
+func drawMeter(screen *ebiten.Image, x, y, width, height int, value float64, fill, bg color.RGBA) {
+	if value < 0 {
+		value = 0
+	}
+	if value > 1 {
+		value = 1
+	}
+	for py := 0; py < height; py++ {
+		for px := 0; px < width; px++ {
+			screen.Set(x+px, y+py, bg)
+		}
+	}
+	filled := int(value * float64(width))
+	for py := 0; py < height; py++ {
+		for px := 0; px < filled; px++ {
+			screen.Set(x+px, y+py, fill)
+		}
+	}
+}
+
+func drawText(screen *ebiten.Image, x, y int, msg string, clr color.Color) {
+	_ = clr
+	ebitenutil.DebugPrintAt(screen, msg, x, y)
+}
+
+func containsChannel(channels []int, target int) bool {
+	for _, ch := range channels {
+		if ch == target {
+			return true
+		}
+	}
+	return false
+}
+
+func compareChannels(a, b []int) int {
+	limit := len(a)
+	if len(b) < limit {
+		limit = len(b)
+	}
+	for i := 0; i < limit; i++ {
+		if a[i] < b[i] {
+			return -1
+		}
+		if a[i] > b[i] {
+			return 1
+		}
+	}
+	if len(a) < len(b) {
+		return -1
+	}
+	if len(a) > len(b) {
+		return 1
+	}
+	return 0
+}
+
+func buildPartViews(states []adl.ChannelState) []partView {
+	parts := map[string]*partView{}
+	for _, st := range states {
+		if st.ControlChannel || st.InstrumentID < 0 {
+			continue
+		}
+		if !st.BytecodeActive && !st.KeyOn {
+			continue
+		}
+
+		note := st.Note
+		if note == "" {
+			note = "rel"
+		}
+		key := fmt.Sprintf("%03d:%s", st.InstrumentID, note)
+		part := parts[key]
+		if part == nil {
+			part = &partView{
+				InstrumentID: st.InstrumentID,
+				Note:         note,
+				RemainingMin: 1,
+				SortKey:      key,
+			}
+			parts[key] = part
+		}
+
+		part.Voices++
+		part.Channels = append(part.Channels, st.Channel)
+		part.RawVolume += st.OutputLevel
+		part.StrongestVolume = max(part.StrongestVolume, st.OutputLevel)
+		if st.KeyOn {
+			part.KeyOnCount++
+		}
+		if st.Releasing {
+			part.Releasing++
+		}
+
+		remaining := 0.0
+		if st.InitialDuration > 0 {
+			remaining = float64(st.Duration) / float64(st.InitialDuration)
+		}
+		if st.OutputLevel >= part.StrongestVolume {
+			part.Remaining = remaining
+		}
+		if remaining < part.RemainingMin {
+			part.RemainingMin = remaining
+		}
+		if remaining > part.RemainingMax {
+			part.RemainingMax = remaining
+		}
+	}
+
+	result := make([]partView, 0, len(parts))
+	for _, part := range parts {
+		sort.Ints(part.Channels)
+		if part.Voices > 0 {
+			if part.RemainingMax == 0 && part.RemainingMin == 1 {
+				part.RemainingMin = 0
+			}
+		}
+		part.RawVolume = clamp01(part.RawVolume)
+		part.DisplayVolume = scalePartMeter(part.RawVolume)
+		part.Summary = fmt.Sprintf("keyOn:%d peak:%3.0f%% rem:%3.0f-%3.0f%%", part.KeyOnCount, part.StrongestVolume*100, part.RemainingMin*100, part.RemainingMax*100)
+		part.VariantSummary = fmt.Sprintf("variants:%d dom:%3.0f%%", part.Voices, part.Remaining*100)
+		result = append(result, *part)
+	}
+
+	sort.Slice(result, func(i, j int) bool {
+		if cmp := compareChannels(result[i].Channels, result[j].Channels); cmp != 0 {
+			return cmp < 0
+		}
+		if math.Abs(result[i].RawVolume-result[j].RawVolume) > 0.001 {
+			return result[i].RawVolume > result[j].RawVolume
+		}
+		if result[i].InstrumentID != result[j].InstrumentID {
+			return result[i].InstrumentID < result[j].InstrumentID
+		}
+		return result[i].SortKey < result[j].SortKey
+	})
+	return result
+}
+
+func joinChannels(channels []int) string {
+	parts := make([]string, len(channels))
+	for i, ch := range channels {
+		parts[i] = strconv.Itoa(ch)
+	}
+	return strings.Join(parts, ",")
+}
+
 func findADLFiles(dir string) []string {
 	entries, err := os.ReadDir(dir)
 	if err != nil {
@@ -290,10 +531,60 @@ func findADLFiles(dir string) []string {
 	return files
 }
 
+func heldSoloChannel() int {
+	keys := []struct {
+		key ebiten.Key
+		ch  int
+	}{
+		{ebiten.Key0, 0},
+		{ebiten.Key1, 1},
+		{ebiten.Key2, 2},
+		{ebiten.Key3, 3},
+		{ebiten.Key4, 4},
+		{ebiten.Key5, 5},
+		{ebiten.Key6, 6},
+		{ebiten.Key7, 7},
+		{ebiten.Key8, 8},
+		{ebiten.Key9, 9},
+	}
+	for _, item := range keys {
+		if ebiten.IsKeyPressed(item.key) {
+			return item.ch
+		}
+	}
+	return -1
+}
+
+func max(a, b float64) float64 {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func clamp01(v float64) float64 {
+	if v < 0 {
+		return 0
+	}
+	if v > 1 {
+		return 1
+	}
+	return v
+}
+
+func scalePartMeter(raw float64) float64 {
+	raw = clamp01(raw)
+	if raw == 0 {
+		return 0
+	}
+	// ADL channel output is much quieter per voice than the mixed master meter,
+	// so boost and curve it for readability without changing the underlying data.
+	return clamp01(math.Pow(raw*12, 0.55))
+}
+
 func main() {
-	// Parse args.
 	adlPath := "../adl/DUNE1.ADL"
-	startSubsong := -1 // -1 = auto-select first music track
+	startSubsong := -1
 	if len(os.Args) > 1 {
 		adlPath = os.Args[1]
 	}
@@ -306,7 +597,6 @@ func main() {
 	fmt.Println("--- SpiceSynth ADL Player ---")
 	fmt.Printf("Host OS/Arch: %s/%s\n", runtime.GOOS, runtime.GOARCH)
 
-	// Parse the ADL file.
 	f, err := os.Open(adlPath)
 	if err != nil {
 		log.Fatalf("failed to open ADL file: %v", err)
@@ -318,7 +608,6 @@ func main() {
 		log.Fatalf("failed to parse ADL file: %v", err)
 	}
 
-	// Build filtered subsong list.
 	subsongs := af.NonEmptySubsongs()
 	if len(subsongs) == 0 {
 		subsongs = af.ClassifySubsongs()
@@ -327,10 +616,8 @@ func main() {
 	fmt.Printf("Loaded %s: v%d, %d programs, %d subsongs (%d non-empty)\n",
 		filepath.Base(adlPath), af.Version, af.NumPrograms, af.NumSubsongs, len(subsongs))
 
-	// Determine starting subsong index into the filtered list.
 	subsongIdx := 0
 	if startSubsong >= 0 {
-		// User specified a raw subsong number — find it in the filtered list.
 		for i, info := range subsongs {
 			if info.Index == startSubsong {
 				subsongIdx = i
@@ -338,7 +625,6 @@ func main() {
 			}
 		}
 	} else {
-		// Auto-select first music track.
 		for i, info := range subsongs {
 			if info.Type == adl.SubsongMusic {
 				subsongIdx = i
@@ -347,13 +633,11 @@ func main() {
 		}
 	}
 
-	// Create player.
 	p := adl.NewPlayer(sampleRate, af)
 	p.SetSubsong(subsongs[subsongIdx].Index)
 
 	ds := &DebugStream{player: p}
 
-	// Setup Ebiten audio.
 	audioCtx := audio.NewContext(sampleRate)
 	ap, err := audioCtx.NewPlayer(ds)
 	if err != nil {
@@ -362,12 +646,10 @@ func main() {
 	ap.SetBufferSize(time.Millisecond * 100)
 	ap.Play()
 
-	// Start playback.
 	p.Play()
 	fmt.Printf("Playing subsong %d (%s) at %d Hz... close window to stop.\n",
 		subsongs[subsongIdx].Index, subsongs[subsongIdx].Type, sampleRate)
 
-	// Find all ADL files in the same directory for file switching.
 	adlDir := filepath.Dir(adlPath)
 	adlFiles := findADLFiles(adlDir)
 	fileIdx := 0
@@ -381,19 +663,20 @@ func main() {
 	}
 
 	g := &Game{
-		ds:         ds,
-		player:     p,
-		status:     "Initializing...",
-		adlFiles:   adlFiles,
-		fileIdx:    fileIdx,
-		fileName:   filepath.Base(adlPath),
-		subsongs:   subsongs,
-		subsongIdx: subsongIdx,
+		ds:          ds,
+		player:      p,
+		status:      "Initializing...",
+		adlFiles:    adlFiles,
+		fileIdx:     fileIdx,
+		fileName:    filepath.Base(adlPath),
+		subsongs:    subsongs,
+		subsongIdx:  subsongIdx,
+		soloChannel: -1,
 	}
 
-	// Console logging.
 	go func() {
 		ticker := time.NewTicker(time.Second)
+		defer ticker.Stop()
 		for range ticker.C {
 			state := p.GetState()
 			stateStr := "STOP"
@@ -405,19 +688,35 @@ func main() {
 			case adl.StateDone:
 				stateStr = "DONE"
 			}
+
+			parts := buildPartViews(p.ChannelStates())
 			info := g.currentSubsongInfo()
-			fmt.Printf("[%s] %s | sub:%d (%s) | vol:%.0f%%\n",
+			line := "none"
+			if len(parts) > 0 {
+				limit := len(parts)
+				if limit > 4 {
+					limit = 4
+				}
+				top := make([]string, 0, limit)
+				for _, part := range parts[:limit] {
+					top = append(top, fmt.Sprintf("i%03d/%s x%d %.0f%%", part.InstrumentID, part.Note, part.Voices, part.DisplayVolume*100))
+				}
+				line = strings.Join(top, " | ")
+			}
+
+			fmt.Printf("[%s] %s | sub:%d (%s) | vol:%.0f%% | %s\n",
 				time.Now().Format("15:04:05"),
 				stateStr,
 				info.Index,
 				info.Type,
 				ds.getVolume()*100,
+				line,
 			)
 		}
 	}()
 
 	ebiten.SetWindowTitle("SpiceSynth ADL Player - Dune II")
-	ebiten.SetWindowSize(320, 240)
+	ebiten.SetWindowSize(windowWidth, windowHeight)
 	if err := ebiten.RunGame(g); err != nil {
 		if err != ebiten.Termination {
 			log.Fatal(err)

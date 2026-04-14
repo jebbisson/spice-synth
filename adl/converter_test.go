@@ -7,6 +7,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/jebbisson/spice-synth/dsl"
 	"github.com/jebbisson/spice-synth/stream"
 )
 
@@ -284,5 +285,55 @@ func TestConvertVsADLPlayer(t *testing.T) {
 	// Both should have significant amplitude.
 	if adlMax > 0 && dslMax > 0 {
 		t.Logf("Both ADL player and DSL converter produce audible output — comparison passed")
+	}
+}
+
+func TestConvertDUNE1Subsong6PreservesRepeatedChannel0Retriggers(t *testing.T) {
+	f, err := os.Open("../examples/adl/DUNE1.ADL")
+	if err != nil {
+		t.Skipf("skipping: %v", err)
+	}
+	defer f.Close()
+
+	adlFile, err := Parse(f)
+	if err != nil {
+		t.Fatalf("parse: %v", err)
+	}
+
+	result, err := Convert(adlFile, 6, 20)
+	if err != nil {
+		t.Fatalf("convert: %v", err)
+	}
+
+	var ch0 *dsl.Track
+	for _, tr := range result.Song.Tracks() {
+		if tr.Channel() == 0 {
+			ch0 = tr
+			break
+		}
+	}
+	if ch0 == nil {
+		t.Fatal("converted song is missing channel 0 track")
+	}
+
+	noteOns := 0
+	lastTick := -1
+	shortSpacingCount := 0
+	for _, ev := range ch0.Events() {
+		if ev.Type != dsl.TrackNoteOn {
+			continue
+		}
+		noteOns++
+		if lastTick >= 0 && ev.Tick-lastTick <= 20 {
+			shortSpacingCount++
+		}
+		lastTick = ev.Tick
+	}
+
+	if noteOns < 40 {
+		t.Fatalf("expected dense repeated note-ons on channel 0, got %d", noteOns)
+	}
+	if shortSpacingCount < 20 {
+		t.Fatalf("expected many tightly spaced retriggers on channel 0, got %d", shortSpacingCount)
 	}
 }

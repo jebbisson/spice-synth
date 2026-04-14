@@ -4,6 +4,7 @@ package adl
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"testing"
@@ -428,130 +429,41 @@ func TestAllDuneFilesPlayWithoutPanic(t *testing.T) {
 	}
 }
 
-func TestTraceDUNE1Subsong6(t *testing.T) {
+func TestDUNE1Subsong6FastRetriggerStaysAudible(t *testing.T) {
 	af := loadTestFile(t, "DUNE1.ADL")
 
 	p := NewPlayer(44100, af)
 	defer p.Close()
 
-	// Collect trace output.
-	var traceLines []string
-	p.SetTraceFunc(func(format string, args ...interface{}) {
-		line := fmt.Sprintf(format, args...)
-		traceLines = append(traceLines, line)
-	})
-
 	p.SetSubsong(6)
+	p.SetSoloChannel(0)
 	p.Play()
 
-	// Render 10 seconds of audio to exercise the full song.
-	buf := make([]byte, 44100*4*10)
-	_, err := p.Read(buf)
-	if err != nil {
-		t.Fatalf("Read() error: %v", err)
-	}
+	buf := make([]byte, 44100/2*4)
+	soloPCM := make([]float64, 0, 12)
 
-	// Summarize what happened.
-	programStarts := 0
-	instrumentLoads := 0
-	noteOns := 0
-	channelStops := 0
-	rejections := 0
-	invalidInsts := 0
-	rhythmSetups := 0
-	volumeAdjusts := 0
-	extraLevelChanges := 0
-	channelsSeen := map[string]bool{}
-
-	// Track per-channel max attenuation (0x3F = silent, 0x00 = loudest).
-	chVols := map[int]*channelVolInfo{}
-	for i := 0; i < 9; i++ {
-		chVols[i] = &channelVolInfo{minReg43: 0x3F, maxReg43: 0x00}
-	}
-
-	for _, line := range traceLines {
-		switch {
-		case len(line) > 13 && line[:13] == "setupProgram:":
-			programStarts++
-			for i := 0; i < 10; i++ {
-				chStr := fmt.Sprintf("ch%d", i)
-				if contains(line, chStr) {
-					channelsSeen[chStr] = true
-				}
-			}
-			if contains(line, "REJECTED") {
-				rejections++
-			}
-		case len(line) > 16 && line[:16] == "setupInstrument:":
-			instrumentLoads++
-			if contains(line, "INVALID") {
-				invalidInsts++
-			}
-			// Parse reg43 value from setupInstrument trace.
-			parseVolFromLine(line, chVols)
-		case len(line) > 7 && line[:7] == "noteOn:":
-			noteOns++
-			// Parse channel from noteOn.
-			for i := 0; i < 9; i++ {
-				chStr := fmt.Sprintf("ch%d ", i)
-				if contains(line, chStr) {
-					chVols[i].noteOns++
-					break
-				}
-			}
-		case len(line) > 12 && line[:12] == "stopChannel:":
-			channelStops++
-		case len(line) > 14 && line[:14] == "setupPrograms:":
-			if contains(line, "REJECTED") {
-				rejections++
-			}
-		case len(line) > 20 && line[:20] == "setupRhythmSection:":
-			rhythmSetups++
-		case len(line) > 13 && line[:13] == "adjustVolume:":
-			volumeAdjusts++
-			parseAdjustVolFromLine(line, chVols)
-		case contains(line, "ExtraLevel"):
-			extraLevelChanges++
+	for i := 0; i < 12; i++ {
+		if _, err := p.Read(buf); err != nil {
+			t.Fatalf("Read() block %d error: %v", i, err)
 		}
-	}
-
-	t.Logf("=== DUNE1.ADL Subsong 6 Trace Summary (10s) ===")
-	t.Logf("Program starts:     %d", programStarts)
-	t.Logf("Program rejections: %d", rejections)
-	t.Logf("Instrument loads:   %d (invalid: %d)", instrumentLoads, invalidInsts)
-	t.Logf("Note-ons:           %d", noteOns)
-	t.Logf("Channel stops:      %d", channelStops)
-	t.Logf("Rhythm setups:      %d", rhythmSetups)
-	t.Logf("Volume adjusts:     %d", volumeAdjusts)
-	t.Logf("ExtraLevel changes: %d", extraLevelChanges)
-	t.Logf("Channels used:      %v", channelsSeen)
-	t.Logf("Total trace events: %d", len(traceLines))
-
-	t.Logf("")
-	t.Logf("=== Per-Channel Volume Summary ===")
-	for i := 0; i < 9; i++ {
-		cv := chVols[i]
-		if cv.noteOns == 0 && cv.volAdjs == 0 {
-			continue
+		states := p.ChannelStates()
+		if len(states) <= 0 {
+			t.Fatalf("ChannelStates() returned %d states, want > 0", len(states))
 		}
-		status := "OK"
-		if cv.minReg43 >= 0x3F {
-			status = "SILENT (carrier always 0x3F)"
-		} else if cv.minReg43 >= 0x30 {
-			status = "VERY QUIET"
-		}
-		t.Logf("  ch%d: noteOns=%d volAdjs=%d minAtten=0x%02X maxAtten=0x%02X %s",
-			i, cv.noteOns, cv.volAdjs, cv.minReg43, cv.maxReg43, status)
+		soloPCM = append(soloPCM, pcmPeak(buf))
 	}
 
-	// Dump first 300 trace lines for analysis.
-	limit := 300
-	if len(traceLines) < limit {
-		limit = len(traceLines)
+	earlyPCM := maxSlice(soloPCM[:4])
+	laterPCM := maxSlice(soloPCM[4:])
+
+	if earlyPCM <= 0 {
+		t.Fatalf("expected audible early ch0 output, got %.4f", earlyPCM)
 	}
-	t.Logf("--- First %d trace events ---", limit)
-	for i := 0; i < limit; i++ {
-		t.Logf("  [%d] %s", i, traceLines[i])
+	if laterPCM < earlyPCM*0.18 {
+		t.Fatalf("soloed ch0 output decayed too far during repeated notes: early=%.4f later=%.4f", earlyPCM, laterPCM)
+	}
+	if math.IsNaN(laterPCM) {
+		t.Fatal("unexpected NaN in measured peaks")
 	}
 }
 
@@ -636,6 +548,28 @@ func hexDigit(c byte) uint8 {
 	default:
 		return 0
 	}
+}
+
+func pcmPeak(buf []byte) float64 {
+	peak := 0.0
+	for i := 0; i < len(buf)-1; i += 2 {
+		sample := int16(buf[i]) | int16(buf[i+1])<<8
+		abs := math.Abs(float64(sample)) / 32768.0
+		if abs > peak {
+			peak = abs
+		}
+	}
+	return peak
+}
+
+func maxSlice(vals []float64) float64 {
+	peak := 0.0
+	for _, v := range vals {
+		if v > peak {
+			peak = v
+		}
+	}
+	return peak
 }
 
 // channelVolInfo tracks per-channel volume statistics during tracing.

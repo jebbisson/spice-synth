@@ -24,13 +24,13 @@ var (
 			Waveform:      1,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         1,
-			Sustain:       5,
-			Release:       15,
-			Level:         0,
-			Multiply:      0,
-			Sustaining:    true,
+			Attack:     15,
+			Decay:      1,
+			Sustain:    5,
+			Release:    15,
+			Level:      0,
+			Multiply:   0,
+			Sustaining: true,
 		},
 		Feedback:   4,
 		Connection: 0,
@@ -38,22 +38,22 @@ var (
 	instAdl144 = &voice.Instrument{
 		Name: "adl_144",
 		Op1: voice.Operator{
-			Attack:        15,
-			Decay:         2,
-			Sustain:       4,
-			Release:       1,
-			Level:         17,
-			Multiply:      0,
-			Sustaining:    true,
+			Attack:     15,
+			Decay:      2,
+			Sustain:    4,
+			Release:    1,
+			Level:      17,
+			Multiply:   0,
+			Sustaining: true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         5,
-			Sustain:       2,
-			Release:       1,
-			Level:         0,
-			Multiply:      0,
-			Sustaining:    true,
+			Attack:     15,
+			Decay:      5,
+			Sustain:    2,
+			Release:    1,
+			Level:      0,
+			Multiply:   0,
+			Sustaining: true,
 		},
 		Feedback:   5,
 		Connection: 0,
@@ -61,25 +61,25 @@ var (
 	instAdl145 = &voice.Instrument{
 		Name: "adl_145",
 		Op1: voice.Operator{
-			Attack:        2,
-			Decay:         1,
-			Sustain:       0,
-			Release:       2,
-			Level:         50,
-			Multiply:      1,
-			KeyScaleRate:  true,
-			Sustaining:    true,
+			Attack:       2,
+			Decay:        1,
+			Sustain:      0,
+			Release:      2,
+			Level:        50,
+			Multiply:     1,
+			KeyScaleRate: true,
+			Sustaining:   true,
 		},
 		Op2: voice.Operator{
-			Attack:        2,
-			Decay:         0,
-			Sustain:       15,
-			Release:       2,
-			Level:         0,
-			Multiply:      0,
-			Vibrato:       true,
-			Sustaining:    true,
-			Waveform:      3,
+			Attack:     2,
+			Decay:      0,
+			Sustain:    15,
+			Release:    2,
+			Level:      0,
+			Multiply:   0,
+			Vibrato:    true,
+			Sustaining: true,
+			Waveform:   3,
 		},
 		Feedback:   7,
 		Connection: 0,
@@ -98,15 +98,15 @@ var (
 			Sustaining:    true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         2,
-			Sustain:       2,
-			Release:       7,
-			Level:         0,
-			Multiply:      0,
-			KeyScaleRate:  true,
-			Sustaining:    true,
-			Waveform:      3,
+			Attack:       15,
+			Decay:        2,
+			Sustain:      2,
+			Release:      7,
+			Level:        0,
+			Multiply:     0,
+			KeyScaleRate: true,
+			Sustaining:   true,
+			Waveform:     3,
 		},
 		Feedback:   3,
 		Connection: 0,
@@ -124,14 +124,14 @@ var (
 			Sustaining:    true,
 		},
 		Op2: voice.Operator{
-			Attack:        1,
-			Decay:         1,
-			Sustain:       4,
-			Release:       7,
-			Level:         0,
-			Multiply:      0,
-			Sustaining:    true,
-			Waveform:      3,
+			Attack:     1,
+			Decay:      1,
+			Sustain:    4,
+			Release:    7,
+			Level:      0,
+			Multiply:   0,
+			Sustaining: true,
+			Waveform:   3,
 		},
 		Feedback:   3,
 		Connection: 0,
@@ -151,15 +151,15 @@ var (
 			Vibrato:       true,
 		},
 		Op2: voice.Operator{
-			Attack:        4,
-			Decay:         2,
-			Sustain:       15,
-			Release:       3,
-			Level:         0,
-			Multiply:      3,
-			KeyScaleRate:  true,
-			Tremolo:       true,
-			Vibrato:       true,
+			Attack:       4,
+			Decay:        2,
+			Sustain:      15,
+			Release:      3,
+			Level:        0,
+			Multiply:     3,
+			KeyScaleRate: true,
+			Tremolo:      true,
+			Vibrato:      true,
 		},
 		Feedback:   0,
 		Connection: 0,
@@ -178,15 +178,15 @@ var (
 			Sustaining:    true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         2,
-			Sustain:       2,
-			Release:       1,
-			Level:         0,
-			Multiply:      0,
-			KeyScaleRate:  true,
-			Sustaining:    true,
-			Waveform:      3,
+			Attack:       15,
+			Decay:        2,
+			Sustain:      2,
+			Release:      1,
+			Level:        0,
+			Multiply:     0,
+			KeyScaleRate: true,
+			Sustaining:   true,
+			Waveform:     3,
 		},
 		Feedback:   3,
 		Connection: 0,
@@ -205,15 +205,15 @@ var (
 			Sustaining:    true,
 		},
 		Op2: voice.Operator{
-			Attack:        2,
-			Decay:         2,
-			Sustain:       1,
-			Release:       1,
-			Level:         0,
-			Multiply:      6,
-			Tremolo:       true,
-			Vibrato:       true,
-			Sustaining:    true,
+			Attack:     2,
+			Decay:      2,
+			Sustain:    1,
+			Release:    1,
+			Level:      0,
+			Multiply:   6,
+			Tremolo:    true,
+			Vibrato:    true,
+			Sustaining: true,
 		},
 		Feedback:   0,
 		Connection: 0,
@@ -259,14 +259,14 @@ var (
 			Waveform:      2,
 		},
 		Op2: voice.Operator{
-			Attack:        4,
-			Decay:         15,
-			Sustain:       0,
-			Release:       7,
-			Level:         0,
-			Multiply:      4,
-			Sustaining:    true,
-			Waveform:      3,
+			Attack:     4,
+			Decay:      15,
+			Sustain:    0,
+			Release:    7,
+			Level:      0,
+			Multiply:   4,
+			Sustaining: true,
+			Waveform:   3,
 		},
 		Feedback:   0,
 		Connection: 0,
@@ -274,24 +274,24 @@ var (
 	instAdl153 = &voice.Instrument{
 		Name: "adl_153",
 		Op1: voice.Operator{
-			Attack:        15,
-			Decay:         6,
-			Sustain:       7,
-			Release:       1,
-			Level:         14,
-			Multiply:      1,
-			Sustaining:    true,
+			Attack:     15,
+			Decay:      6,
+			Sustain:    7,
+			Release:    1,
+			Level:      14,
+			Multiply:   1,
+			Sustaining: true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         0,
-			Sustain:       8,
-			Release:       5,
-			Level:         0,
-			Multiply:      1,
-			Tremolo:       true,
-			Sustaining:    true,
-			Waveform:      1,
+			Attack:     15,
+			Decay:      0,
+			Sustain:    8,
+			Release:    5,
+			Level:      0,
+			Multiply:   1,
+			Tremolo:    true,
+			Sustaining: true,
+			Waveform:   1,
 		},
 		Feedback:   0,
 		Connection: 0,
@@ -311,14 +311,14 @@ var (
 			Sustaining:    true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         6,
-			Sustain:       0,
-			Release:       4,
-			Level:         0,
-			Multiply:      0,
-			Tremolo:       true,
-			Vibrato:       true,
+			Attack:   15,
+			Decay:    6,
+			Sustain:  0,
+			Release:  4,
+			Level:    0,
+			Multiply: 0,
+			Tremolo:  true,
+			Vibrato:  true,
 		},
 		Feedback:   0,
 		Connection: 0,
@@ -326,24 +326,24 @@ var (
 	instAdl155 = &voice.Instrument{
 		Name: "adl_155",
 		Op1: voice.Operator{
-			Attack:        12,
-			Decay:         4,
-			Sustain:       0,
-			Release:       7,
-			Level:         0,
-			Multiply:      0,
-			Tremolo:       true,
-			Vibrato:       true,
-			Sustaining:    true,
+			Attack:     12,
+			Decay:      4,
+			Sustain:    0,
+			Release:    7,
+			Level:      0,
+			Multiply:   0,
+			Tremolo:    true,
+			Vibrato:    true,
+			Sustaining: true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         6,
-			Sustain:       0,
-			Release:       2,
-			Level:         0,
-			Multiply:      0,
-			Vibrato:       true,
+			Attack:   15,
+			Decay:    6,
+			Sustain:  0,
+			Release:  2,
+			Level:    0,
+			Multiply: 0,
+			Vibrato:  true,
 		},
 		Feedback:   0,
 		Connection: 0,
@@ -360,12 +360,12 @@ var (
 			KeyScaleLevel: 2,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         0,
-			Sustain:       0,
-			Release:       1,
-			Level:         0,
-			Multiply:      1,
+			Attack:   15,
+			Decay:    0,
+			Sustain:  0,
+			Release:  1,
+			Level:    0,
+			Multiply: 1,
 		},
 		Feedback:   2,
 		Connection: 0,
@@ -384,14 +384,14 @@ var (
 			Waveform:      2,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         2,
-			Sustain:       2,
-			Release:       3,
-			Level:         0,
-			Multiply:      12,
-			Sustaining:    true,
-			Waveform:      3,
+			Attack:     15,
+			Decay:      2,
+			Sustain:    2,
+			Release:    3,
+			Level:      0,
+			Multiply:   12,
+			Sustaining: true,
+			Waveform:   3,
 		},
 		Feedback:   7,
 		Connection: 0,
@@ -437,14 +437,14 @@ var (
 			Sustaining:    true,
 		},
 		Op2: voice.Operator{
-			Attack:        15,
-			Decay:         7,
-			Sustain:       12,
-			Release:       8,
-			Level:         0,
-			Multiply:      14,
-			KeyScaleRate:  true,
-			Sustaining:    true,
+			Attack:       15,
+			Decay:        7,
+			Sustain:      12,
+			Release:      8,
+			Level:        0,
+			Multiply:     14,
+			KeyScaleRate: true,
+			Sustaining:   true,
 		},
 		Feedback:   7,
 		Connection: 0,
@@ -480,13 +480,325 @@ func NewDUNE1Song6() *dsl.Song {
 	// Channel 0
 	ch0 := dsl.NewTrack(0)
 	ch0.AddEvent(dsl.TrackEvent{Tick: 0, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 36, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 54, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 72, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 90, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 109, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 127, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 145, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 164, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 182, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 200, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 218, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 237, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 255, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 273, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 292, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 310, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 328, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 346, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 365, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 383, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 401, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 420, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 438, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 456, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 474, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 493, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 511, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 529, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 548, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 566, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 584, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 602, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 621, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 639, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 657, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 676, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 694, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 712, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 730, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 749, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 767, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 785, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 804, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 822, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 840, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 858, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 877, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 895, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 913, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 932, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 950, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 968, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 986, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1005, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1023, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1041, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1060, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1078, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1096, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1114, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1133, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1151, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 1169, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1178, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1188, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1197, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1206, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1215, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1224, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1233, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1242, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1252, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1261, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1270, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1279, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1288, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1297, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1306, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1316, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1325, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1334, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1343, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1352, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1361, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1370, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1380, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1389, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1398, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1407, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1416, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1425, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1434, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1444, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1453, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1462, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1471, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1480, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1489, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1498, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1508, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1517, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1526, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1535, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1544, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1553, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1562, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1572, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1581, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1590, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1599, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1608, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1617, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1626, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1636, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1645, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1654, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1663, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1672, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1681, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1690, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1700, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1709, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1718, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1727, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1736, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1745, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 1754, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1764, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1773, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1782, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1791, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1800, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1809, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1818, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1828, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1837, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1846, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1855, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1864, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1873, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1882, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1892, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1901, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1910, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1919, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1928, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1937, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1946, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1956, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1965, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1974, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1983, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 1992, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2001, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2010, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2020, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2029, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2038, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2047, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2056, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2065, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2074, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2084, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2093, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2102, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2111, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2120, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2129, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2138, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2148, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2157, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2166, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2175, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2184, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2193, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2202, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2212, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2221, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2230, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2239, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2248, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2257, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2266, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2276, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2285, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2294, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2303, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2312, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2321, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2330, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 2340, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2349, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2358, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2367, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2376, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2385, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2394, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2404, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2413, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2422, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2431, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2440, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2449, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2458, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2468, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2477, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2486, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2495, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2504, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2513, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2522, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2532, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2541, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2550, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2559, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2568, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2577, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2586, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2596, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2605, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2614, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2623, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2632, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2641, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2650, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2660, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2669, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2678, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2687, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2696, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2705, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2714, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2724, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2733, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2742, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2751, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2760, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2769, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2778, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2788, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2797, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2806, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2815, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2824, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2833, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2842, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2852, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2861, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2870, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2879, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2888, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2897, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2906, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2916, Type: dsl.TrackNoteOn, Note: voice.Note(78.3), NoteStr: "D#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 2925, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2934, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2943, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2952, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2961, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2970, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2980, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2989, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 2998, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3007, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3016, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3025, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3034, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3044, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3053, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3062, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3071, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3080, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3089, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3098, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3108, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3117, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3126, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3135, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3144, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3153, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3162, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3172, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3181, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3190, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3199, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3208, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3217, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3226, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3236, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3245, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3254, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3263, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3272, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3281, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3290, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3300, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3309, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3318, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3327, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3336, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3345, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3354, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3364, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3373, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3382, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3391, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3400, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3409, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3418, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3428, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3437, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3446, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3455, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3464, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3473, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3482, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3492, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 3501, Type: dsl.TrackNoteOn, Note: voice.Note(73.8), NoteStr: "D2", Instrument: "adl_143"})
 	ch0.SetInstrumentAt(3510, "adl_144")
 	ch0.AddEvent(dsl.TrackEvent{Tick: 3510, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_144"})
 	ch0.NoteOff(3530)
@@ -506,12 +818,26 @@ func NewDUNE1Song6() *dsl.Song {
 	ch0.NoteOff(6051)
 	ch0.SetInstrumentAt(6739, "adl_143")
 	ch0.AddEvent(dsl.TrackEvent{Tick: 6739, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 6817, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 6843, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 6947, Type: dsl.TrackNoteOn, Note: voice.Note(139.6), NoteStr: "C#3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7025, Type: dsl.TrackNoteOn, Note: voice.Note(139.6), NoteStr: "C#3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7051, Type: dsl.TrackNoteOn, Note: voice.Note(139.6), NoteStr: "C#3", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 7155, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7233, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7259, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 7364, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7442, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7468, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 7572, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7650, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7676, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 7780, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7858, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 7883, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 7985, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 8060, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 8085, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 8184, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 8565, Type: dsl.TrackNoteOn, Note: voice.Note(82.9), NoteStr: "E2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 8925, Type: dsl.TrackNoteOn, Note: voice.Note(92.9), NoteStr: "F#2", Instrument: "adl_143"})
@@ -525,15 +851,293 @@ func NewDUNE1Song6() *dsl.Song {
 	ch0.AddEvent(dsl.TrackEvent{Tick: 10609, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
 	ch0.NoteOff(10936)
 	ch0.AddEvent(dsl.TrackEvent{Tick: 13622, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13641, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13650, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13659, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13677, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13686, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13696, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13714, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13723, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13732, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13750, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13760, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13769, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13787, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13796, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13805, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13824, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13833, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13842, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13860, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13869, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13878, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13897, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13906, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13915, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13933, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13942, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13952, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13970, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13979, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 13988, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14006, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14016, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14025, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14043, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14052, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 14061, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14080, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14089, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14098, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14116, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14125, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14134, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14153, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14162, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14171, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14189, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14198, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 14208, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14226, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14235, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14244, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14262, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14272, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14281, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14299, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14308, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14317, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14336, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14345, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14354, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14372, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14381, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14390, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14409, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14418, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14427, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14445, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14454, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14464, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14482, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14491, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14500, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14518, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14528, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14537, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14555, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14564, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14573, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14592, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14601, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14610, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14628, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14637, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 14646, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14665, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14674, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14683, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14701, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14710, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14720, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14738, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14747, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14756, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14774, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14784, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 14793, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14811, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14820, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14829, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14848, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14857, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14866, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14884, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14893, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14902, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14921, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14930, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14939, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14957, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14966, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14976, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 14994, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15003, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15012, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15030, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15040, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15049, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15067, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15076, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15085, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15104, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15113, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15122, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15140, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15149, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15158, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15177, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15186, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15195, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15213, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15222, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 15232, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15250, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15259, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15268, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15286, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15296, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15305, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15323, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15332, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15341, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15360, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15369, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 15378, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15396, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15405, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15414, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15433, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15442, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15451, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15469, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15478, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15488, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15506, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15515, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15524, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15542, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15552, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15561, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15579, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15588, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15597, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15616, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15625, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15634, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15652, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15661, Type: dsl.TrackNoteOn, Note: voice.Note(69.8), NoteStr: "C#2", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 15670, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15689, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15698, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15707, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15725, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15734, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15744, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15762, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15771, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15780, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15798, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15808, Type: dsl.TrackNoteOn, Note: voice.Note(131.6), NoteStr: "C3", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 15817, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15835, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15844, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15853, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15872, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15881, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15890, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15908, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15917, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15926, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15945, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15954, Type: dsl.TrackNoteOn, Note: voice.Note(147.5), NoteStr: "D3", Instrument: "adl_143"})
 	ch0.AddEvent(dsl.TrackEvent{Tick: 15963, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 15981, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16000, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16018, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16036, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16054, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16073, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16091, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16109, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16128, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16146, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16164, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16182, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16201, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16219, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16237, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16256, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16274, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16292, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16310, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16329, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16347, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16365, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16384, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16402, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16420, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16438, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16457, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16475, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16493, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16512, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16530, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16548, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16566, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16585, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16603, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16621, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16640, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16658, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16676, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16694, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16713, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16731, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16749, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16768, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16786, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16804, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16822, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16841, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16859, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16877, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16896, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16914, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16932, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16950, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16969, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 16987, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17005, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17024, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17042, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17060, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17078, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17097, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17115, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17133, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17152, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17170, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17188, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17206, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17225, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17243, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17261, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17280, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17298, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17316, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17334, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17353, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17371, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17389, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17408, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17426, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17444, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17462, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17481, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17499, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17517, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17536, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17554, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17572, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17590, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17609, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17627, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17645, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17664, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17682, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
+	ch0.AddEvent(dsl.TrackEvent{Tick: 17700, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_143"})
 	ch0.NoteOff(17718)
 	song.AddTrack(ch0)
 
@@ -581,6 +1185,7 @@ func NewDUNE1Song6() *dsl.Song {
 	ch1.AddEvent(dsl.TrackEvent{Tick: 9954, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_147"})
 	ch1.AddEvent(dsl.TrackEvent{Tick: 10117, Type: dsl.TrackNoteOn, Note: voice.Note(124.4), NoteStr: "B2", Instrument: "adl_147"})
 	ch1.AddEvent(dsl.TrackEvent{Tick: 10199, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_147"})
+	ch1.AddEvent(dsl.TrackEvent{Tick: 10281, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_147"})
 	ch1.AddEvent(dsl.TrackEvent{Tick: 10445, Type: dsl.TrackNoteOn, Note: voice.Note(139.6), NoteStr: "C#3", Instrument: "adl_147"})
 	ch1.AddEvent(dsl.TrackEvent{Tick: 10609, Type: dsl.TrackNoteOn, Note: voice.Note(104.5), NoteStr: "G#2", Instrument: "adl_147"})
 	ch1.AddEvent(dsl.TrackEvent{Tick: 10937, Type: dsl.TrackNoteOn, Note: voice.Note(34.9), NoteStr: "C#1", Instrument: "adl_147"})
@@ -860,9 +1465,261 @@ func NewDUNE1Song6() *dsl.Song {
 	ch3.AddEvent(dsl.TrackEvent{Tick: 877, Type: dsl.TrackNoteOn, Note: voice.Note(248.8), NoteStr: "B3", Instrument: "adl_152"})
 	ch3.SetInstrumentAt(1169, "adl_153")
 	ch3.AddEvent(dsl.TrackEvent{Tick: 1169, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1178, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1188, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1197, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1206, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1215, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1224, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1233, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1242, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1252, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1261, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1270, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1279, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1288, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1297, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1306, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1316, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1325, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1334, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1343, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1352, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1361, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1370, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1380, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1389, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1398, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1407, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1416, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1425, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1434, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1444, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1453, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1462, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1471, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1480, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1489, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1498, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1508, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1517, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1526, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1535, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1544, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1553, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1562, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1572, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1581, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1590, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1599, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1608, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1617, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1626, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1636, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1645, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1654, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1663, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1672, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1681, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1690, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1700, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1709, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1718, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1727, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1736, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1745, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 1754, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1764, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1773, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1782, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1791, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1800, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1809, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1818, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1828, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1837, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1846, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1855, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1864, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1873, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1882, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1892, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1901, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1910, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1919, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1928, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1937, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1946, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1956, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1965, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1974, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1983, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 1992, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2001, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2010, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2020, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2029, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2038, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2047, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2056, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2065, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2074, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2084, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2093, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2102, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2111, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2120, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2129, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2138, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2148, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2157, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2166, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2175, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2184, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2193, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2202, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2212, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2221, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2230, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2239, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2248, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2257, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2266, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2276, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2285, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2294, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2303, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2312, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2321, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2330, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 2340, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2349, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2358, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2367, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2376, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2385, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2394, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2404, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2413, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2422, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2431, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2440, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2449, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2458, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2468, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2477, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2486, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2495, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2504, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2513, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2522, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2532, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2541, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2550, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2559, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2568, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2577, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2586, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2596, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2605, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2614, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2623, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2632, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2641, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2650, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2660, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2669, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2678, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2687, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2696, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2705, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2714, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2724, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2733, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2742, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2751, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2760, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2769, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2778, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2788, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2797, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2806, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2815, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2824, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2833, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2842, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2852, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2861, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2870, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2879, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2888, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2897, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2906, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2916, Type: dsl.TrackNoteOn, Note: voice.Note(117.2), NoteStr: "A#2", Instrument: "adl_153"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 2925, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2934, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2943, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2952, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2961, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2970, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2980, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2989, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 2998, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3007, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3016, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3025, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3034, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3044, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3053, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3062, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3071, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3080, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3089, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3098, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3108, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3117, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3126, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3135, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3144, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3153, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3162, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3172, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3181, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3190, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3199, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3208, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3217, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3226, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3236, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3245, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3254, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3263, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3272, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3281, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3290, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3300, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3309, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3318, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3327, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3336, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3345, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3354, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3364, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3373, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3382, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3391, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3400, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3409, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3418, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3428, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3437, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3446, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3455, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3464, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3473, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3482, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3492, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 3501, Type: dsl.TrackNoteOn, Note: voice.Note(110.8), NoteStr: "A2", Instrument: "adl_153"})
 	ch3.NoteOff(3510)
 	ch3.SetInstrumentAt(3673, "adl_154")
 	ch3.AddEvent(dsl.TrackEvent{Tick: 3673, Type: dsl.TrackNoteOn, Note: voice.Note(1772.1), NoteStr: "A6", Instrument: "adl_154"})
@@ -927,6 +1784,7 @@ func NewDUNE1Song6() *dsl.Song {
 	ch3.SetInstrumentAt(7572, "adl_155")
 	ch3.AddEvent(dsl.TrackEvent{Tick: 7572, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_155"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 7780, Type: dsl.TrackNoteOn, Note: voice.Note(248.8), NoteStr: "B3", Instrument: "adl_155"})
+	ch3.AddEvent(dsl.TrackEvent{Tick: 7985, Type: dsl.TrackNoteOn, Note: voice.Note(248.8), NoteStr: "B3", Instrument: "adl_155"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 8184, Type: dsl.TrackNoteOn, Note: voice.Note(279.2), NoteStr: "C#4", Instrument: "adl_155"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 8565, Type: dsl.TrackNoteOn, Note: voice.Note(197.2), NoteStr: "G3", Instrument: "adl_155"})
 	ch3.AddEvent(dsl.TrackEvent{Tick: 8925, Type: dsl.TrackNoteOn, Note: voice.Note(185.9), NoteStr: "F#3", Instrument: "adl_155"})
@@ -985,8 +1843,12 @@ func NewDUNE1Song6() *dsl.Song {
 	// Channel 4
 	ch4 := dsl.NewTrack(4)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 566, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 575, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 584, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
 	ch4.NoteOff(593)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 1151, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 1160, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 1169, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
 	ch4.NoteOff(1178)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 1754, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_157"})
 	ch4.NoteOff(1764)
@@ -1051,6 +1913,8 @@ func NewDUNE1Song6() *dsl.Song {
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8184, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8196)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8208, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8220, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8233, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8245)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8257, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8269)
@@ -1059,6 +1923,8 @@ func NewDUNE1Song6() *dsl.Song {
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8305, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8317)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8329, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8341, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8353, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8365)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8377, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8389)
@@ -1067,8 +1933,12 @@ func NewDUNE1Song6() *dsl.Song {
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8425, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8437)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8449, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8461, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8473, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8484)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8496, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8507, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8519, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8530)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8542, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8554)
@@ -1079,6 +1949,8 @@ func NewDUNE1Song6() *dsl.Song {
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8611, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8622)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8633, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8645, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8656, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8667)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8679, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8690)
@@ -1095,6 +1967,8 @@ func NewDUNE1Song6() *dsl.Song {
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8814, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8825)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8836, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8847, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8858, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8870)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8881, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8892)
@@ -1105,88 +1979,497 @@ func NewDUNE1Song6() *dsl.Song {
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8947, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(8959)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 8970, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8981, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 8992, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9003)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9014, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9025, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9037, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9048)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9059, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9070, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9081, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9092)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9103, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9114, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9125, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9136, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9147, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9158)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9169, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9180)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9190, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9201)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9212, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9223, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9234, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9245, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9256, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9267)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9278, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9288)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9299, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9310)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9321, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9331, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9342, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9353, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9364, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9374)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9385, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9396, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9407, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9417, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9428, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9439)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9449, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9460)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9471, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9481, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9492, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9502)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9513, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9524)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9534, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9545, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9555, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9566)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9577, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9587, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9598, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9608, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9619, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9630, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9640, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9651, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9661, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9672)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9682, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9693, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9703, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9714, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9724, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9735, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9745, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9756)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9766, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9777, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9787, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9798, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9808, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9818, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9829, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9839, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9850, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9860, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9870, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9881, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9891)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9901, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9912, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9922)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9933, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(9943)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 9953, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9964, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9974, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9984, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 9994, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10005, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10015, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10025, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10035, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10046, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10056, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10066, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10076, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10086, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10097, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10107, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10117, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10127, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10138, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10148, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10158, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10168, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10179, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10189)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10199, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10209)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10220, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10230)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10240, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10250, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10261, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10271, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10281, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10291, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10302, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10312, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10322, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10332, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10342, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10353, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10363, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10373)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10383, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10394)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10404, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10414, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10424, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10435, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10445, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10455)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10465, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10476)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10486, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10496, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10506, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10517)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10527, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10537, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10547, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10558)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10568, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10578, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10588, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10598)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10609, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10619, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10629, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10639)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10650, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10660, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10670, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10680)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10691, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10701, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10711, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10721)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10732, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10742, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10752, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10762)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10773, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10783, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10793, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10803, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10814, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10824, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10834, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10844, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10854, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10865, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10875, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10885)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10895, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10906, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10916, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10926, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10936, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10947, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10957, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(10967)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 10977, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10987, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 10997, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11008, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11018, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11028, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11038, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11048, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11058, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11069, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11079, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11089, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11099, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11109, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11120, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11130, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11140, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(11150)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 11160, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11170, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11181, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(11191)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 11201, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11211, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11221, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11231, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11242, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11252, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11262, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11272, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11282, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11292, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11303, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(11313)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 11323, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(11333)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 11343, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11353, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11364, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11374, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11384, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11394, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11404, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(11415)
 	ch4.AddEvent(dsl.TrackEvent{Tick: 11425, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11435, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11445, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11455, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11465, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11475, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11485, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11495, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11505, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11515, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11525, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11535, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11545, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11555, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11565, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11575, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11585, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11595, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11605, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11615, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11625, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11636, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11646, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11656, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11666, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11676, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11686, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11696, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11706, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11716, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11726, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11736, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11746, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11756, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11766, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11776, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11786, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11796, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11806, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11816, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11826, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11836, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11846, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11856, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11866, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11876, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11886, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11897, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11907, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11917, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11927, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11937, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11947, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11957, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11967, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11977, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11987, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 11997, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12007, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12017, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12027, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12037, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12047, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12057, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12067, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12077, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12087, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12097, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12107, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12117, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12127, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12137, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12146, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12156, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12166, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12176, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12186, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12196, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12206, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12216, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12226, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12236, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12246, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12255, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12265, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12275, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12285, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12295, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12305, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12315, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12325, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12335, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12345, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12355, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12364, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12374, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12384, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12394, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12404, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12414, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12424, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12434, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12443, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12453, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12463, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12473, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12483, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12493, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12502, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12512, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12522, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12532, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12542, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12552, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12562, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12571, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12581, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12591, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12601, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12611, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12621, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12630, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12640, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12650, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12660, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12670, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12680, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12690, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12699, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12709, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12719, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12729, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12739, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12749, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12758, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12768, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12778, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12788, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12798, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12808, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12818, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12827, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12837, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12847, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12857, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12867, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12876, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12886, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12896, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12906, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12915, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12925, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12935, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12944, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12954, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12964, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12974, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12983, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 12993, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13003, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13012, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13022, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13032, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13042, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13051, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13061, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13071, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13081, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13090, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13100, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13110, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13119, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13129, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13139, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13149, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13158, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13168, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13178, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13187, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13197, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13206, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13216, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13226, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13235, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13245, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13254, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13264, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13274, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13283, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13293, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13302, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13312, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13322, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13331, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13341, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13350, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13360, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13369, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13379, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13388, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13397, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13407, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13416, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13426, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13435, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13445, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13454, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13464, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13473, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13483, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13492, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13502, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13511, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13520, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13530, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13539, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13549, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13558, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13567, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13577, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13586, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13595, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13604, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13613, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13623, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13632, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13641, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13650, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13659, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13668, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13677, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13687, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13696, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13705, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13714, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13723, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13732, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13741, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13751, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13760, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13769, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13778, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13787, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13796, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13805, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13815, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13824, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13833, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13842, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13851, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13860, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13869, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13879, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13888, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13897, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
+	ch4.AddEvent(dsl.TrackEvent{Tick: 13906, Type: dsl.TrackNoteOn, Note: voice.Note(263.2), NoteStr: "C4", Instrument: "adl_159"})
 	ch4.NoteOff(13915)
 	song.AddTrack(ch4)
 

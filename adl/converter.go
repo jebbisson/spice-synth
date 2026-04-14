@@ -56,8 +56,9 @@ type recorder struct {
 	lastFreq   [9]float64 // last frequency per channel
 	chanActive [9]bool    // whether each channel has an active note
 
-	// Instrument tracking parsed from trace output
-	instRegex *regexp.Regexp
+	// Instrument and note-on tracking parsed from trace output.
+	instRegex   *regexp.Regexp
+	noteOnRegex *regexp.Regexp
 }
 
 // newRecorder creates a new recorder for the given ADL file.
@@ -69,11 +70,12 @@ func newRecorder(file *File, maxTicks int) *recorder {
 	driver.InitDriver()
 
 	r := &recorder{
-		driver:    driver,
-		opl:       opl,
-		file:      file,
-		maxTicks:  maxTicks,
-		instRegex: regexp.MustCompile(`setupInstrument: ch(\d+) inst=(\d+)`),
+		driver:      driver,
+		opl:         opl,
+		file:        file,
+		maxTicks:    maxTicks,
+		instRegex:   regexp.MustCompile(`setupInstrument: ch(\d+) inst=(\d+)`),
+		noteOnRegex: regexp.MustCompile(`noteOn: ch(\d+) rawNote=0x([0-9A-Fa-f]{2}) regAx=0x([0-9A-Fa-f]{2}) regBx=0x([0-9A-Fa-f]{2})`),
 	}
 	for i := range r.curInst {
 		r.curInst[i] = -1
@@ -102,6 +104,24 @@ func (r *recorder) handleTrace(format string, args ...interface{}) {
 					InstName: fmt.Sprintf("adl_%03d", instID),
 				})
 			}
+		}
+	}
+	if matches := r.noteOnRegex.FindStringSubmatch(msg); matches != nil {
+		ch, _ := strconv.Atoi(matches[1])
+		regAxVal, _ := strconv.ParseUint(matches[3], 16, 8)
+		regBxVal, _ := strconv.ParseUint(matches[4], 16, 8)
+		if ch >= 0 && ch < 9 {
+			freq := regToFreq(uint8(regAxVal), uint8(regBxVal))
+			r.events = append(r.events, recEvent{
+				Tick:      r.tick,
+				Channel:   ch,
+				Type:      recNoteOn,
+				Frequency: freq,
+				InstID:    r.curInst[ch],
+				InstName:  r.instName(ch),
+			})
+			r.lastFreq[ch] = freq
+			r.chanActive[ch] = true
 		}
 	}
 }
@@ -171,22 +191,7 @@ func (r *recorder) run(subsong int) {
 				r.chanActive[ch] = false
 			}
 
-			// Detect note-on: key-on transition from 0 to 1,
-			// OR rawNote changed while key-on is set (retrigger with new pitch)
-			noteChanged := c.rawNote != prev[ch].rawNote && prev[ch].dataptr >= 0
-			if nowActive && (!wasActive || noteChanged) {
-				freq := regToFreq(c.regAx, c.regBx)
-				r.events = append(r.events, recEvent{
-					Tick:      r.tick,
-					Channel:   ch,
-					Type:      recNoteOn,
-					Frequency: freq,
-					InstID:    r.curInst[ch],
-					InstName:  r.instName(ch),
-				})
-				r.lastFreq[ch] = freq
-				r.chanActive[ch] = true
-			} else if nowActive && r.chanActive[ch] {
+			if nowActive && r.chanActive[ch] {
 				// Check for frequency change without retrigger (slide/vibrato)
 				if c.regAx != prev[ch].regAx || (c.regBx&0x1F) != (prev[ch].regBx&0x1F) {
 					freq := regToFreq(c.regAx, c.regBx)

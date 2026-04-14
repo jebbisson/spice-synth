@@ -375,6 +375,7 @@ func (d *Driver) opcodeSetupInstrument(ch *channel, p int) int {
 		d.trace("setupInstrument: ch%d inst=%d INVALID (no data)", d.curChannel, instID)
 		return 0
 	}
+	ch.currentInstrumentID = instID
 	d.trace("setupInstrument: ch%d inst=%d (offset=%d)", d.curChannel, instID, instOffset)
 	d.setupInstrument(d.curRegOffset, instOffset, ch)
 	return 0
