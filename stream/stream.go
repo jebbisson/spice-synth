@@ -15,7 +15,7 @@ const subBlockSize = 64
 
 // Stream produces PCM audio from the synth engine.
 type Stream struct {
-	chip       *chip.OPL3
+	chip       chip.Backend
 	voices     *voice.Manager
 	seq        *sequencer.Sequencer
 	sampleRate int
@@ -30,7 +30,7 @@ type Stream struct {
 
 // New creates a new audio stream at the given sample rate.
 func New(sampleRate int) *Stream {
-	c := chip.New(uint32(sampleRate))
+	c := chip.NewBackend(sampleRate)
 	v := voice.NewManager(c, sampleRate)
 	return &Stream{
 		chip:          c,

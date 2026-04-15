@@ -45,7 +45,7 @@ type recEvent struct {
 // recorder wraps an ADL Driver and captures musical events during simulation.
 type recorder struct {
 	driver   *Driver
-	opl      *chip.OPL3
+	opl      chip.Backend
 	file     *File
 	events   []recEvent
 	tick     int
@@ -63,7 +63,7 @@ type recorder struct {
 
 // newRecorder creates a new recorder for the given ADL file.
 func newRecorder(file *File, maxTicks int) *recorder {
-	opl := chip.New(44100) // sample rate doesn't matter for simulation
+	opl := chip.NewBackend(44100) // sample rate doesn't matter for simulation
 	driver := NewDriver(opl)
 	driver.SetVersion(file.Version)
 	driver.SetSoundData(file.SoundData)
@@ -82,7 +82,7 @@ func newRecorder(file *File, maxTicks int) *recorder {
 	}
 
 	// Hook the trace function to capture instrument assignments
-	driver.TraceFunc = r.handleTrace
+	driver.SetTraceFunc(r.handleTrace)
 
 	return r
 }

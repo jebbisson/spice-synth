@@ -93,7 +93,7 @@ type queueEntry struct {
 // Driver is the AdLib bytecode interpreter (virtual machine) that runs at
 // 72Hz and drives an OPL2 chip. It is a direct port of AdPlug's AdLibDriver.
 type Driver struct {
-	opl *chip.OPL3
+	opl chip.Backend
 
 	soundData     []byte
 	soundDataSize int
@@ -173,7 +173,7 @@ type ChannelState struct {
 }
 
 // NewDriver creates a new ADL bytecode driver attached to the given OPL3 chip.
-func NewDriver(opl *chip.OPL3) *Driver {
+func NewDriver(opl chip.Backend) *Driver {
 	d := &Driver{
 		opl:           opl,
 		rnd:           0x1234,
@@ -192,6 +192,11 @@ func NewDriver(opl *chip.OPL3) *Driver {
 		d.channels[i].currentInstrumentID = -1
 	}
 	return d
+}
+
+// SetTraceFunc sets the optional trace callback used for debugging.
+func (d *Driver) SetTraceFunc(fn func(format string, args ...interface{})) {
+	d.TraceFunc = fn
 }
 
 func (d *Driver) trace(format string, args ...interface{}) {

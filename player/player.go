@@ -75,7 +75,7 @@ type Player struct {
 
 // chipSlot wraps a single OPL3 chip instance with its voice manager.
 type chipSlot struct {
-	chip   *chip.OPL3
+	chip   chip.Backend
 	voices *voice.Manager
 	inUse  [9]bool // Which of the 9 OPL2 channels are in use
 }
@@ -443,7 +443,7 @@ func (p *Player) allocateVoice() (chipIdx, oplChannel int) {
 
 	// No free channels — allocate a new chip.
 	cs := &chipSlot{
-		chip: chip.New(uint32(p.sampleRate)),
+		chip: chip.NewBackend(p.sampleRate),
 	}
 	cs.voices = voice.NewManager(cs.chip, p.sampleRate)
 	p.chips = append(p.chips, cs)

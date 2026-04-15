@@ -17,6 +17,7 @@ package adl
 import (
 	"encoding/binary"
 	"fmt"
+	adplugadl "github.com/jebbisson/spice-adl-adplug"
 	"io"
 
 	"github.com/jebbisson/spice-synth/voice"
@@ -410,4 +411,17 @@ func (f *File) ExtractInstruments(prefix string) []*voice.Instrument {
 		instruments = append(instruments, ri.ToVoiceInstrument(name))
 	}
 	return instruments
+}
+
+func toExternalFile(file *File) *adplugadl.File {
+	if file == nil {
+		return nil
+	}
+	return &adplugadl.File{
+		Version:      file.Version,
+		NumPrograms:  file.NumPrograms,
+		NumSubsongs:  file.NumSubsongs,
+		TrackEntries: file.TrackEntries,
+		SoundData:    append([]byte(nil), file.SoundData...),
+	}
 }

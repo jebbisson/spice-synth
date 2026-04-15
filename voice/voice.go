@@ -57,7 +57,7 @@ type Operator struct {
 
 // Manager handles OPL2's 9 melodic channels and their real-time modulators.
 type Manager struct {
-	chip        *chip.OPL3
+	chip        chip.Backend
 	sampleRate  int
 	channels    [9]*channel
 	instruments map[string]*Instrument
@@ -72,7 +72,7 @@ type channel struct {
 }
 
 // NewManager creates a new voice manager attached to the chip.
-func NewManager(c *chip.OPL3, sampleRate int) *Manager {
+func NewManager(c chip.Backend, sampleRate int) *Manager {
 	m := &Manager{
 		chip:        c,
 		sampleRate:  sampleRate,
