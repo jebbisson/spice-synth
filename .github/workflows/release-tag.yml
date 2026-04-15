@@ -1,0 +1,66 @@
+name: release-tag
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create next semantic tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if git tag --points-at HEAD | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "HEAD already has a release tag"
+            exit 0
+          fi
+
+          last_tag=$(git tag --list 'v*' --sort=-version:refname | head -n 1)
+          if [ -z "$last_tag" ]; then
+            last_tag="v0.1.0"
+            git tag "$last_tag"
+            git push origin "$last_tag"
+            exit 0
+          fi
+
+          version=${last_tag#v}
+          IFS='.' read -r major minor patch <<< "$version"
+
+          message=$(git log -1 --format=%B)
+          bump=patch
+          if printf '%s' "$message" | grep -qi '\[major\]'; then
+            bump=major
+          elif printf '%s' "$message" | grep -qi '\[minor\]'; then
+            bump=minor
+          fi
+
+          case "$bump" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            *)
+              patch=$((patch + 1))
+              ;;
+          esac
+
+          next_tag="v${major}.${minor}.${patch}"
+          git tag "$next_tag"
+          git push origin "$next_tag"
