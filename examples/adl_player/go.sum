@@ -12,6 +12,8 @@ github.com/jebbisson/spice-adl-adplug v0.1.1 h1:kCl8ak1BjfB3E9iXzbZ3IH/sCf4j9Se5
 github.com/jebbisson/spice-adl-adplug v0.1.1/go.mod h1:YjxTqPIAe4och+kYi9HF23Xib/MLbN0O/xcUFiRysPY=
 github.com/jebbisson/spice-opl3-nuked v0.1.0 h1:0I1xI2pRwCyHCNpXv3yCga7k4a6kP+n+orHykrkmjls=
 github.com/jebbisson/spice-opl3-nuked v0.1.0/go.mod h1:xD/6Jlx5T1UjQ+GfHm8sx4oOMqBoghjXC8oG9fDcq0Y=
+github.com/jebbisson/spice-synth v0.1.0 h1:WWwkmNgC360pAFgMc+oGvwUWryo7B+MEDCXxxlTrjA8=
+github.com/jebbisson/spice-synth v0.1.0/go.mod h1:28OhWqULYJZiUWwWkk+kHVqzmxklJoEv2P1E1vLAMf0=
 github.com/jezek/xgb v1.1.1 h1:bE/r8ZZtSv7l9gk6nU0mYx51aXrvnyb44892TwSaqS4=
 github.com/jezek/xgb v1.1.1/go.mod h1:nrhwO0FX/enq75I7Y7G8iN1ubpSGZEiA3v9e9GyRFlk=
 golang.org/x/image v0.31.0 h1:mLChjE2MV6g1S7oqbXC0/UcKijjm5fnJLUYKIYrLESA=

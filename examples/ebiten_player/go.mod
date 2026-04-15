@@ -2,11 +2,9 @@ module github.com/jebbisson/spice-synth/examples/ebiten_player
 
 go 1.24.4
 
-replace github.com/jebbisson/spice-synth => ../..
-
 require (
 	github.com/hajimehoshi/ebiten/v2 v2.9.9
-	github.com/jebbisson/spice-synth v0.0.0-00010101000000-000000000000
+	github.com/jebbisson/spice-synth v0.1.0
 )
 
 require (

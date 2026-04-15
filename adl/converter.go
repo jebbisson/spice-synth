@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strconv"
 
+	adplugadl "github.com/jebbisson/spice-adl-adplug"
 	"github.com/jebbisson/spice-synth/chip"
 	"github.com/jebbisson/spice-synth/dsl"
 	"github.com/jebbisson/spice-synth/voice"
@@ -44,7 +45,7 @@ type recEvent struct {
 
 // recorder wraps an ADL Driver and captures musical events during simulation.
 type recorder struct {
-	driver   *Driver
+	driver   *adplugadl.Driver
 	opl      chip.Backend
 	file     *File
 	events   []recEvent
@@ -64,7 +65,7 @@ type recorder struct {
 // newRecorder creates a new recorder for the given ADL file.
 func newRecorder(file *File, maxTicks int) *recorder {
 	opl := chip.NewBackend(44100) // sample rate doesn't matter for simulation
-	driver := NewDriver(opl)
+	driver := adplugadl.NewDriver(opl)
 	driver.SetVersion(file.Version)
 	driver.SetSoundData(file.SoundData)
 	driver.InitDriver()
@@ -147,10 +148,8 @@ func (r *recorder) run(subsong int) {
 
 	// Track previous state per channel for change detection
 	type chanState struct {
-		regBx   uint8
-		regAx   uint8
-		rawNote uint8
-		active  bool // key-on bit set
+		freq    float64
+		active  bool
 		dataptr int
 	}
 
@@ -160,25 +159,26 @@ func (r *recorder) run(subsong int) {
 	}
 
 	for r.tick = 0; r.tick < r.maxTicks; r.tick++ {
-		// Snapshot pre-tick state
+		// Snapshot pre-tick state.
+		states := r.driver.SnapshotChannels()
 		for ch := 0; ch < 9; ch++ {
-			c := &r.driver.channels[ch]
+			c := states[ch]
 			prev[ch] = chanState{
-				regBx:   c.regBx,
-				regAx:   c.regAx,
-				rawNote: c.rawNote,
-				active:  c.regBx&0x20 != 0,
-				dataptr: c.dataptr,
+				freq:    c.FrequencyHz,
+				active:  c.KeyOn,
+				dataptr: c.Dataptr,
 			}
 		}
 
 		// Run one 72Hz tick (this will trigger trace callbacks for instrument setup)
 		r.driver.Callback()
 
+		states = r.driver.SnapshotChannels()
+
 		// Detect state changes for each melodic channel
 		for ch := 0; ch < 9; ch++ {
-			c := &r.driver.channels[ch]
-			nowActive := c.regBx&0x20 != 0
+			c := states[ch]
+			nowActive := c.KeyOn
 			wasActive := prev[ch].active
 
 			// Detect note-off (key-on transition from 1 to 0)
@@ -193,17 +193,15 @@ func (r *recorder) run(subsong int) {
 
 			if nowActive && r.chanActive[ch] {
 				// Check for frequency change without retrigger (slide/vibrato)
-				if c.regAx != prev[ch].regAx || (c.regBx&0x1F) != (prev[ch].regBx&0x1F) {
-					freq := regToFreq(c.regAx, c.regBx)
-					if math.Abs(freq-r.lastFreq[ch]) > 0.1 {
-						r.events = append(r.events, recEvent{
-							Tick:      r.tick,
-							Channel:   ch,
-							Type:      recFreqChange,
-							Frequency: freq,
-						})
-						r.lastFreq[ch] = freq
-					}
+				freq := c.FrequencyHz
+				if math.Abs(freq-prev[ch].freq) > 0.1 && math.Abs(freq-r.lastFreq[ch]) > 0.1 {
+					r.events = append(r.events, recEvent{
+						Tick:      r.tick,
+						Channel:   ch,
+						Type:      recFreqChange,
+						Frequency: freq,
+					})
+					r.lastFreq[ch] = freq
 				}
 			}
 		}
@@ -278,7 +276,7 @@ func Convert(file *File, subsong int, maxSeconds float64) (*ConvertResult, error
 	if maxSeconds <= 0 {
 		maxSeconds = 300
 	}
-	maxTicks := int(maxSeconds * callbacksPerSecond)
+	maxTicks := int(maxSeconds * adplugadl.CallbacksPerSecond)
 
 	rec := newRecorder(file, maxTicks)
 	defer rec.close()
@@ -310,7 +308,7 @@ func Convert(file *File, subsong int, maxSeconds float64) (*ConvertResult, error
 	// BPM mapping: ADL driver runs at 72Hz.
 	// DSL sequencer uses 4 ticks per beat.
 	// To map 1 ADL tick = 1 DSL tick: BPM = 72 * 60 / 4 = 1080
-	bpm := float64(callbacksPerSecond) * 60.0 / 4.0
+	bpm := float64(adplugadl.CallbacksPerSecond) * 60.0 / 4.0
 
 	// Determine total song length in ticks
 	lastTick := 0
