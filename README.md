@@ -152,19 +152,27 @@ func main() {
 package main
 
 import (
-    "github.com/jebbisson/spice-synth/patches"
-    "github.com/jebbisson/spice-synth/sequencer"
-    "github.com/jebbisson/spice-synth/stream"
+	"github.com/jebbisson/spice-synth/sequencer"
+	"github.com/jebbisson/spice-synth/stream"
+	"github.com/jebbisson/spice-synth/voice"
 )
 
 func main() {
-    s := stream.New(44100)
-    defer s.Close()
+	s := stream.New(44100)
+	defer s.Close()
 
-    s.Voices().LoadBank("spice", patches.Spice())
+	s.Voices().LoadBank("local", []*voice.Instrument{
+		{
+			Name:       "desert_bass",
+			Op1:        voice.Operator{Attack: 15, Decay: 4, Sustain: 2, Release: 6, Level: 18, Multiply: 1, Waveform: 0, Sustaining: true},
+			Op2:        voice.Operator{Attack: 15, Decay: 3, Sustain: 1, Release: 8, Level: 0, Multiply: 1, Waveform: 0, Sustaining: true},
+			Feedback:   6,
+			Connection: 0,
+		},
+	})
 
-    bass := sequencer.NewPattern(16).
-        Instrument("desert_bass").
+	bass := sequencer.NewPattern(16).
+		Instrument("desert_bass").
         Note(0, "C2").
         Note(4, "Eb2").
         Note(8, "F2").
@@ -206,8 +214,6 @@ func main() {
 | [`midi`](midi/) | Standard MIDI File (SMF) parser. Supports Format 0 and Format 1 files. |
 | [`op2`](op2/) | OP2 bank parser (DMX GENMIDI format). Embeds a high-quality DMXOPL General MIDI bank. |
 | [`adl`](adl/) | Westwood Studios ADL format parser and 72Hz bytecode VM player. Targets Dune II v2/v3. |
-| [`patches`](patches/) | Predefined FM instrument banks (SpiceSynth originals, GM via OP2). |
-
 ## Examples
 
 Working examples are in the [`examples/`](examples/) directory. See the [examples README](examples/README.md) for details.

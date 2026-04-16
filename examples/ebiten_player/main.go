@@ -23,8 +23,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/jebbisson/spice-synth/dsl"
-	"github.com/jebbisson/spice-synth/patches"
 	"github.com/jebbisson/spice-synth/stream"
+	"github.com/jebbisson/spice-synth/voice"
 )
 
 const (
@@ -102,7 +102,7 @@ func main() {
 	// 1. Initialize the synth stream.
 	s := stream.New(sampleRate)
 	ds := &DebugStream{Stream: s}
-	s.Voices().LoadBank("spice", patches.Spice())
+	s.Voices().LoadBank("spice", spiceBank())
 	s.Sequencer().SetBPM(bpm)
 
 	// --- Hope Fades (Dune II) intro arrangement (DSL) ---
@@ -171,5 +171,31 @@ func main() {
 	ebiten.SetWindowSize(320, 240)
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func spiceBank() []*voice.Instrument {
+	return []*voice.Instrument{
+		{
+			Name:       "desert_bass",
+			Op1:        voice.Operator{Attack: 15, Decay: 4, Sustain: 2, Release: 6, Level: 18, Multiply: 1, Waveform: 0, Sustaining: true},
+			Op2:        voice.Operator{Attack: 15, Decay: 3, Sustain: 1, Release: 8, Level: 0, Multiply: 1, Waveform: 0, Sustaining: true},
+			Feedback:   6,
+			Connection: 0,
+		},
+		{
+			Name:       "desert_wind",
+			Op1:        voice.Operator{Attack: 12, Decay: 4, Sustain: 2, Release: 10, Level: 20, Multiply: 7, Waveform: 0, Sustaining: true},
+			Op2:        voice.Operator{Attack: 10, Decay: 3, Sustain: 1, Release: 12, Level: 0, Multiply: 1, Waveform: 0, Sustaining: true},
+			Feedback:   7,
+			Connection: 0,
+		},
+		{
+			Name:       "spice_chime",
+			Op1:        voice.Operator{Attack: 15, Decay: 6, Sustain: 6, Release: 6, Level: 22, Multiply: 3, Waveform: 1, Sustaining: false},
+			Op2:        voice.Operator{Attack: 15, Decay: 7, Sustain: 10, Release: 7, Level: 0, Multiply: 4, Waveform: 0, Sustaining: false},
+			Feedback:   2,
+			Connection: 0,
+		},
 	}
 }

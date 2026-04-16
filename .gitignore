@@ -34,7 +34,6 @@ go.work.sum
 # Generated audio output
 output.raw
 examples/ebiten_player/ebiten_player
-SPICESYNTH_PLAN.md
 AGENTS.md
 examples/midi/*
 basic
@@ -44,3 +43,4 @@ examples/adl/*
 examples/adl_player/adl_player
 adl2dsl
 examples/adl_extracted_player/adl_extracted_player
+TODO*.md

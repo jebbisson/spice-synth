@@ -12,8 +12,8 @@ import (
 	"os"
 
 	"github.com/jebbisson/spice-synth/dsl"
-	"github.com/jebbisson/spice-synth/patches"
 	"github.com/jebbisson/spice-synth/stream"
+	"github.com/jebbisson/spice-synth/voice"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 
 	// 1. Initialize the stream.
 	s := stream.New(44100)
-	s.Voices().LoadBank("spice", patches.Spice())
+	s.Voices().LoadBank("spice", spiceBank())
 	s.Sequencer().SetBPM(110)
 
 	// 2. Define voices using the DSL.
@@ -73,4 +73,30 @@ func main() {
 
 	fmt.Println("Done! Play with:")
 	fmt.Println("  ffplay -f s16le -ar 44100 -ac 2 output.raw")
+}
+
+func spiceBank() []*voice.Instrument {
+	return []*voice.Instrument{
+		{
+			Name:       "desert_bass",
+			Op1:        voice.Operator{Attack: 15, Decay: 4, Sustain: 2, Release: 6, Level: 18, Multiply: 1, Waveform: 0, Sustaining: true},
+			Op2:        voice.Operator{Attack: 15, Decay: 3, Sustain: 1, Release: 8, Level: 0, Multiply: 1, Waveform: 0, Sustaining: true},
+			Feedback:   6,
+			Connection: 0,
+		},
+		{
+			Name:       "mystic_lead",
+			Op1:        voice.Operator{Attack: 14, Decay: 5, Sustain: 3, Release: 5, Level: 24, Multiply: 1, Waveform: 1, Sustaining: true},
+			Op2:        voice.Operator{Attack: 14, Decay: 6, Sustain: 2, Release: 7, Level: 0, Multiply: 3, Waveform: 0, Sustaining: true},
+			Feedback:   3,
+			Connection: 0,
+		},
+		{
+			Name:       "fm_perc",
+			Op1:        voice.Operator{Attack: 15, Decay: 8, Sustain: 15, Release: 8, Level: 14, Multiply: 6, Waveform: 0},
+			Op2:        voice.Operator{Attack: 15, Decay: 9, Sustain: 15, Release: 9, Level: 0, Multiply: 1, Waveform: 0},
+			Feedback:   7,
+			Connection: 0,
+		},
+	}
 }

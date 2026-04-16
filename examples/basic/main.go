@@ -12,8 +12,8 @@ import (
 	"os"
 
 	"github.com/jebbisson/spice-synth/dsl"
-	"github.com/jebbisson/spice-synth/patches"
 	"github.com/jebbisson/spice-synth/stream"
+	"github.com/jebbisson/spice-synth/voice"
 )
 
 func main() {
@@ -21,7 +21,15 @@ func main() {
 
 	// 1. Initialize stream and load instruments.
 	s := stream.New(44100)
-	s.Voices().LoadBank("spice", patches.Spice())
+	s.Voices().LoadBank("spice", []*voice.Instrument{
+		{
+			Name:       "desert_bass",
+			Op1:        voice.Operator{Attack: 15, Decay: 4, Sustain: 2, Release: 6, Level: 18, Multiply: 1, Waveform: 0, Sustaining: true},
+			Op2:        voice.Operator{Attack: 15, Decay: 3, Sustain: 1, Release: 8, Level: 0, Multiply: 1, Waveform: 0, Sustaining: true},
+			Feedback:   6,
+			Connection: 0,
+		},
+	})
 
 	// 2. Define a single grungy bass note using the DSL.
 	bass := dsl.Note("C2").S("desert_bass").
