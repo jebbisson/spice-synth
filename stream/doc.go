@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // Package stream is the top-level entry point for SpiceSynth. It implements
 // [io.Reader] to produce an infinite stream of signed 16-bit stereo

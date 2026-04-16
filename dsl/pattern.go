@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // Package dsl provides a fluent, method-chaining API for composing FM
 // synthesis patterns, inspired by Strudel (https://strudel.cc). Unlike

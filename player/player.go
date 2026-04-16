@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // Package player provides a MIDI file player that renders General MIDI files
 // through OPL2 FM synthesis using the Nuked-OPL3 emulator.

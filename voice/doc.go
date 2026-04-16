@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // Package voice translates high-level musical concepts (notes, instruments,
 // channels) into the low-level OPL2 register writes required by the chip

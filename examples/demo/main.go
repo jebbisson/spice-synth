@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // demo renders a multi-channel arrangement to a raw PCM file using the DSL.
 // Three voices play simultaneously: a bassline, a lead melody, and percussion.

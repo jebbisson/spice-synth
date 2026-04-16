@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // Package op2 parses OP2 bank files (DMX GENMIDI format) into voice.Instrument
 // definitions suitable for OPL2/OPL3 FM synthesis.

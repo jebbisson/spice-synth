@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // adl_extracted_player plays a song that was extracted from an ADL file using
 // the adl2dsl converter tool. The extracted song uses the DSL Song/Track API

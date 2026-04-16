@@ -3,7 +3,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/jebbisson/spice-synth.svg)](https://pkg.go.dev/github.com/jebbisson/spice-synth)
 [![CI](https://github.com/jebbisson/spice-synth/actions/workflows/ci.yml/badge.svg)](https://github.com/jebbisson/spice-synth/actions/workflows/ci.yml)
 
-SpiceSynth is a Go library for programmatic OPL2/OPL3 FM synthesis. It produces authentic AdLib-era game music in real-time and streams signed 16-bit stereo PCM audio via a standard `io.Reader` interface.
+SpiceSynth is an LGPL-2.1-or-later Go library for programmatic OPL2/OPL3 FM synthesis. It produces authentic AdLib-era game music in real-time and streams signed 16-bit stereo PCM audio via a standard `io.Reader` interface.
 
 Inspired by the grungy, aggressive FM sound of Dune II on PC -- the crunchy bass lines, metallic leads, and raw OPL2 character of Westwood Studios' AdLib driver. SpiceSynth can play back the original Dune II ADL music files directly, render General MIDI through OPL2, or compose new FM music from scratch using a fluent DSL.
 
@@ -14,7 +14,7 @@ Inspired by the grungy, aggressive FM sound of Dune II on PC -- the crunchy bass
 - **General MIDI via OPL2** -- MIDI file parser and multi-chip player with an embedded DMXOPL General MIDI bank (OP2 format).
 - **Fluent DSL** -- Compose FM patterns with a [Strudel](https://strudel.cc)-inspired method-chaining API, including LFO, envelope, and ramp modulators.
 - **`io.Reader` Output** -- Drop-in compatible with audio backends like [Ebiten](https://ebitengine.org/) and [Oto](https://github.com/ebitengine/oto).
-- **Zero Go Dependencies** -- The core library has no external Go dependencies; only a C compiler is required.
+- **High-Level Shared Library Packaging** -- The project can be built as a top-level shared library or linkable archive for downstream products.
 
 ## Prerequisites
 
@@ -35,6 +35,83 @@ SpiceSynth uses CGo to compile the vendored Nuked-OPL3 C source. You need:
 ```bash
 go get github.com/jebbisson/spice-synth
 ```
+
+## Distribution Modes
+
+SpiceSynth supports two usage patterns:
+
+1. **Direct Go module use**
+- import `github.com/jebbisson/spice-synth` into another Go project
+- best for development and internal use
+
+2. **Packaged library distribution**
+- build `spice-synth` itself as a shared library or linkable archive
+- ship that artifact with your product
+- recommended when you want a straightforward LGPL distribution story
+
+### Shared Library Build
+
+Build a shared library from the top-level wrapper target:
+
+```bash
+go build -buildmode=c-shared -o libspicesynth.so ./cmd/spicesynthshared
+```
+
+Common outputs by platform:
+
+- Linux: `libspicesynth.so`
+- macOS: `libspicesynth.dylib`
+- Windows: `spicesynth.dll`
+
+See `cmd/spicesynthshared/README.md` for the exported ABI and packaging notes.
+
+### Linkable Archive Build
+
+Build a linkable archive instead:
+
+```bash
+go build -buildmode=c-archive -o libspicesynth.a ./cmd/spicesynthshared
+```
+
+This produces a compiled archive plus a generated C header. Use this mode if
+your product wants to link SpiceSynth into another binary while still keeping a
+relinkable deliverable.
+
+### Packaging Expectations
+
+For packaged commercial distribution, the intended setup is:
+
+1. build `spice-synth` as `c-shared` or `c-archive`
+2. bundle the generated library artifact with your product
+3. include the project license and third-party notices
+4. document or preserve a relinkable path for the library artifact
+
+The source repository does not ship prebuilt binaries by default. Your product
+build should create the platform-specific artifact it needs.
+
+## Using SpiceSynth From Another Project
+
+### Direct Go module use
+
+If you just want to import the library in another Go project:
+
+```bash
+go get github.com/jebbisson/spice-synth
+```
+
+Then use it as a normal Go dependency.
+
+### Shared library / archive use
+
+If you want to package SpiceSynth as a runtime library for another project:
+
+1. build `cmd/spicesynthshared` as `c-shared` or `c-archive`
+2. include the produced library artifact in your product build or installer
+3. compile or load against the generated C header
+4. include the SpiceSynth `LICENSE` and `THIRD_PARTY_LICENSES`
+
+This is the recommended packaging path for distributed commercial products that
+want a straightforward LGPL compliance story.
 
 ## Quick Start
 
@@ -250,13 +327,14 @@ Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 ## Licensing
 
-This project uses a dual-license structure:
+SpiceSynth is distributed under **LGPL-2.1-or-later**.
 
-- **Go library code**: [MIT License](LICENSE)
-- **Nuked-OPL3 C source** (vendored in `chip/opl3/`): [LGPL-2.1-or-later](chip/opl3/COPYING)
-- **ADL driver**: Ported from [AdPlug](https://github.com/adplug/adplug) (LGPL-2.1)
+This repository builds on top of:
 
-For full third-party attribution, see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
+- [`spice-opl3-nuked`](https://github.com/jebbisson/spice-opl3-nuked)
+- [`spice-adl-adplug`](https://github.com/jebbisson/spice-adl-adplug)
+
+For full attribution and dependency notes, see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
 
 ### Static Linking Notice
 

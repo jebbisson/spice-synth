@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jeb Bisson. MIT License. See LICENSE file in the project root.
+// Copyright (c) 2026 Jeb Bisson. LGPL-2.1-or-later. See LICENSE.
 
 // ebiten_player recreates the Hope Fades (Dune II) intro arrangement using
 // the Strudel-inspired DSL API with real-time audio playback via Ebiten.
