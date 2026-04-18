@@ -44,3 +44,6 @@ examples/adl_player/adl_player
 adl2dsl
 examples/adl_extracted_player/adl_extracted_player
 TODO*.md
+cmd/instruments/instruments
+examples/instruments_yaml/instruments_yaml
+examples/instruments_out/*

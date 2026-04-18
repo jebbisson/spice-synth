@@ -146,6 +146,43 @@ func main() {
 }
 ```
 
+### Extract instruments from an ADL file
+
+Export instruments from a Dune II ADL file as compact YAML:
+
+```bash
+go run ./cmd/adl2dsl -extract-instruments -output dune1-instruments.yaml ./examples/adl/DUNE1.ADL
+```
+
+Write YAML to stdout instead:
+
+```bash
+go run ./cmd/adl2dsl -extract-instruments ./examples/adl/DUNE1.ADL
+```
+
+List subsongs before extracting song code:
+
+```bash
+go run ./cmd/adl2dsl -list ./examples/adl/DUNE1.ADL
+```
+
+Convert a subsong into Go DSL source:
+
+```bash
+go run ./cmd/adl2dsl -subsong 2 -output dune1_song.go ./examples/adl/DUNE1.ADL
+```
+
+Programmatic extraction is also available:
+
+```go
+f, _ := os.Open("DUNE1.ADL")
+defer f.Close()
+
+af, _ := adl.Parse(f)
+instFile := instrument.ExtractFromADL(af)
+_ = instrument.SaveFile("dune1-instruments.yaml", instFile)
+```
+
 ### Compose with the DSL
 
 ```go
@@ -271,9 +308,6 @@ defer s.Close()        // frees underlying C memory
 ### Loading Instruments
 
 ```go
-s.Voices().LoadBank("spice", patches.Spice())
-
-// Or define your own:
 inst := &voice.Instrument{
     Name: "my_bass",
     Op1:  voice.Operator{Attack: 0, Decay: 8, Sustain: 10, Release: 4, Level: 20, Multiply: 1},
@@ -281,7 +315,60 @@ inst := &voice.Instrument{
     Feedback:   4,
     Connection: 0, // 0 = FM, 1 = Additive
 }
+
+s.Voices().LoadBank("local", []*voice.Instrument{inst})
 ```
+
+### Loading Instruments From YAML
+
+```go
+if err := stream.LoadInstrumentsFromYAML(s, "my-instruments.yaml"); err != nil {
+    panic(err)
+}
+
+if err := dsl.Note("C2").S("desert_bass.default").Play(s, 0); err != nil {
+    panic(err)
+}
+```
+
+Compact YAML format:
+
+```yaml
+instruments:
+  - name: desert_bass
+    group: bass
+    variants:
+      - name: default
+        op1: { a: 12, d: 5, s: 3, r: 4, l: 20, m: 1, kr: false, kl: 0, t: false, v: false, su: false, w: 0 }
+        op2: { a: 14, d: 6, s: 2, r: 5, l: 0, m: 2, kr: false, kl: 0, t: false, v: false, su: true, w: 0 }
+        feedback: 5
+        connection: 0
+```
+
+The YAML loader is strict: unknown compact keys and out-of-range values fail to load.
+
+### Instrument CLI
+
+The instrument editor/export tool lives in its own module under `cmd/instruments`.
+
+```bash
+cd cmd/instruments
+go run . ../../examples/instruments_yaml/instruments.yaml
+```
+
+To extract ADL instruments first, use `cmd/adl2dsl` and then inspect or edit the
+result with `cmd/instruments`.
+
+Inside `instruments`:
+
+- `p` previews the selected variant
+- `e` edits carrier level (`op2.l`)
+- `E` edits modulator level (`op1.l`)
+- `f` edits feedback
+- `c` edits connection (`0 = FM`, `1 = Additive`)
+- `t`, `v`, `r`, `u` toggle carrier tremolo, vibrato, KSR, and sustaining
+- `x` exports either the selected variant or all variants to Go code from inside the TUI
+- the main screen is also the list/browse view, so there is no separate list mode
 
 ### Building Patterns
 

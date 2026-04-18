@@ -249,12 +249,14 @@ func parseString(data []byte) string {
 }
 
 // ToInstrument converts an OP2 Patch's primary voice to a voice.Instrument.
+// The Patch type represents the OP2 file format; the Instrument type is the
+// SpiceSynth-facing instrument concept.
 func (p *Patch) ToInstrument() *voice.Instrument {
 	return voiceToInstrument(p.Name, &p.Voice1)
 }
 
 // ToInstruments converts an OP2 Patch to one or two voice.Instrument values.
-// Double-voice patches return two instruments; single-voice patches return one.
+// Double-voice instruments return two instruments; single-voice instruments return one.
 func (p *Patch) ToInstruments() []*voice.Instrument {
 	result := []*voice.Instrument{voiceToInstrument(p.Name, &p.Voice1)}
 	if p.DoubleVoice {

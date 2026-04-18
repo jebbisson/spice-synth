@@ -72,7 +72,7 @@ func (s *Stream) Read(b []byte) (int, error) {
 
 		// 1. Advance sequencer — fires any events in this sub-block window.
 		//    NoteOn writes the instrument's raw register values (including
-		//    carrier level at the patch default). We immediately tick
+		//    carrier level at the instrument default). We immediately tick
 		//    modulators with 0 samples so they override those raw values
 		//    before any audio is generated.
 		s.seq.Advance(n)

@@ -26,7 +26,7 @@ var oplOperatorOffsets = [9][2]uint8{
 // Note represents a musical note.
 type Note float64
 
-// Instrument defines an OPL2 FM instrument patch.
+// Instrument defines an OPL2 FM instrument.
 type Instrument struct {
 	Name string
 

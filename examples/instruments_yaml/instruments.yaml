@@ -1,0 +1,9 @@
+instruments:
+  - name: desert_bass
+    group: bass
+    variants:
+      - name: default
+        op1: { a: 12, d: 5, s: 3, r: 4, l: 20, m: 1, kr: false, kl: 0, t: false, v: false, su: false, w: 0 }
+        op2: { a: 14, d: 6, s: 2, r: 5, l: 0, m: 2, kr: false, kl: 0, t: false, v: false, su: true, w: 0 }
+        feedback: 5
+        connection: 0

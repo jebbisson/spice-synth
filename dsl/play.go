@@ -68,7 +68,7 @@ func (p *Pattern) Play(s *stream.Stream, channel int) error {
 // resolveInstrument looks up or creates the instrument for this pattern.
 func (p *Pattern) resolveInstrument(vm *voice.Manager) (*voice.Instrument, error) {
 	if p.sound == "" {
-		// No instrument specified — create a default sine carrier patch.
+		// No instrument specified — create a default sine carrier instrument.
 		return p.defaultInstrument(), nil
 	}
 

@@ -74,3 +74,5 @@ Players:
 - You should build platform-specific artifacts in your product pipeline
 - The shared library / archive is the recommended distribution mode for products
   that want a straightforward LGPL packaging story
+- ADL song conversion and ADL instrument YAML extraction are provided by the
+  separate `cmd/adl2dsl` CLI, not by the shared library ABI

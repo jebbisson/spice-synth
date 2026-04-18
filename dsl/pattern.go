@@ -86,10 +86,10 @@ func (p *Pattern) Note(noteStr string) *Pattern {
 	return p
 }
 
-// S selects the instrument (sound/patch) by name. When given a named patch
+// S selects the instrument (sound) by name. When given a named instrument
 // (e.g. "desert_bass"), it loads the full instrument. When given a raw
 // waveform name ("sine", "halfsine", "abssine", "quartersine"), it creates
-// a minimal carrier-only patch.
+// a minimal carrier-only instrument.
 func (p *Pattern) S(name string) *Pattern {
 	p.sound = name
 	return p

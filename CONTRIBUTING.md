@@ -29,7 +29,7 @@ Thank you for your interest in contributing to SpiceSynth.
 
 - Follow standard Go conventions (`gofmt`, `go vet`).
 - All exported types and functions must have godoc comments.
-- Do not add external Go dependencies to the core library (`chip/`, `voice/`, `sequencer/`, `stream/`, `patches/`). Examples may use external dependencies.
+- Do not add external Go dependencies to the core library (`chip/`, `voice/`, `sequencer/`, `stream/`, `instrument/`). Examples may use external dependencies.
 
 ## Reporting Issues
 
