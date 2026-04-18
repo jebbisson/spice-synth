@@ -22,6 +22,7 @@ func main() {
 
 	// 1. Initialize the stream.
 	s := stream.New(44100)
+	defer s.Close()
 	s.Voices().LoadBank("spice", spiceBank())
 	s.Sequencer().SetBPM(110)
 

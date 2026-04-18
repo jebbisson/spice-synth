@@ -141,5 +141,9 @@ func (s *Stream) SetMasterVolume(v float64) {
 // Close releases the underlying OPL3 chip resources. The Stream must not be
 // used after calling Close.
 func (s *Stream) Close() {
+	if s.chip == nil {
+		return
+	}
 	s.chip.Close()
+	s.chip = nil
 }

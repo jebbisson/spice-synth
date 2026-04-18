@@ -634,6 +634,7 @@ func main() {
 	}
 
 	p := adl.NewPlayer(sampleRate, af)
+	defer p.Close()
 	p.SetSubsong(subsongs[subsongIdx].Index)
 
 	ds := &DebugStream{player: p}
@@ -722,7 +723,4 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
-	p.Close()
-	fmt.Println("Goodbye.")
 }

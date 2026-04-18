@@ -101,6 +101,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 func main() {
 	// 1. Initialize the synth stream.
 	s := stream.New(sampleRate)
+	defer s.Close()
 	ds := &DebugStream{Stream: s}
 	s.Voices().LoadBank("spice", spiceBank())
 	s.Sequencer().SetBPM(bpm)

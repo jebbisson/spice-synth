@@ -21,6 +21,7 @@ func main() {
 
 	// 1. Initialize stream and load instruments.
 	s := stream.New(44100)
+	defer s.Close()
 	s.Voices().LoadBank("spice", []*voice.Instrument{
 		{
 			Name:       "desert_bass",

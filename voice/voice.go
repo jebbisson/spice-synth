@@ -392,6 +392,16 @@ func (m *Manager) Tick(samples int) {
 	}
 }
 
+// Close releases the underlying OPL3 chip reference. The Manager must not be
+// used after calling Close.
+func (m *Manager) Close() {
+	if m.chip == nil {
+		return
+	}
+	m.chip.Close()
+	m.chip = nil
+}
+
 // applyModValue maps a normalised modulator output (0.0–1.0) to the correct
 // OPL2 register write for the given target.
 func (m *Manager) applyModValue(ch *channel, target ModTarget, val float64) {
