@@ -539,6 +539,17 @@ func (p *Pattern) PlayDirect(s *stream.Stream, channel int) error {
 }
 
 // ---------------------------------------------------------------------------
+// Note release
+// ---------------------------------------------------------------------------
+
+// Off releases the note on the specified channel. This is the counterpart to
+// Play/PlayDirect — call it when you want to stop the sound and free the
+// voice for reuse.
+func (p *Pattern) Off(s *stream.Stream, channel int) error {
+	return s.Voices().NoteOff(channel)
+}
+
+// ---------------------------------------------------------------------------
 // Convenience constructors that bypass method chaining
 // ---------------------------------------------------------------------------
 

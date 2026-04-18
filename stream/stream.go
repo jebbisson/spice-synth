@@ -147,3 +147,10 @@ func (s *Stream) Close() {
 	s.chip.Close()
 	s.chip = nil
 }
+
+// StopNote releases the note on the specified channel, freeing the voice for
+// reuse. This is the counterpart to Play/PlayDirect — call it when you want
+// to stop the sound without stopping the entire stream.
+func (s *Stream) StopNote(channel int) error {
+	return s.voices.NoteOff(channel)
+}
