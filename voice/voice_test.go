@@ -34,3 +34,35 @@ func TestNoteOn_NilInstrument(t *testing.T) {
 		t.Error("Expected error for nil instrument, got nil")
 	}
 }
+
+func TestInstrumentOverrideApplyTo(t *testing.T) {
+	base := &Instrument{
+		Name: "base",
+		Op1:  Operator{Level: 20, Attack: 3},
+		Op2:  Operator{Level: 5, Attack: 4},
+		Feedback:   2,
+		Connection: 0,
+	}
+	level := uint8(11)
+	attack := uint8(15)
+	feedback := uint8(6)
+
+	override := &InstrumentOverride{
+		Op2:      OperatorOverride{Level: &level, Attack: &attack},
+		Feedback: &feedback,
+	}
+
+	got := override.ApplyTo(base)
+	if got == nil {
+		t.Fatal("ApplyTo returned nil")
+	}
+	if got == base {
+		t.Fatal("ApplyTo should clone, not mutate in place")
+	}
+	if got.Op2.Level != 11 || got.Op2.Attack != 15 || got.Feedback != 6 {
+		t.Fatalf("override not applied correctly: %+v", got)
+	}
+	if base.Op2.Level != 5 || base.Op2.Attack != 4 || base.Feedback != 2 {
+		t.Fatalf("base instrument was mutated: %+v", base)
+	}
+}

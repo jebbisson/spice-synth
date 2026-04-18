@@ -21,12 +21,20 @@ type RawInstrument adplugadl.RawInstrument
 
 type SubsongType = adplugadl.SubsongType
 type SubsongInfo = adplugadl.SubsongInfo
+type ChannelState = adplugadl.ChannelState
+type ChannelEvent = adplugadl.ChannelEvent
+type ChannelEventType = adplugadl.ChannelEventType
 
 const (
 	SubsongEmpty = adplugadl.SubsongEmpty
 	SubsongReset = adplugadl.SubsongReset
 	SubsongMusic = adplugadl.SubsongMusic
 	SubsongSFX   = adplugadl.SubsongSFX
+
+	EventInstrumentChange = adplugadl.EventInstrumentChange
+	EventNoteOn           = adplugadl.EventNoteOn
+	EventNoteOff          = adplugadl.EventNoteOff
+	EventVolumeChange     = adplugadl.EventVolumeChange
 )
 
 // Parse reads an ADL file from the given reader.

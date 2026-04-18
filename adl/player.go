@@ -9,8 +9,6 @@ const (
 	StateDone    = adplugadl.StateDone
 )
 
-type ChannelState = adplugadl.ChannelState
-
 type Player struct {
 	*adplugadl.Player
 }

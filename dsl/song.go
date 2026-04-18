@@ -125,6 +125,43 @@ type Track struct {
 	length     int // total length in ticks (0 = auto from last event)
 }
 
+// Phrase is a reusable block of track events with ticks relative to the phrase
+// start.
+type Phrase struct {
+	events []TrackEvent
+	length int
+}
+
+// NewPhrase creates an empty phrase.
+func NewPhrase() *Phrase {
+	return &Phrase{}
+}
+
+// AppendEvent adds a pre-built event to the phrase.
+func (p *Phrase) AppendEvent(e TrackEvent) *Phrase {
+	p.events = append(p.events, e)
+	if e.Tick+1 > p.length {
+		p.length = e.Tick + 1
+	}
+	return p
+}
+
+// SetLength sets the phrase length in ticks.
+func (p *Phrase) SetLength(ticks int) *Phrase {
+	p.length = ticks
+	return p
+}
+
+// Length returns the phrase length in ticks.
+func (p *Phrase) Length() int {
+	return p.length
+}
+
+// Events returns the phrase events.
+func (p *Phrase) Events() []TrackEvent {
+	return p.events
+}
+
 // NewTrack creates a new track assigned to the given OPL2 channel (0-8).
 func NewTrack(channel int) *Track {
 	return &Track{channel: channel}
@@ -134,6 +171,11 @@ func NewTrack(channel int) *Track {
 func (t *Track) SetInstrument(name string) *Track {
 	t.instrument = name
 	return t
+}
+
+// Instrument returns the default instrument name for this track.
+func (t *Track) Instrument() string {
+	return t.instrument
 }
 
 // SetLength sets the track length in ticks. If not set, the length is
@@ -148,8 +190,19 @@ func (t *Track) Channel() int {
 	return t.channel
 }
 
+// Length returns the configured track length in ticks.
+func (t *Track) Length() int {
+	return t.length
+}
+
 // NoteOn adds a note-on event at the given tick position.
 func (t *Track) NoteOn(tick int, note string) *Track {
+	return t.NoteOnWithOverride(tick, note, nil)
+}
+
+// NoteOnWithOverride adds a note-on event with optional note-start instrument
+// overrides applied against the current instrument.
+func (t *Track) NoteOnWithOverride(tick int, note string, override *voice.InstrumentOverride) *Track {
 	freq, err := voice.ParseNote(note)
 	if err != nil {
 		// Store a sentinel that will produce an error at compile time.
@@ -166,6 +219,7 @@ func (t *Track) NoteOn(tick int, note string) *Track {
 		Note:       voice.Note(freq),
 		NoteStr:    note,
 		Instrument: t.instrument,
+		Override:   override,
 	})
 	return t
 }
@@ -183,6 +237,14 @@ func (t *Track) NoteOff(tick int) *Track {
 // This is a convenience for notes with explicit durations.
 func (t *Track) NoteOnOff(tick int, note string, duration int) *Track {
 	t.NoteOn(tick, note)
+	t.NoteOff(tick + duration)
+	return t
+}
+
+// NoteOnOffWithOverride adds a note-on plus note-off pair with optional
+// note-start instrument overrides.
+func (t *Track) NoteOnOffWithOverride(tick int, note string, duration int, override *voice.InstrumentOverride) *Track {
+	t.NoteOnWithOverride(tick, note, override)
 	t.NoteOff(tick + duration)
 	return t
 }
@@ -259,6 +321,33 @@ func (t *Track) AddEvent(e TrackEvent) *Track {
 	return t
 }
 
+// Append adds a phrase at the given track tick offset.
+func (t *Track) Append(p *Phrase, at int) *Track {
+	if p == nil {
+		return t
+	}
+	for _, e := range p.events {
+		shifted := e
+		shifted.Tick += at
+		t.events = append(t.events, shifted)
+	}
+	if p.length > 0 && at+p.length > t.length {
+		t.length = at + p.length
+	}
+	return t
+}
+
+// Repeat appends the same phrase multiple times with a fixed spacing.
+func (t *Track) Repeat(p *Phrase, count int, spacing int) *Track {
+	if p == nil || count <= 0 {
+		return t
+	}
+	for i := 0; i < count; i++ {
+		t.Append(p, i*spacing)
+	}
+	return t
+}
+
 // compile converts the track into a sequencer.Pattern.
 func (t *Track) compile() (*sequencer.Pattern, error) {
 	// Determine pattern length.
@@ -296,6 +385,7 @@ func (t *Track) compile() (*sequencer.Pattern, error) {
 				Type:       sequencer.NoteOn,
 				Note:       e.Note,
 				Instrument: inst,
+				Override:   e.Override,
 			})
 
 		case TrackNoteOff:
@@ -376,6 +466,7 @@ type TrackEvent struct {
 	Note       voice.Note     // For NoteOn: the frequency.
 	NoteStr    string         // For NoteOn: the original note string (for code gen).
 	Instrument string         // For NoteOn/InstrumentChange: instrument name.
+	Override   *voice.InstrumentOverride
 	Volume     float64        // For VolumeChange: 0.0-1.0.
 	Frequency  float64        // For FrequencyChange: Hz.
 	Operator   int            // For LevelChange: 0=modulator, 1=carrier.

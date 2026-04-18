@@ -55,6 +55,119 @@ type Operator struct {
 	Waveform      uint8 // 0-3: sine, half-sine, abs-sine, quarter-sine
 }
 
+// OperatorOverride applies absolute operator parameter overrides to a base
+// instrument at note start.
+type OperatorOverride struct {
+	Attack        *uint8
+	Decay         *uint8
+	Sustain       *uint8
+	Release       *uint8
+	Level         *uint8
+	Multiply      *uint8
+	KeyScaleRate  *bool
+	KeyScaleLevel *uint8
+	Tremolo       *bool
+	Vibrato       *bool
+	Sustaining    *bool
+	Waveform      *uint8
+}
+
+func (o OperatorOverride) empty() bool {
+	return o.Attack == nil && o.Decay == nil && o.Sustain == nil && o.Release == nil &&
+		o.Level == nil && o.Multiply == nil && o.KeyScaleRate == nil && o.KeyScaleLevel == nil &&
+		o.Tremolo == nil && o.Vibrato == nil && o.Sustaining == nil && o.Waveform == nil
+}
+
+// InstrumentOverride applies absolute instrument parameter overrides to a base
+// instrument at note start.
+type InstrumentOverride struct {
+	Op1        OperatorOverride
+	Op2        OperatorOverride
+	Feedback   *uint8
+	Connection *uint8
+}
+
+// Empty reports whether the override changes anything.
+func (o *InstrumentOverride) Empty() bool {
+	if o == nil {
+		return true
+	}
+	return o.Op1.empty() && o.Op2.empty() && o.Feedback == nil && o.Connection == nil
+}
+
+// Clone returns a deep copy of the instrument.
+func (i *Instrument) Clone() *Instrument {
+	if i == nil {
+		return nil
+	}
+	clone := *i
+	clone.Op1 = i.Op1
+	clone.Op2 = i.Op2
+	return &clone
+}
+
+// ApplyTo returns a cloned instrument with the override applied.
+func (o *InstrumentOverride) ApplyTo(base *Instrument) *Instrument {
+	if base == nil {
+		return nil
+	}
+	if o == nil || o.Empty() {
+		return base.Clone()
+	}
+	out := base.Clone()
+	applyOperatorOverride(&out.Op1, o.Op1)
+	applyOperatorOverride(&out.Op2, o.Op2)
+	if o.Feedback != nil {
+		out.Feedback = *o.Feedback
+	}
+	if o.Connection != nil {
+		out.Connection = *o.Connection
+	}
+	return out
+}
+
+func applyOperatorOverride(dst *Operator, override OperatorOverride) {
+	if dst == nil {
+		return
+	}
+	if override.Attack != nil {
+		dst.Attack = *override.Attack
+	}
+	if override.Decay != nil {
+		dst.Decay = *override.Decay
+	}
+	if override.Sustain != nil {
+		dst.Sustain = *override.Sustain
+	}
+	if override.Release != nil {
+		dst.Release = *override.Release
+	}
+	if override.Level != nil {
+		dst.Level = *override.Level
+	}
+	if override.Multiply != nil {
+		dst.Multiply = *override.Multiply
+	}
+	if override.KeyScaleRate != nil {
+		dst.KeyScaleRate = *override.KeyScaleRate
+	}
+	if override.KeyScaleLevel != nil {
+		dst.KeyScaleLevel = *override.KeyScaleLevel
+	}
+	if override.Tremolo != nil {
+		dst.Tremolo = *override.Tremolo
+	}
+	if override.Vibrato != nil {
+		dst.Vibrato = *override.Vibrato
+	}
+	if override.Sustaining != nil {
+		dst.Sustaining = *override.Sustaining
+	}
+	if override.Waveform != nil {
+		dst.Waveform = *override.Waveform
+	}
+}
+
 // Manager handles OPL2's 9 melodic channels and their real-time modulators.
 type Manager struct {
 	chip        chip.Backend
@@ -93,11 +206,20 @@ func NewManager(c chip.Backend, sampleRate int) *Manager {
 
 // NoteOn triggers a note on the specified channel with the given instrument.
 func (m *Manager) NoteOn(channelID int, note Note, inst *Instrument) error {
+	return m.NoteOnWithOverride(channelID, note, inst, nil)
+}
+
+// NoteOnWithOverride triggers a note using a base instrument plus optional
+// note-start overrides, applying the effective instrument before key-on.
+func (m *Manager) NoteOnWithOverride(channelID int, note Note, inst *Instrument, override *InstrumentOverride) error {
 	if channelID < 0 || channelID >= 9 {
 		return fmt.Errorf("invalid channel: %d", channelID)
 	}
 	if inst == nil {
 		return errors.New("instrument cannot be nil")
+	}
+	if override != nil && !override.Empty() {
+		inst = override.ApplyTo(inst)
 	}
 
 	ch := m.channels[channelID]
@@ -200,6 +322,9 @@ func (m *Manager) writeOperatorAMVIB(reg uint8, op *Operator) {
 
 func (m *Manager) writeRegister(reg uint8, val uint8) {
 	// Keep DSL/stream playback on the same buffered OPL timing path as ADL.
+	if m.chip == nil {
+		return
+	}
 	m.chip.WriteRegisterBuffered(0, reg, val)
 }
 

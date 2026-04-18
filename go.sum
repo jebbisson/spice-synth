@@ -1,9 +1,8 @@
-github.com/jebbisson/spice-adl-adplug v0.1.2 h1:L2HK4lbnqoayd14DaXsmcSn+4m7gY33+68F8ykprB1k=
-github.com/jebbisson/spice-adl-adplug v0.1.2/go.mod h1:YjxTqPIAe4och+kYi9HF23Xib/MLbN0O/xcUFiRysPY=
-github.com/jebbisson/spice-adl-adplug v0.2.0 h1:j3+PtTTsB2AS/NuyOzb0RzcIzACAkcAjPMgyfbSl5+U=
-github.com/jebbisson/spice-adl-adplug v0.2.0/go.mod h1:2CEJenf0BlYEUIdOGNSx4J62BXhsic7fFQqFlb2z3ds=
+github.com/jebbisson/spice-adl-adplug v0.3.1 h1:TNxSLIqL89WXuTXIY6rDdgLIT0ysYPoMTQ9oXxrEXK8=
+github.com/jebbisson/spice-adl-adplug v0.3.1/go.mod h1:2CEJenf0BlYEUIdOGNSx4J62BXhsic7fFQqFlb2z3ds=
 github.com/jebbisson/spice-opl3-nuked v0.2.0 h1:Tc3qY9bbEwPX0mlGE2JZdhs1Ybr3XDtBkW8ABvtuljc=
 github.com/jebbisson/spice-opl3-nuked v0.2.0/go.mod h1:xD/6Jlx5T1UjQ+GfHm8sx4oOMqBoghjXC8oG9fDcq0Y=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

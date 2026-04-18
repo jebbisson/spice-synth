@@ -51,6 +51,13 @@ func ExtractFromOP2Bank(bank *op2.Bank) *File {
 	return extractFromVoiceInstruments(insts)
 }
 
+// ExtractFromVoiceInstruments groups identical instrument configurations under
+// the first-seen name. This is used by code generators that already have a raw
+// bank in memory.
+func ExtractFromVoiceInstruments(insts []*voice.Instrument) *File {
+	return extractFromVoiceInstruments(insts)
+}
+
 func extractFromVoiceInstruments(insts []*voice.Instrument) *File {
 	out := &File{}
 	bySignature := make(map[string]*FileInstrument)

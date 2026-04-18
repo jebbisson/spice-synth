@@ -112,7 +112,7 @@ func (s *Sequencer) triggerEvent(channel int, e Event) {
 	case NoteOn:
 		inst, err := s.voices.GetInstrument(e.Instrument)
 		if err == nil {
-			s.voices.NoteOn(channel, e.Note, inst)
+			s.voices.NoteOnWithOverride(channel, e.Note, inst, e.Override)
 		}
 	case NoteOff:
 		s.voices.NoteOff(channel)
@@ -304,6 +304,7 @@ type Event struct {
 	Type       EventType
 	Note       voice.Note
 	Instrument string
+	Override   *voice.InstrumentOverride
 	Volume     float64
 
 	// FrequencyChange fields

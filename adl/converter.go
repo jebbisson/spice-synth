@@ -5,8 +5,6 @@ package adl
 import (
 	"fmt"
 	"math"
-	"regexp"
-	"strconv"
 
 	adplugadl "github.com/jebbisson/spice-adl-adplug"
 	"github.com/jebbisson/spice-synth/chip"
@@ -26,7 +24,7 @@ const (
 	recNoteOff
 	recInstrumentChange
 	recFreqChange  // pitch change without retrigger (slide, vibrato, pitch bend)
-	recChannelStop // channel stopped playing
+	recLevelChange
 )
 
 // recEvent is a single event captured during ADL simulation.
@@ -37,6 +35,9 @@ type recEvent struct {
 	Frequency float64 // Hz, for NoteOn and FreqChange
 	InstID    int     // instrument index for InstrumentChange
 	InstName  string  // instrument name for InstrumentChange
+	Operator  int
+	Level     uint8
+	Override  *voice.InstrumentOverride
 }
 
 // ---------------------------------------------------------------------------
@@ -53,13 +54,15 @@ type recorder struct {
 	maxTicks int
 
 	// Per-channel state tracking for deduplication
-	curInst    [9]int     // current instrument ID per channel, -1 = none
-	lastFreq   [9]float64 // last frequency per channel
-	chanActive [9]bool    // whether each channel has an active note
+	curInstKey   [9]string  // current deduped instrument key per channel
+	lastFreq     [9]float64 // last frequency per channel
+	chanActive   [9]bool    // whether each channel has an active note
+	instrumentMap map[int]instrumentRef
+}
 
-	// Instrument and note-on tracking parsed from trace output.
-	instRegex   *regexp.Regexp
-	noteOnRegex *regexp.Regexp
+type instrumentRef struct {
+	key  string
+	base *voice.Instrument
 }
 
 // newRecorder creates a new recorder for the given ADL file.
@@ -71,58 +74,99 @@ func newRecorder(file *File, maxTicks int) *recorder {
 	driver.InitDriver()
 
 	r := &recorder{
-		driver:      driver,
-		opl:         opl,
-		file:        file,
-		maxTicks:    maxTicks,
-		instRegex:   regexp.MustCompile(`setupInstrument: ch(\d+) inst=(\d+)`),
-		noteOnRegex: regexp.MustCompile(`noteOn: ch(\d+) rawNote=0x([0-9A-Fa-f]{2}) regAx=0x([0-9A-Fa-f]{2}) regBx=0x([0-9A-Fa-f]{2})`),
+		driver:        driver,
+		opl:           opl,
+		file:          file,
+		maxTicks:      maxTicks,
+		instrumentMap: buildInstrumentMap(file),
 	}
-	for i := range r.curInst {
-		r.curInst[i] = -1
+	for i := range r.curInstKey {
+		r.curInstKey[i] = ""
 	}
 
-	// Hook the trace function to capture instrument assignments
-	driver.SetTraceFunc(r.handleTrace)
+	// Hook the structured event function to capture instrument assignments and
+	// note starts without parsing trace strings.
+	driver.SetEventFunc(r.handleEvent)
 
 	return r
 }
 
-// handleTrace processes driver trace messages to capture instrument assignments.
-func (r *recorder) handleTrace(format string, args ...interface{}) {
-	msg := fmt.Sprintf(format, args...)
-	if matches := r.instRegex.FindStringSubmatch(msg); matches != nil {
-		ch, _ := strconv.Atoi(matches[1])
-		instID, _ := strconv.Atoi(matches[2])
-		if ch >= 0 && ch < 9 {
-			if r.curInst[ch] != instID {
-				r.curInst[ch] = instID
-				r.events = append(r.events, recEvent{
-					Tick:     r.tick,
-					Channel:  ch,
-					Type:     recInstrumentChange,
-					InstID:   instID,
-					InstName: fmt.Sprintf("adl_%03d", instID),
-				})
-			}
-		}
+// handleEvent processes structured driver events to capture musical activity.
+func (r *recorder) handleEvent(ev adplugadl.ChannelEvent) {
+	ch := ev.Channel
+	if ch < 0 || ch >= 9 {
+		return
 	}
-	if matches := r.noteOnRegex.FindStringSubmatch(msg); matches != nil {
-		ch, _ := strconv.Atoi(matches[1])
-		regAxVal, _ := strconv.ParseUint(matches[3], 16, 8)
-		regBxVal, _ := strconv.ParseUint(matches[4], 16, 8)
-		if ch >= 0 && ch < 9 {
-			freq := regToFreq(uint8(regAxVal), uint8(regBxVal))
+	state := ev.State
+	switch ev.Type {
+	case adplugadl.EventInstrumentChange:
+		ref, ok := r.instrumentMap[state.InstrumentID]
+		if !ok {
+			return
+		}
+		if r.curInstKey[ch] == ref.key {
+			return
+		}
+		r.curInstKey[ch] = ref.key
+		r.events = append(r.events, recEvent{
+			Tick:     int(ev.Tick),
+			Channel:  ch,
+			Type:     recInstrumentChange,
+			InstID:   state.InstrumentID,
+			InstName: ref.key,
+		})
+
+	case adplugadl.EventNoteOn:
+		ref, ok := r.instrumentMap[state.InstrumentID]
+		if !ok {
+			return
+		}
+		freq := state.FrequencyHz
+		r.events = append(r.events, recEvent{
+			Tick:      int(ev.Tick),
+			Channel:   ch,
+			Type:      recNoteOn,
+			Frequency: freq,
+			InstID:    state.InstrumentID,
+			InstName:  ref.key,
+			Override:  buildOverride(state, ref.base),
+		})
+		r.lastFreq[ch] = freq
+		r.chanActive[ch] = true
+
+	case adplugadl.EventNoteOff:
+		r.events = append(r.events, recEvent{
+			Tick:    int(ev.Tick),
+			Channel: ch,
+			Type:    recNoteOff,
+		})
+		r.chanActive[ch] = false
+
+	case adplugadl.EventVolumeChange:
+		if !r.chanActive[ch] {
+			return
+		}
+		ref, ok := r.instrumentMap[state.InstrumentID]
+		if !ok {
+			return
+		}
+		if state.ModulatorLevel != ref.base.Op1.Level {
 			r.events = append(r.events, recEvent{
-				Tick:      r.tick,
-				Channel:   ch,
-				Type:      recNoteOn,
-				Frequency: freq,
-				InstID:    r.curInst[ch],
-				InstName:  r.instName(ch),
+				Tick:     int(ev.Tick),
+				Channel:  ch,
+				Type:     recLevelChange,
+				Operator: 0,
+				Level:    state.ModulatorLevel,
 			})
-			r.lastFreq[ch] = freq
-			r.chanActive[ch] = true
+		}
+		if state.CarrierLevel != ref.base.Op2.Level {
+			r.events = append(r.events, recEvent{
+				Tick:     int(ev.Tick),
+				Channel:  ch,
+				Type:     recLevelChange,
+				Operator: 1,
+				Level:    state.CarrierLevel,
+			})
 		}
 	}
 }
@@ -170,7 +214,8 @@ func (r *recorder) run(subsong int) {
 			}
 		}
 
-		// Run one 72Hz tick (this will trigger trace callbacks for instrument setup)
+		// Run one 72Hz tick (this will trigger structured callbacks for notes,
+		// instruments, and volume changes).
 		r.driver.Callback()
 
 		states = r.driver.SnapshotChannels()
@@ -179,17 +224,6 @@ func (r *recorder) run(subsong int) {
 		for ch := 0; ch < 9; ch++ {
 			c := states[ch]
 			nowActive := c.KeyOn
-			wasActive := prev[ch].active
-
-			// Detect note-off (key-on transition from 1 to 0)
-			if wasActive && !nowActive {
-				r.events = append(r.events, recEvent{
-					Tick:    r.tick,
-					Channel: ch,
-					Type:    recNoteOff,
-				})
-				r.chanActive[ch] = false
-			}
 
 			if nowActive && r.chanActive[ch] {
 				// Check for frequency change without retrigger (slide/vibrato)
@@ -218,14 +252,6 @@ func (r *recorder) run(subsong int) {
 			break
 		}
 	}
-}
-
-// instName returns the instrument name for the given channel.
-func (r *recorder) instName(ch int) string {
-	if r.curInst[ch] >= 0 {
-		return fmt.Sprintf("adl_%03d", r.curInst[ch])
-	}
-	return ""
 }
 
 // regToFreq converts OPL2 register values (regAx + regBx) to frequency in Hz.
@@ -302,8 +328,8 @@ func Convert(file *File, subsong int, maxSeconds float64) (*ConvertResult, error
 		}
 	}
 
-	// Extract instruments from the file
-	instruments := file.ExtractInstruments("adl")
+	// Extract deduped instruments from the file.
+	instruments, _ := extractDedupedInstruments(file)
 
 	// BPM mapping: ADL driver runs at 72Hz.
 	// DSL sequencer uses 4 ticks per beat.
@@ -373,6 +399,7 @@ func Convert(file *File, subsong int, maxSeconds float64) (*ConvertResult, error
 					Note:       voice.Note(e.Frequency),
 					NoteStr:    noteStr,
 					Instrument: instName,
+					Override:   e.Override,
 				})
 
 			case recNoteOff:
@@ -387,6 +414,14 @@ func Convert(file *File, subsong int, maxSeconds float64) (*ConvertResult, error
 					Type:      dsl.TrackFrequencyChange,
 					Frequency: e.Frequency,
 				})
+
+			case recLevelChange:
+				track.AddEvent(dsl.TrackEvent{
+					Tick:     e.Tick,
+					Type:     dsl.TrackLevelChange,
+					Operator: e.Operator,
+					Level:    e.Level,
+				})
 			}
 		}
 
@@ -400,6 +435,103 @@ func Convert(file *File, subsong int, maxSeconds float64) (*ConvertResult, error
 		TicksUsed:   lastTick + 1,
 		Channels:    activeChannels,
 	}, nil
+}
+
+func buildInstrumentMap(file *File) map[int]instrumentRef {
+	result := make(map[int]instrumentRef)
+	if file == nil || file.File == nil {
+		return result
+	}
+	_, bySignature := extractDedupedInstruments(file)
+	for i := 0; i < file.NumPrograms; i++ {
+		data := file.GetInstrument(i)
+		if data == nil || len(data) < 11 {
+			continue
+		}
+		ri, err := ParseRawInstrument(data)
+		if err != nil {
+			continue
+		}
+		inst := ri.ToVoiceInstrument(fmt.Sprintf("adl_%03d", i))
+		ref, ok := bySignature[instrumentSignature(inst)]
+		if !ok {
+			continue
+		}
+		result[i] = ref
+	}
+	return result
+}
+
+func extractDedupedInstruments(file *File) ([]*voice.Instrument, map[string]instrumentRef) {
+	result := make([]*voice.Instrument, 0)
+	bySignature := make(map[string]instrumentRef)
+	nameCounts := make(map[string]int)
+	if file == nil || file.File == nil {
+		return result, bySignature
+	}
+	for i := 0; i < file.NumPrograms; i++ {
+		data := file.GetInstrument(i)
+		if data == nil || len(data) < 11 {
+			continue
+		}
+		ri, err := ParseRawInstrument(data)
+		if err != nil {
+			continue
+		}
+		inst := ri.ToVoiceInstrument(fmt.Sprintf("adl_%03d", i))
+		sig := instrumentSignature(inst)
+		if _, ok := bySignature[sig]; ok {
+			continue
+		}
+		baseName := uniqueInstrumentName(inst.Name, nameCounts)
+		inst.Name = baseName + ".default"
+		result = append(result, inst)
+		bySignature[sig] = instrumentRef{key: inst.Name, base: inst}
+	}
+	return result, bySignature
+}
+
+func uniqueInstrumentName(base string, counts map[string]int) string {
+	if base == "" {
+		base = "unnamed"
+	}
+	count := counts[base]
+	counts[base] = count + 1
+	if count == 0 {
+		return base
+	}
+	return fmt.Sprintf("%s_%d", base, count)
+}
+
+func instrumentSignature(inst *voice.Instrument) string {
+	if inst == nil {
+		return ""
+	}
+	return fmt.Sprintf("%d:%d:%d:%d:%d:%t:%d:%t:%t:%t:%d|%d:%d:%d:%d:%d:%t:%d:%t:%t:%t:%d|%d|%d",
+		inst.Op1.Attack, inst.Op1.Decay, inst.Op1.Sustain, inst.Op1.Release, inst.Op1.Multiply,
+		inst.Op1.KeyScaleRate, inst.Op1.KeyScaleLevel, inst.Op1.Tremolo, inst.Op1.Vibrato, inst.Op1.Sustaining, inst.Op1.Waveform,
+		inst.Op2.Attack, inst.Op2.Decay, inst.Op2.Sustain, inst.Op2.Release, inst.Op2.Multiply,
+		inst.Op2.KeyScaleRate, inst.Op2.KeyScaleLevel, inst.Op2.Tremolo, inst.Op2.Vibrato, inst.Op2.Sustaining, inst.Op2.Waveform,
+		inst.Feedback, inst.Connection)
+}
+
+func buildOverride(state adplugadl.ChannelState, base *voice.Instrument) *voice.InstrumentOverride {
+	if base == nil {
+		return nil
+	}
+	override := &voice.InstrumentOverride{}
+	if state.ModulatorLevel != base.Op1.Level {
+		level := state.ModulatorLevel
+		override.Op1.Level = &level
+	}
+	if state.CarrierLevel != base.Op2.Level {
+		level := state.CarrierLevel
+		override.Op2.Level = &level
+	}
+	if override.Empty() {
+		return nil
+	}
+	return override
 }
 
 // ---------------------------------------------------------------------------

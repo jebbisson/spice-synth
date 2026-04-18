@@ -506,6 +506,45 @@ func TestPlayWithOverridesCreatesUniqueInstrument(t *testing.T) {
 	}
 }
 
+func TestTrackAppendAndRepeat(t *testing.T) {
+	phrase := NewPhrase().
+		AppendEvent(TrackEvent{Tick: 0, Type: TrackNoteOn, Note: voice.Note(440), Instrument: "bass.default"}).
+		AppendEvent(TrackEvent{Tick: 4, Type: TrackNoteOff}).
+		SetLength(8)
+
+	track := NewTrack(0).Repeat(phrase, 2, 8)
+	events := track.Events()
+	if len(events) != 4 {
+		t.Fatalf("expected 4 flattened events, got %d", len(events))
+	}
+	got := []int{events[0].Tick, events[1].Tick, events[2].Tick, events[3].Tick}
+	want := []int{0, 4, 8, 12}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Fatalf("unexpected repeated event ticks: got %v want %v", got, want)
+		}
+	}
+}
+
+func TestTrackNoteOnWithOverrideCompiles(t *testing.T) {
+	level := uint8(17)
+	track := NewTrack(0).SetInstrument("bass.default")
+	track.NoteOnWithOverride(0, "A4", &voice.InstrumentOverride{
+		Op2: voice.OperatorOverride{Level: &level},
+	})
+
+	pat, err := track.compile()
+	if err != nil {
+		t.Fatalf("compile failed: %v", err)
+	}
+	if len(pat.Events) != 1 {
+		t.Fatalf("expected 1 sequencer event, got %d", len(pat.Events))
+	}
+	if pat.Events[0].Override == nil || pat.Events[0].Override.Op2.Level == nil || *pat.Events[0].Override.Op2.Level != 17 {
+		t.Fatal("note override was not preserved during compile")
+	}
+}
+
 func TestPlayNamedInstrumentFromBank(t *testing.T) {
 	s := stream.New(44100)
 	defer s.Close()

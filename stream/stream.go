@@ -133,6 +133,15 @@ func (s *Stream) Voices() *voice.Manager {
 	return s.voices
 }
 
+// ChannelMeter returns the backend's most recent normalized output level for a
+// melodic channel.
+func (s *Stream) ChannelMeter(ch int) float64 {
+	if s.chip == nil {
+		return 0
+	}
+	return s.chip.ChannelMeter(ch)
+}
+
 // SetMasterVolume sets the master output volume (0.0 - 1.0).
 func (s *Stream) SetMasterVolume(v float64) {
 	s.masterVol = v
