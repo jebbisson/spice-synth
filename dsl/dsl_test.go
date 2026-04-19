@@ -545,6 +545,154 @@ func TestTrackNoteOnWithOverrideCompiles(t *testing.T) {
 	}
 }
 
+func TestPhraseCursorDefaultsAndOverrides(t *testing.T) {
+	phrase := NewPhrase().
+		SetInstrument("bass.default").
+		SetOverride(Override().CarrierLevel(17).Build())
+
+	phrase.At(0).Note("C4", 8)
+	phrase.At(8).ClearOverride().UseInstrument("lead.default").Note("E4", 4)
+
+	events := phrase.Events()
+	if len(events) != 4 {
+		t.Fatalf("expected 4 phrase events, got %d", len(events))
+	}
+	if events[0].Instrument != "bass.default" {
+		t.Fatalf("first note instrument = %q, want bass.default", events[0].Instrument)
+	}
+	if events[0].Override == nil || events[0].Override.Op2.Level == nil || *events[0].Override.Op2.Level != 17 {
+		t.Fatal("first note should inherit phrase override")
+	}
+	if events[2].Instrument != "lead.default" {
+		t.Fatalf("second note instrument = %q, want lead.default", events[2].Instrument)
+	}
+	if events[2].Override != nil {
+		t.Fatal("second note override should be cleared")
+	}
+	if phrase.Length() != 12 {
+		t.Fatalf("phrase length = %d, want 12", phrase.Length())
+	}
+}
+
+func TestTrackCursorWithRepeatUntil(t *testing.T) {
+	track := NewTrack(0)
+	cursor := track.At(2)
+	cursor.WithRepeat().Note("C4", 4).Until(14)
+
+	if cursor.Tick() != 14 {
+		t.Fatalf("cursor tick = %d, want 14", cursor.Tick())
+	}
+	events := track.Events()
+	if len(events) != 6 {
+		t.Fatalf("expected 6 repeated events, got %d", len(events))
+	}
+	got := []int{events[0].Tick, events[1].Tick, events[2].Tick, events[3].Tick, events[4].Tick, events[5].Tick}
+	want := []int{2, 6, 6, 10, 10, 14}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Fatalf("unexpected WithRepeat Until ticks: got %v want %v", got, want)
+		}
+	}
+	if track.Length() != 15 {
+		t.Fatalf("track length = %d, want 15", track.Length())
+	}
+}
+
+func TestTrackCursorLinearChainingAndScopedState(t *testing.T) {
+	ov := Override().CarrierLevel(17).Build()
+	track := NewTrack(0).SetInstrument("bass.default")
+	cursor := track.At(0)
+
+	cursor.
+		WithOverride(ov).
+		Note("C4", 4).
+		WithInstrument("lead.default").
+		Note("E4", 2).
+		End().
+		Note("G4", 2).
+		End().
+		ClearOverride().
+		Note("A4", 3)
+
+	if cursor.Tick() != 11 {
+		t.Fatalf("cursor tick = %d, want 11", cursor.Tick())
+	}
+	events := track.Events()
+	if len(events) != 8 {
+		t.Fatalf("expected 8 events, got %d", len(events))
+	}
+	if events[0].Instrument != "bass.default" {
+		t.Fatalf("first note instrument = %q, want bass.default", events[0].Instrument)
+	}
+	if events[0].Override == nil || events[0].Override.Op2.Level == nil || *events[0].Override.Op2.Level != 17 {
+		t.Fatal("first note should inherit scoped override")
+	}
+	if events[2].Instrument != "lead.default" {
+		t.Fatalf("nested instrument note = %q, want lead.default", events[2].Instrument)
+	}
+	if events[4].Instrument != "bass.default" {
+		t.Fatalf("instrument should restore after End, got %q", events[4].Instrument)
+	}
+	if events[6].Override != nil {
+		t.Fatal("override should be cleared before final note")
+	}
+}
+
+func TestTrackCursorWithRepeatTimesPreservesState(t *testing.T) {
+	ov := Override().CarrierLevel(9).Build()
+	track := NewTrack(0).SetInstrument("bass.default")
+	cursor := track.At(1).UseOverride(ov)
+
+	cursor.
+		WithRepeat().
+		Note("C4", 2).
+		ClearOverride().
+		Note("D4", 2).
+		UseOverride(ov).
+		Times(2).
+		Note("E4", 3)
+
+	if cursor.Tick() != 12 {
+		t.Fatalf("cursor tick = %d, want 12", cursor.Tick())
+	}
+	events := track.Events()
+	if len(events) != 10 {
+		t.Fatalf("expected 10 events, got %d", len(events))
+	}
+	if events[0].Tick != 1 || events[2].Tick != 3 || events[4].Tick != 5 || events[6].Tick != 7 {
+		t.Fatalf("unexpected repeated note-on ticks: %#v", []int{events[0].Tick, events[2].Tick, events[4].Tick, events[6].Tick})
+	}
+	if events[0].Override == nil || events[0].Override.Op2.Level == nil || *events[0].Override.Op2.Level != 9 {
+		t.Fatal("repeat should inherit starting override")
+	}
+	if events[2].Override != nil {
+		t.Fatal("cleared override inside repeat should apply")
+	}
+	if events[8].Override == nil || events[8].Override.Op2.Level == nil || *events[8].Override.Op2.Level != 9 {
+		t.Fatal("parent override should be restored after Times")
+	}
+}
+
+func TestOverrideBuilder(t *testing.T) {
+	override := Override().
+		Feedback(3).
+		Op2(OpOverride().Level(9).Attack(15)).
+		Build()
+
+	if override == nil {
+		t.Fatal("expected override")
+	}
+	if override.Feedback == nil || *override.Feedback != 3 {
+		t.Fatal("feedback override missing")
+	}
+	if override.Op2.Level == nil || *override.Op2.Level != 9 {
+		t.Fatal("carrier level override missing")
+	}
+	if override.Op2.Attack == nil || *override.Op2.Attack != 15 {
+		t.Fatal("carrier attack override missing")
+	}
+}
+
 func TestPlayNamedInstrumentFromBank(t *testing.T) {
 	s := stream.New(44100)
 	defer s.Close()

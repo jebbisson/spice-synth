@@ -128,8 +128,10 @@ type Track struct {
 // Phrase is a reusable block of track events with ticks relative to the phrase
 // start.
 type Phrase struct {
-	events []TrackEvent
-	length int
+	instrument string
+	override   *voice.InstrumentOverride
+	events     []TrackEvent
+	length     int
 }
 
 // NewPhrase creates an empty phrase.
@@ -203,24 +205,7 @@ func (t *Track) NoteOn(tick int, note string) *Track {
 // NoteOnWithOverride adds a note-on event with optional note-start instrument
 // overrides applied against the current instrument.
 func (t *Track) NoteOnWithOverride(tick int, note string, override *voice.InstrumentOverride) *Track {
-	freq, err := voice.ParseNote(note)
-	if err != nil {
-		// Store a sentinel that will produce an error at compile time.
-		t.events = append(t.events, TrackEvent{
-			Tick: tick,
-			Type: TrackNoteOn,
-			err:  fmt.Errorf("invalid note %q: %w", note, err),
-		})
-		return t
-	}
-	t.events = append(t.events, TrackEvent{
-		Tick:       tick,
-		Type:       TrackNoteOn,
-		Note:       voice.Note(freq),
-		NoteStr:    note,
-		Instrument: t.instrument,
-		Override:   override,
-	})
+	t.events = append(t.events, buildNoteOnEvent(tick, note, t.instrument, override))
 	return t
 }
 
@@ -331,8 +316,8 @@ func (t *Track) Append(p *Phrase, at int) *Track {
 		shifted.Tick += at
 		t.events = append(t.events, shifted)
 	}
-	if p.length > 0 && at+p.length > t.length {
-		t.length = at + p.length
+	if extent := phraseExtent(p); extent > 0 && at+extent > t.length {
+		t.length = at + extent
 	}
 	return t
 }
@@ -467,12 +452,12 @@ type TrackEvent struct {
 	NoteStr    string         // For NoteOn: the original note string (for code gen).
 	Instrument string         // For NoteOn/InstrumentChange: instrument name.
 	Override   *voice.InstrumentOverride
-	Volume     float64        // For VolumeChange: 0.0-1.0.
-	Frequency  float64        // For FrequencyChange: Hz.
-	Operator   int            // For LevelChange: 0=modulator, 1=carrier.
-	Level      uint8          // For LevelChange: 0-63.
-	Feedback   uint8          // For FeedbackChange: 0-7.
-	err        error          // Deferred parse error.
+	Volume     float64 // For VolumeChange: 0.0-1.0.
+	Frequency  float64 // For FrequencyChange: Hz.
+	Operator   int     // For LevelChange: 0=modulator, 1=carrier.
+	Level      uint8   // For LevelChange: 0-63.
+	Feedback   uint8   // For FeedbackChange: 0-7.
+	err        error   // Deferred parse error.
 }
 
 // ---------------------------------------------------------------------------
