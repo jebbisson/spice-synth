@@ -326,7 +326,7 @@ if err := stream.LoadInstrumentsFromYAML(s, "my-instruments.yaml"); err != nil {
     panic(err)
 }
 
-if err := dsl.Note("C2").S("desert_bass.default").Play(s, 0); err != nil {
+if err := dsl.Note("C2").Sound("desert_bass.default").Play(s, 0); err != nil {
     panic(err)
 }
 ```

@@ -133,7 +133,7 @@ func previewInstrument(inst *voice.Instrument, note string, seconds time.Duratio
 	}
 	s := stream.New(sampleRate)
 	s.Voices().LoadBank("preview", []*voice.Instrument{inst})
-	if err := dsl.Note(note).S(inst.Name).Play(s, 0); err != nil {
+	if err := dsl.Note(note).Sound(inst.Name).Play(s, 0); err != nil {
 		s.Close()
 		return err
 	}

@@ -111,18 +111,18 @@ func main() {
 	// Layer 1: Bass — deep A0 that fades in from silence over 5 seconds,
 	// then holds with a slow sine wobble. The ramp and gain signal are
 	// multiplied together by the modulator system.
-	bass := dsl.Note("A0").S("desert_bass").
+	bass := dsl.Note("A0").Sound("desert_bass").
 		Ramp(0.0, 1.0, 5.0).
 		GainSignal(dsl.Sine().Range(0.3, 1.0).Slow(4))
 
 	// Layer 2: Wind — sustained noise texture, 8s fade-in, quiet drift.
-	wind := dsl.Note("C3").S("desert_wind").
+	wind := dsl.Note("C3").Sound("desert_wind").
 		Ramp(0.0, 1.0, 8.0).
 		GainSignal(dsl.Tri().Range(0.1, 0.55).Slow(6.67))
 
 	// Layer 3: Chimes — bright metallic hit.
 	// (Multi-note sequenced patterns coming in Phase 4 of the DSL.)
-	chimes := dsl.Note("E5").S("spice_chime")
+	chimes := dsl.Note("E5").Sound("spice_chime")
 
 	// 2. Play each layer on a separate OPL2 channel.
 	if err := bass.Play(s, 0); err != nil {

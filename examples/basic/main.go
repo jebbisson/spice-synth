@@ -33,7 +33,7 @@ func main() {
 	})
 
 	// 2. Define a single grungy bass note using the DSL.
-	bass := dsl.Note("C2").S("desert_bass").
+	bass := dsl.Note("C2").Sound("desert_bass").
 		FM(6).Feedback(6).
 		Attack(0.0).Sustaining(true)
 

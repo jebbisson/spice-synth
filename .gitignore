@@ -36,8 +36,6 @@ output.raw
 examples/ebiten_player/ebiten_player
 AGENTS.md
 examples/midi/*
-basic
-demo
 examples/midi_player/midi_player
 examples/adl/*
 examples/adl_player/adl_player
@@ -47,3 +45,7 @@ TODO*.md
 cmd/instruments/instruments
 examples/instruments_yaml/instruments_yaml
 examples/instruments_out/*
+/basic
+/demo
+examples/basic/basic
+examples/demo/demo

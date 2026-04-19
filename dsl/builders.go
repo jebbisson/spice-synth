@@ -559,52 +559,6 @@ func (c *TrackCursor) Event(e TrackEvent) *TrackCursor {
 	return c
 }
 
-// Append appends a phrase at the current cursor tick and advances by its span.
-func (c *TrackCursor) Append(p *Phrase) *TrackCursor {
-	if c == nil || p == nil {
-		return c
-	}
-	c.appendPhraseAt(p, c.tick)
-	c.tick += phraseSpan(p)
-	c.extendSpan(c.tick)
-	return c
-}
-
-// Repeat appends the same phrase count times using the phrase span as spacing.
-func (c *TrackCursor) Repeat(p *Phrase, count int) *TrackCursor {
-	if c == nil || p == nil || count <= 0 {
-		return c
-	}
-	span := phraseSpan(p)
-	if span <= 0 {
-		return c
-	}
-	start := c.tick
-	for i := 0; i < count; i++ {
-		c.appendPhraseAt(p, start+i*span)
-	}
-	c.tick = start + count*span
-	c.extendSpan(c.tick)
-	return c
-}
-
-// RepeatUntil appends whole-phrase repeats until the cursor reaches endTick.
-// Partial phrase repeats are intentionally skipped so explicit tails can follow.
-func (c *TrackCursor) RepeatUntil(p *Phrase, endTick int) *TrackCursor {
-	if c == nil || p == nil || endTick <= c.tick {
-		return c
-	}
-	span := phraseSpan(p)
-	if span <= 0 {
-		return c
-	}
-	count := (endTick - c.tick) / span
-	if count <= 0 {
-		return c
-	}
-	return c.Repeat(p, count)
-}
-
 // WithRepeat opens a repeat block whose body is collected and later expanded by
 // Until or Times.
 func (c *TrackCursor) WithRepeat() *TrackCursor {
@@ -694,7 +648,7 @@ func (c *TrackCursor) Times(count int) *TrackCursor {
 	if count > 0 && span > 0 {
 		start := parent.tick
 		for i := 0; i < count; i++ {
-			parent.appendPhraseAt(body, start+i*span)
+			parent.appendRepeatedPhrase(body, start+i*span)
 		}
 		parent.tick = start + count*span
 		parent.extendSpan(parent.tick)
@@ -721,7 +675,7 @@ func (c *TrackCursor) Until(endTick int) *TrackCursor {
 	return c.Times(count)
 }
 
-func (c *TrackCursor) appendPhraseAt(p *Phrase, at int) {
+func (c *TrackCursor) appendRepeatedPhrase(p *Phrase, at int) {
 	if c == nil || p == nil {
 		return
 	}
@@ -734,7 +688,14 @@ func (c *TrackCursor) appendPhraseAt(p *Phrase, at int) {
 		c.phrase.extendLength(at + phraseExtent(p))
 		return
 	}
-	c.track.Append(p, at)
+	for _, e := range p.events {
+		shifted := e
+		shifted.Tick += at
+		c.appendTrackEvent(shifted)
+	}
+	if extent := phraseExtent(p); extent > 0 {
+		c.extendSpan(at + extent)
+	}
 }
 
 func (c *TrackCursor) appendTrackEvent(e TrackEvent) {

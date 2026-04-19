@@ -29,16 +29,16 @@ func main() {
 	// 2. Define voices using the DSL.
 	//
 	// Bassline: grungy desert bass with heavy feedback.
-	bass := dsl.Note("C2").S("desert_bass").
+	bass := dsl.Note("C2").Sound("desert_bass").
 		FM(6).Feedback(6).
 		Attack(0.0).Sustaining(true)
 
 	// Lead: nasal cutting melody.
-	lead := dsl.Note("C4").S("mystic_lead").
+	lead := dsl.Note("C4").Sound("mystic_lead").
 		Attack(0.0).Sustaining(true)
 
 	// Percussion: short metallic hit.
-	perc := dsl.Note("C2").S("fm_perc")
+	perc := dsl.Note("C2").Sound("fm_perc")
 
 	// 3. Play each on a separate channel.
 	if err := bass.Play(s, 0); err != nil {

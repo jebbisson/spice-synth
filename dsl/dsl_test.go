@@ -187,7 +187,7 @@ func TestSignalCompile(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestPatternFluentChaining(t *testing.T) {
-	p := Note("C2").S("desert_bass").FM(6).Feedback(6).Attack(0.0).Sustaining(true)
+	p := Note("C2").Sound("desert_bass").FM(6).Feedback(6).Attack(0.0).Sustaining(true)
 
 	if p.noteStr != "C2" {
 		t.Errorf("noteStr = %q, want C2", p.noteStr)
@@ -271,7 +271,7 @@ func TestPatternRamp(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestResolveRawWaveform(t *testing.T) {
-	p := Note("C4").S("halfsine")
+	p := Note("C4").Sound("halfsine")
 	inst, err := p.resolveInstrument(nil)
 	if err != nil {
 		t.Fatal(err)
@@ -336,24 +336,6 @@ func TestApplyFMParams(t *testing.T) {
 	// Feedback(5)
 	if inst.Feedback != 5 {
 		t.Errorf("feedback = %d, want 5", inst.Feedback)
-	}
-}
-
-// ---------------------------------------------------------------------------
-// Convenience constructor tests
-// ---------------------------------------------------------------------------
-
-func TestConstructorS(t *testing.T) {
-	p := S("desert_bass")
-	if p.sound != "desert_bass" {
-		t.Errorf("sound = %q, want desert_bass", p.sound)
-	}
-}
-
-func TestConstructorN(t *testing.T) {
-	p := N("0 2 4 7")
-	if p.nStep != "0 2 4 7" {
-		t.Errorf("nStep = %q, want '0 2 4 7'", p.nStep)
 	}
 }
 
@@ -434,7 +416,7 @@ func TestVelocityNotSetDoesNothing(t *testing.T) {
 
 func TestHasOverrides(t *testing.T) {
 	// No overrides
-	p := Note("C4").S("sine")
+	p := Note("C4").Sound("sine")
 	if p.hasOverrides() {
 		t.Error("plain pattern should not have overrides")
 	}
@@ -478,7 +460,7 @@ func TestPlayRawWaveform(t *testing.T) {
 	s := stream.New(44100)
 	defer s.Close()
 
-	err := Note("C4").S("halfsine").Play(s, 0)
+	err := Note("C4").Sound("halfsine").Play(s, 0)
 	if err != nil {
 		t.Fatalf("Play() failed: %v", err)
 	}
@@ -494,7 +476,7 @@ func TestPlayWithOverridesCreatesUniqueInstrument(t *testing.T) {
 	s := stream.New(44100)
 	defer s.Close()
 
-	err := Note("C4").S("sine").FM(6).Play(s, 0)
+	err := Note("C4").Sound("sine").FM(6).Play(s, 0)
 	if err != nil {
 		t.Fatalf("Play() failed: %v", err)
 	}
@@ -506,30 +488,10 @@ func TestPlayWithOverridesCreatesUniqueInstrument(t *testing.T) {
 	}
 }
 
-func TestTrackAppendAndRepeat(t *testing.T) {
-	phrase := NewPhrase().
-		AppendEvent(TrackEvent{Tick: 0, Type: TrackNoteOn, Note: voice.Note(440), Instrument: "bass.default"}).
-		AppendEvent(TrackEvent{Tick: 4, Type: TrackNoteOff}).
-		SetLength(8)
-
-	track := NewTrack(0).Repeat(phrase, 2, 8)
-	events := track.Events()
-	if len(events) != 4 {
-		t.Fatalf("expected 4 flattened events, got %d", len(events))
-	}
-	got := []int{events[0].Tick, events[1].Tick, events[2].Tick, events[3].Tick}
-	want := []int{0, 4, 8, 12}
-	for i := range want {
-		if got[i] != want[i] {
-			t.Fatalf("unexpected repeated event ticks: got %v want %v", got, want)
-		}
-	}
-}
-
-func TestTrackNoteOnWithOverrideCompiles(t *testing.T) {
+func TestTrackCursorNoteWithOverrideCompiles(t *testing.T) {
 	level := uint8(17)
 	track := NewTrack(0).SetInstrument("bass.default")
-	track.NoteOnWithOverride(0, "A4", &voice.InstrumentOverride{
+	track.At(0).OnWithOverride("A4", &voice.InstrumentOverride{
 		Op2: voice.OperatorOverride{Level: &level},
 	})
 
@@ -713,7 +675,7 @@ func TestPlayNamedInstrumentFromBank(t *testing.T) {
 	s.Voices().LoadBank("test", []*voice.Instrument{testInst})
 
 	// Play using the named instrument with overrides.
-	err := Note("C2").S("test_bass").Attack(0.0).Play(s, 0)
+	err := Note("C2").Sound("test_bass").Attack(0.0).Play(s, 0)
 	if err != nil {
 		t.Fatalf("Play() failed: %v", err)
 	}
@@ -847,7 +809,7 @@ func TestSongBasic(t *testing.T) {
 	}
 
 	track := NewTrack(0).SetInstrument("test_inst")
-	track.NoteOnOff(0, "C4", 8)
+	track.At(0).Note("C4", 8)
 
 	song := NewSong(120).
 		AddInstrument(inst).
@@ -880,11 +842,10 @@ func TestSongMultiTrack(t *testing.T) {
 	}
 
 	t1 := NewTrack(0).SetInstrument("multi_inst")
-	t1.NoteOnOff(0, "C2", 16)
+	t1.At(0).Note("C2", 16)
 
 	t2 := NewTrack(1).SetInstrument("multi_inst")
-	t2.NoteOnOff(0, "E4", 8)
-	t2.NoteOnOff(8, "G4", 8)
+	t2.At(0).Note("E4", 8).Note("G4", 8)
 
 	song := NewSong(120).
 		AddInstrument(inst).
@@ -906,8 +867,8 @@ func TestSongMultiTrack(t *testing.T) {
 
 func TestTrackCompileAutoLength(t *testing.T) {
 	track := NewTrack(0).SetInstrument("test")
-	track.NoteOnOff(0, "C4", 8)
-	track.NoteOnOff(10, "E4", 4)
+	track.At(0).Note("C4", 8)
+	track.At(10).Note("E4", 4)
 
 	pat, err := track.compile()
 	if err != nil {
@@ -928,8 +889,8 @@ func TestTrackCompileAutoLength(t *testing.T) {
 
 func TestTrackVolumeChange(t *testing.T) {
 	track := NewTrack(0).SetInstrument("test")
-	track.NoteOn(0, "C4")
-	track.SetVolumeAt(4, 0.5)
+	track.At(0).On("C4")
+	track.At(4).Volume(0.5)
 
 	pat, err := track.compile()
 	if err != nil {
@@ -944,9 +905,8 @@ func TestTrackVolumeChange(t *testing.T) {
 
 func TestTrackInstrumentChange(t *testing.T) {
 	track := NewTrack(0).SetInstrument("inst_a")
-	track.NoteOnOff(0, "C4", 8)
-	track.SetInstrumentAt(8, "inst_b")
-	track.NoteOnOff(8, "E4", 8)
+	track.At(0).Note("C4", 8)
+	track.At(8).ChangeInstrument("inst_b").Note("E4", 8)
 
 	pat, err := track.compile()
 	if err != nil {
@@ -956,63 +916,6 @@ func TestTrackInstrumentChange(t *testing.T) {
 	// 2 NoteOn + 2 NoteOff + 1 InstrumentChange = 5
 	if len(pat.Events) != 5 {
 		t.Errorf("events count = %d, want 5", len(pat.Events))
-	}
-}
-
-func TestStackCreatesMultiTrackSong(t *testing.T) {
-	s := stream.New(44100)
-	defer s.Close()
-
-	// Pre-register instruments that Stack's patterns will reference.
-	// Stack with default instruments will use "dsl_default".
-	song := Stack(
-		Note("C2"),
-		Note("E4"),
-		Note("G4"),
-	)
-
-	if len(song.Tracks()) != 3 {
-		t.Fatalf("Stack produced %d tracks, want 3", len(song.Tracks()))
-	}
-
-	// Verify channel assignments.
-	for i, tr := range song.Tracks() {
-		if tr.Channel() != i {
-			t.Errorf("track %d channel = %d, want %d", i, tr.Channel(), i)
-		}
-	}
-}
-
-func TestSeqCreatesSequentialSong(t *testing.T) {
-	song := Seq(
-		Note("C4"),
-		Note("E4"),
-		Note("G4"),
-	)
-
-	if len(song.Tracks()) != 1 {
-		t.Fatalf("Seq produced %d tracks, want 1", len(song.Tracks()))
-	}
-
-	track := song.Tracks()[0]
-	// Should have events for 3 notes: each gets NoteOn + NoteOff + InstrumentChange
-	// Actually: 3 InstrumentChange + 3 NoteOn + 3 NoteOff = 9
-	events := track.Events()
-	noteOns := 0
-	noteOffs := 0
-	for _, e := range events {
-		switch e.Type {
-		case TrackNoteOn:
-			noteOns++
-		case TrackNoteOff:
-			noteOffs++
-		}
-	}
-	if noteOns != 3 {
-		t.Errorf("noteOns = %d, want 3", noteOns)
-	}
-	if noteOffs != 3 {
-		t.Errorf("noteOffs = %d, want 3", noteOffs)
 	}
 }
 
@@ -1026,15 +929,5 @@ func TestSongInvalidChannel(t *testing.T) {
 	err := song.Play(s)
 	if err == nil {
 		t.Error("expected error for invalid channel 10")
-	}
-}
-
-func TestSilencePattern(t *testing.T) {
-	p := Silence()
-	if p.noteSet {
-		t.Error("Silence() should not have noteSet")
-	}
-	if p.sound != "" {
-		t.Errorf("Silence() sound = %q, want empty", p.sound)
 	}
 }

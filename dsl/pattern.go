@@ -7,7 +7,7 @@
 //
 // Basic usage:
 //
-//	p := dsl.Note("c2").S("desert_bass").FM(6).Feedback(6).Attack(0.0)
+//	p := dsl.Note("c2").Sound("desert_bass").FM(6).Feedback(6).Attack(0.0)
 //	p.Play(s, 0) // play on channel 0 of a *stream.Stream
 package dsl
 
@@ -86,11 +86,11 @@ func (p *Pattern) Note(noteStr string) *Pattern {
 	return p
 }
 
-// S selects the instrument (sound) by name. When given a named instrument
+// Sound selects the instrument by name. When given a named instrument
 // (e.g. "desert_bass"), it loads the full instrument. When given a raw
 // waveform name ("sine", "halfsine", "abssine", "quartersine"), it creates
 // a minimal carrier-only instrument.
-func (p *Pattern) S(name string) *Pattern {
+func (p *Pattern) Sound(name string) *Pattern {
 	p.sound = name
 	return p
 }

@@ -503,8 +503,8 @@ func (p *Pattern) PlayDirect(s *stream.Stream, channel int) error {
 	// 5. Register the instrument temporarily.
 	vm.LoadBank("dsl", []*voice.Instrument{inst})
 
-	// 6. NoteOn.
-	if err := vm.NoteOn(channel, voice.Note(freq), inst); err != nil {
+	// 6. Trigger the note directly.
+	if err := vm.NoteOnWithOverride(channel, voice.Note(freq), inst, nil); err != nil {
 		return err
 	}
 
@@ -547,18 +547,4 @@ func (p *Pattern) PlayDirect(s *stream.Stream, channel int) error {
 // voice for reuse.
 func (p *Pattern) Off(s *stream.Stream, channel int) error {
 	return s.Voices().NoteOff(channel)
-}
-
-// ---------------------------------------------------------------------------
-// Convenience constructors that bypass method chaining
-// ---------------------------------------------------------------------------
-
-// S creates a new Pattern with just an instrument selected.
-func S(name string) *Pattern {
-	return &Pattern{sound: name}
-}
-
-// N creates a new Pattern from scale step indices.
-func N(step string) *Pattern {
-	return &Pattern{nStep: step}
 }
